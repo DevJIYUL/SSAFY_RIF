@@ -1,13 +1,14 @@
-package team.a501.rif.acq.domain;
+package team.a501.rif.domain.badge;
 
-import team.a501.rif.auth.domain.Member;
+import team.a501.rif.domain.member.Member;
 
 import javax.persistence.*;
 
 @Entity
 public class BadgeAcq {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private Boolean onDisplay;

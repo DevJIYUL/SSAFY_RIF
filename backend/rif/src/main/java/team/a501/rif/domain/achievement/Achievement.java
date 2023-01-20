@@ -1,4 +1,4 @@
-package team.a501.rif.acq.domain;
+package team.a501.rif.domain.achievement;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 public class Achievement {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String title;

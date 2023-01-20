@@ -1,6 +1,6 @@
-package team.a501.rif.acq.domain;
+package team.a501.rif.domain.achievement;
 
-import team.a501.rif.auth.domain.Member;
+import team.a501.rif.domain.member.Member;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

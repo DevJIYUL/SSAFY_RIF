@@ -1,4 +1,4 @@
-package team.a501.rif.acq.domain;
+package team.a501.rif.domain.badge;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ public class Badge {
     @OneToMany(mappedBy = "badge")
     private List<BadgeAcq> badgeAcqs;
 
-    public void addBadgeAcqs(BadgeAcq acq){
+    public void addBadgeAcqs(BadgeAcq acq) {
 
         acq.setBadge(this);
         badgeAcqs.add(acq);
