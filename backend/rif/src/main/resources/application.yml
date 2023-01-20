@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: local
+
+--- # local
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/rif
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: create # 실행할 때마다 스키마 초기화
+
+    properties:
+      hibernate:
+        format-sql: true # hibernate가 생성한 쿼리를 보여준다
+
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+        use-new-id-generator-mapping: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+--- # prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+  
+  # todo 배포 환경 yml 설정하기
+
+...
