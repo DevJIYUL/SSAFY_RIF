@@ -6,7 +6,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: local # todo 스프링부트 버젼이 달라지면서 변경되었다
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -15,23 +15,26 @@ spring:
     password: root
 
   jpa:
+    open-in-view: true
+
     hibernate:
       ddl-auto: create # 실행할 때마다 스키마 초기화
 
     properties:
       hibernate:
-        format-sql: true # hibernate가 생성한 쿼리를 보여준다
+        format_sql: true # hibernate가 생성한 쿼리를 보여준다
 
         jdbc:
           lob:
-            non_contextual_creation: true
+            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
 
-        use-new-id-generator-mapping: false
+        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    org.hibernate:
+      SQL: debug
+      type.descriptor.sql: trace
 
 --- # prod
 spring:
