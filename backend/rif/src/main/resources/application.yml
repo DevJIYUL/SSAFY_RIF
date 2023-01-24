@@ -7,6 +7,9 @@ spring:
   config:
     activate:
       on-profile: local # todo 스프링부트 버젼이 달라지면서 변경되었다
+  output:
+    ansi:
+      enabled: always
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -22,7 +25,7 @@ spring:
 
     properties:
       hibernate:
-        format_sql: true # hibernate가 생성한 쿼리를 보여준다
+        format_sql: true # hibernate가 생성한 쿼리를 정리해준다
 
         jdbc:
           lob:
