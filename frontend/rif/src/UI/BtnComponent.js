@@ -1,19 +1,28 @@
-/** type is button html tag type \n
- * className is react className. If you want to write over than two, write like "one two".
- * onClick is function pointer.
- * disabled is boolean
- */
-const BtnComponent = (props) => {
-  return (
-    <button
-      type={props.type || "button"}
-      className={`${props.className}`}
-      onClick={props.onClick}
-      disabled={props.disabled}
-    >
-      {props.children}
-    </button>
-  )
-}
+import { ThemeProvider } from '@mui/material/styles'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import theme from './theme'
+import Button from '@mui/material/Button';
 
-export default BtnComponent
+const BtnComponent = ((props) => {
+
+    const iconColor = props.color === "secondary"? "#7D9E7E" : "#C7C597"
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Button
+                variant="contained"
+                color={props.color || "primary"}
+                className={`${props.className}`}
+                onClick={props.onClick}
+                startIcon={props.arrow === 'left'|'Left' ? <KeyboardArrowLeftIcon sx={{color: iconColor}}/> : ""}
+                endIcon={props.arrow === 'right' | 'Right' ? <KeyboardArrowRightIcon sx={{color: iconColor}}/> : ""}
+                sx={props.sx ||{m:'1rem'}}
+            >
+                {props.children}
+            </Button>
+        </ThemeProvider>
+    )
+})
+
+export default BtnComponent;
