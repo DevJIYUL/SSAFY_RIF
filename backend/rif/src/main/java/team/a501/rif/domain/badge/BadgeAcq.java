@@ -1,6 +1,5 @@
 package team.a501.rif.domain.badge;
 
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.tmp.TempMember;

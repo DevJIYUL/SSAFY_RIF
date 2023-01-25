@@ -2,15 +2,17 @@ package team.a501.rif.domain.tmp;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
@@ -39,33 +41,33 @@ public class TempMember {
     @OneToMany(mappedBy = "member")
     private Map<Long, AchievementAcq> achievementAcqs = new HashMap<>(); // key = Achievement.id / value = AchievementAcq
 
-    public Boolean hasBadge(Badge badge){
+    public Boolean hasBadge(@NotNull Badge badge) {
         return badgeAcqs.containsKey(badge.getId());
     }
 
-    public Boolean hasAchievement(Achievement achievement){
+    public Boolean hasAchievement(@NotNull Achievement achievement) {
         return achievementAcqs.containsKey(achievement.getId());
     }
 
-    public void addBadgeAcq(BadgeAcq acq){
+    public void addBadgeAcq(@NotNull BadgeAcq acq) {
 
         acq.setMember(this);
         badgeAcqs.put(acq.getBadge().getId(), acq);
     }
 
-    public void removeBadgeAcq(BadgeAcq acq){
+    public void removeBadgeAcq(@NotNull BadgeAcq acq) {
 
         acq.setMember(null);
         badgeAcqs.remove(acq.getBadge().getId(), acq);
     }
 
-    public void addAchievementAcq(AchievementAcq acq){
+    public void addAchievementAcq(@NotNull AchievementAcq acq) {
 
         acq.setMember(this);
         achievementAcqs.put(acq.getAchievement().getId(), acq);
     }
 
-    public void removeAchievementAcq(AchievementAcq acq){
+    public void removeAchievementAcq(@NotNull AchievementAcq acq) {
 
         acq.setMember(null);
         achievementAcqs.remove(acq.getAchievement().getId());

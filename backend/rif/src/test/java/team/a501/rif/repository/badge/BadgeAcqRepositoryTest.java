@@ -1,24 +1,22 @@
 package team.a501.rif.repository.badge;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.tmp.TempMember;
 import team.a501.rif.repository.tmp.TempMemberRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SpringBootTest
+@DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
 class BadgeAcqRepositoryTest {
@@ -33,10 +31,8 @@ class BadgeAcqRepositoryTest {
     private BadgeRepository badgeRepository;
 
     @BeforeEach
-    @Transactional
     void setUp() {
-        // Member 추가
-        TempMember member = TempMember.builder()
+        TempMember tempMember = TempMember.builder()
                 .id(UUID.randomUUID().toString())
                 .studentId("0847836")
                 .password("0847836")
@@ -46,7 +42,7 @@ class BadgeAcqRepositoryTest {
                 .profileImgPath("/profile/default.png")
                 .build();
 
-        tempMemberRepository.save(member);
+        tempMemberRepository.save(tempMember);
 
         // Badge 추가
         Badge badge1 = Badge.builder().tier(1)
@@ -67,27 +63,10 @@ class BadgeAcqRepositoryTest {
         badgeRepository.save(badge1);
         badgeRepository.save(badge2);
         badgeRepository.save(badge3);
-
-        BadgeAcq badgeAcq = new BadgeAcq();
-        badgeAcq.setOnDisplay(false);
-
-        badge1.addBadgeAcq(badgeAcq); // 뱃지
-        member.addBadgeAcq(badgeAcq); // 멤버
-
-        badgeAcqRepository.save(badgeAcq); // 뱃지 획득
-    }
-
-    @AfterEach
-    void cleanUp() {
-
-//        badgeAcqRepository.deleteAll();
-//        badgeRepository.deleteAll();
-//        tempMemberRepository.deleteAll();
     }
 
     @DisplayName("뱃지 획득 추가 및 Auditing 확인")
     @Test
-    @Transactional
     void createBadgeAcq() {
 
         String studentId = "0847836";
@@ -108,7 +87,7 @@ class BadgeAcqRepositoryTest {
         BadgeAcq badgeAcq = new BadgeAcq();
         badgeAcq.setOnDisplay(false);
 
-        badge.addBadgeAcq(badgeAcq);
+        badge.addBadgeAcq(badgeAcq); // 지연 로딩 발생
         member.addBadgeAcq(badgeAcq);
 
         badgeAcqRepository.save(badgeAcq);
@@ -121,19 +100,5 @@ class BadgeAcqRepositoryTest {
             System.out.println(acq.getBadge().getClass());
         }
         System.out.println("=================================================================");
-    }
-
-    @DisplayName("뱃지 획득 조회")
-    @Test
-    void findAllBadgeAcqById(){
-
-        Optional<BadgeAcq> byId = badgeAcqRepository.findById(4L);
-        BadgeAcq badgeAcq = byId.orElseThrow();
-
-        System.out.println("=================================================================");
-        System.out.println(badgeAcq.getMember().getClass());
-        System.out.println(badgeAcq.getBadge().getClass());
-        System.out.println("=================================================================");
-
     }
 }

@@ -2,10 +2,12 @@ package team.a501.rif.domain.achievement;
 
 import lombok.NoArgsConstructor;
 import team.a501.rif.domain.BaseEntity;
-import team.a501.rif.domain.member.Member;
 import team.a501.rif.domain.tmp.TempMember;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @NoArgsConstructor
 @Entity
