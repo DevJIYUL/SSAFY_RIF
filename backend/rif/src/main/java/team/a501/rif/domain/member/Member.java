@@ -2,24 +2,33 @@ package team.a501.rif.domain.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import team.a501.rif.domain.role.Role;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements UserDetails {
 
     @Id
-    private String uid;
+    private String id;
 
-    private String id; // 학번
+    private String studnetId; // 학번
 
     private String password;
 
@@ -30,10 +39,13 @@ public class Member implements UserDetails {
     private Integer exp;
 
     private String profileImgPath; // 기본값 /profile/default.png
-
+    @OneToMany(mappedBy = "member")
+    private List<Role> roles;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles.stream()
+                .map(t->new SimpleGrantedAuthority(t.getType()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -43,7 +55,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return id;
     }
 
     @Override
