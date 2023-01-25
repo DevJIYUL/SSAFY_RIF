@@ -1,17 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPageComponent from "./Pages/ErrorPageComponent";
 import LoginPageComponent from "./Pages/LoginPageComponent";
+import MainPageComponent from "./Pages/MainPageComponent";
 import HomePageComponent from "./Pages/HomePageComponent";
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
-import LotComponent from "./Pages/LotComponent";
-import App from "./App";
 
 const router = createBrowserRouter([
   {
+    // main page
     path: "/",
-    element: <App />,
-    errorElement: <ErrorPageComponent />,
+    element: <MainPageComponent />,
   },
   {
     // LoginPage
