@@ -15,7 +15,8 @@
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "yarn.lock": "^0.0.1-security"
   },
   "scripts": {
     "start": "react-scripts start",
