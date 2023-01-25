@@ -1,19 +1,18 @@
-import { createBrowserRouter } from 'react-router-dom'
-import ErrorPageComponent from './Pages/ErrorPageComponent'
-import LoginPageComponent from './Pages/LoginPageComponent'
-import App from './App';
-
+import { createBrowserRouter } from "react-router-dom"
+import LoginPageComponent from "./Pages/LoginPageComponent"
+import MainPageComponent from "./Pages/MainPageComponent"
 
 const router = createBrowserRouter([
-    {  // main page
-        path: "/",
-        element: <App />,
-        errorElement : <ErrorPageComponent />
-    },
-    {  // LoginPage
-        path: "/login",
-        element : <LoginPageComponent />,
-    },
+  {
+    // main page
+    path: "/",
+    element: <MainPageComponent />,
+  },
+  {
+    // LoginPage
+    path: "/login",
+    element: <LoginPageComponent />,
+  },
 ])
 
-export default router;
+export default router
