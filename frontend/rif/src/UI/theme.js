@@ -10,9 +10,10 @@ const theme = createTheme({
             main: "#3C6255",
             contrastText: "#FBFBFB",
         },
-        iconPrimary:{
-
-        }
+        pageChanger :{
+            main : "#80A181",
+            contrastText : "80A181",
+        },
     },
     custom:{
 
