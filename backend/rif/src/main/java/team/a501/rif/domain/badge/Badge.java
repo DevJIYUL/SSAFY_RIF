@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,10 +25,10 @@ public class Badge {
     private String badgeImgPath;
 
     @OneToMany(mappedBy = "badge")
-    private List<BadgeAcq> badgeAcqs;
+    private List<BadgeAcq> badgeAcqs = new ArrayList<>();
 
     @Builder
-    public Badge(Integer tier, String description, String badgeImgPath){
+    public Badge(Integer tier, String description, String badgeImgPath) {
 
         this.tier = tier;
         this.description = description;
@@ -42,48 +43,43 @@ public class Badge {
         return tier;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getBadgeImgPath() {
-        return badgeImgPath;
-    }
-
-    public List<BadgeAcq> getBadgeAcqs() {
-        return badgeAcqs;
-    }
-
     public void setTier(Integer tier) {
         this.tier = tier;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getBadgeImgPath() {
+        return badgeImgPath;
+    }
+
     public void setBadgeImgPath(String badgeImgPath) {
         this.badgeImgPath = badgeImgPath;
     }
 
-    public void addBadgeAcqs(BadgeAcq acq) {
-
-        acq.setBadge(this);
-        badgeAcqs.add(acq);
+    public List<BadgeAcq> getBadgeAcqs() {
+        return badgeAcqs;
     }
 
-    public void removeBadgeAcqs(BadgeAcq acq){
+    public void addBadgeAcq(BadgeAcq acq) {
+
+        acq.setBadge(this);
+        this.getBadgeAcqs().add(acq);
+    }
+
+    public void removeBadgeAcqs(BadgeAcq acq) {
         acq.setBadge(null);
-        badgeAcqs.remove(acq);
+        badgeAcqs.remove(acq.getId());
     }
 
     @Override
     public String toString() {
-        return "Badge{" +
-                "id=" + id +
-                ", tier=" + tier +
-                ", description='" + description + '\'' +
-                ", badgeImgPath='" + badgeImgPath + '\'' +
-                '}';
+        return "Badge{" + "\n id=" + id + ",\n tier=" + tier + ",\n description='" + description + '\'' + ",\n badgeImgPath='" + badgeImgPath + '\'' + "\n}";
     }
 }

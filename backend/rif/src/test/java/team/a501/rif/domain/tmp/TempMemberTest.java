@@ -27,8 +27,8 @@ class TempMemberTest {
     @Test
     void createTempMember(){
 
-        String uid = UUID.randomUUID().toString();
-        String id = "0847836";
+        String id = UUID.randomUUID().toString(); // todo 테스트 용
+        String studentId = "0847836";
         String password = id;
         String name = "강승곤";
         Integer point = 0;
@@ -36,9 +36,10 @@ class TempMemberTest {
         String profileImgPath = "/profile/default.png";
 
         TempMember tempMember = TempMember.builder()
-                .uid(uid)
                 .id(id)
+                .studentId(studentId)
                 .password(password)
+                .name(name)
                 .point(point)
                 .exp(exp)
                 .profileImgPath(profileImgPath)

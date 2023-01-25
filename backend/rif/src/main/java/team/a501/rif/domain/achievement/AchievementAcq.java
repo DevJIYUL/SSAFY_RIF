@@ -1,15 +1,15 @@
 package team.a501.rif.domain.achievement;
 
+import lombok.NoArgsConstructor;
+import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.domain.tmp.TempMember;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity
-public class AchievementAcq {
+public class AchievementAcq extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -29,10 +29,6 @@ public class AchievementAcq {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Boolean getOnDisplay() {
@@ -57,5 +53,17 @@ public class AchievementAcq {
 
     public void setAchievement(Achievement achievement) {
         this.achievement = achievement;
+    }
+
+    @Override
+    public String toString() {
+        return "AchievementAcq{" +
+                "\n id=" + id +
+                ",\n onDisplay=" + onDisplay +
+                ",\n member=" + member +
+                ",\n achievement=" + achievement +
+                ",\n created= " + this.getCreated().toString() +
+                ",\n modified= " + this.getLastModified().toString() +
+                "\n}";
     }
 }

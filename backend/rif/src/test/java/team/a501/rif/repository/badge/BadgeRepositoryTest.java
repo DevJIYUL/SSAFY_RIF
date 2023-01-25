@@ -1,8 +1,9 @@
 package team.a501.rif.repository.badge;
 
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,20 +14,19 @@ import team.a501.rif.domain.badge.Badge;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class) // JUnit4의 @Runwith(SpringRunner.class)를 대체한다
-@DataJpaTest(showSql = false) // 기본값은 true이다. application.yml의 logging 설정과 중복되어 콘솔에 쿼리가 두 번 출력되는 것을 방지한다
+@DataJpaTest(showSql = false) // application.yml의 logging 설정과 중복되어 콘솔에 쿼리가 두 번 출력되는 것을 방지한다 (default = true)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // application.yml에 설정한 data source를 사용한다
-@Rollback(false) // 연결되어 있는 DB에 실제로 쿼리를 반영한다. 기본값은 true이다
+@Rollback(false) // 연결되어 있는 DB에 실제로 쿼리를 반영한다. (default = true)
 class BadgeRepositoryTest {
 
     @Autowired
     private BadgeRepository badgeRepository;
 
     @BeforeEach
-    void testSetUp(){
+    void setUp() {
 
         Badge badge1 = Badge.builder().tier(1)
                 .description("뱃지 1")
@@ -49,14 +49,13 @@ class BadgeRepositoryTest {
     }
 
     @AfterEach
-    void cleanUp(){
-
+    void cleanUp() {
         badgeRepository.deleteAll();
     }
 
     @DisplayName("뱃지 추가하기")
     @Test
-    void createBadge(){
+    void createBadge() {
 
         Badge badge = Badge.builder()
                 .tier(1)
@@ -65,16 +64,16 @@ class BadgeRepositoryTest {
                 .build();
 
         badgeRepository.save(badge); // DataJpaTest는 실제로 해당 엔티티를 DB에 저장하지는 않는다. 테스트가 종료될 때 트랜잭션을 모두 롤백한다
-        assertThat(badge.getId()).isEqualTo(4L);
+        assertThat(badgeRepository.count()).isEqualTo(4L);
     }
 
     @DisplayName("모든 뱃지 조회")
     @Test
-    void findBadge(){
+    void findBadge() {
 
         List<Badge> all = badgeRepository.findAll();
         System.out.println("==============================================");
-        for(var badge: all){
+        for (var badge : all) {
             System.out.println(badge);
         }
         System.out.println("==============================================");
@@ -82,5 +81,11 @@ class BadgeRepositoryTest {
         assertThat(all.size()).isEqualTo(3);
     }
 
+    @DisplayName("전체 뱃지 개수")
+    @Test
+    void countBadges() {
 
+        Long count = badgeRepository.count();
+        assertThat(count).isEqualTo(3L);
+    }
 }

@@ -1,12 +1,15 @@
 package team.a501.rif.domain.badge;
 
-import team.a501.rif.domain.member.Member;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.tmp.TempMember;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity
-public class BadgeAcq {
+public class BadgeAcq extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -17,11 +20,11 @@ public class BadgeAcq {
 //    @ManyToOne
 //    private Member member; // 멤버가 삭제되면 뱃지획득 역시 삭제되어야한다
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private TempMember member; // todo 테스트용
 
     // todo 뱃지가 삭제되어도 멤버가 남아있다면 뱃지획득이 삭제되어선 안된다. 뱃지가 삭제되면 기본 뱃지로 대체되는 것도 고려해보자
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
 
     public Long getId() {
@@ -54,5 +57,17 @@ public class BadgeAcq {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
+    }
+
+    @Override
+    public String toString() {
+        return "BadgeAcq{" +
+                "\n id=" + id +
+                ",\n onDisplay=" + onDisplay +
+                ",\n member=" + member +
+                ",\n badge=" + badge +
+                ",\n created= " + this.getCreated().toString() +
+                ",\n modified= " + this.getLastModified().toString() +
+                "\n}";
     }
 }
