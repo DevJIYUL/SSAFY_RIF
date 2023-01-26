@@ -4,6 +4,7 @@ import MainPageComponent from "./Pages/MainPageComponent";
 import HomePageComponent from "./Pages/HomePageComponent";
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
+import LotComponent from "./Pages/LotComponent";
 
 const router = createBrowserRouter([
   {
