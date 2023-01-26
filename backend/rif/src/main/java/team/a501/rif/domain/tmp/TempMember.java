@@ -8,10 +8,7 @@ import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,24 +19,42 @@ public class TempMember {
     @Id
     private String id; // 학생증 고유값 = uid
 
-    @Column(unique = true)
+    @Column(unique = true, length = 10)
     private String studentId; // 학번
 
+    @Column(length = 100)
     private String password;
 
+    @Column(length = 20)
     private String name;
 
     private Integer point;
 
     private Integer exp;
 
+    @Column(length = 40)
     private String profileImgPath; // 기본값 /profile/default.png
 
     @OneToMany(mappedBy = "member")
-    private Map<Long, BadgeAcq> badgeAcqs = new HashMap<>(); // key = Badge.id / value = BadgeAcq
+    private Map<Long, BadgeAcq> badgeAcqs; // key = Badge.id / value = BadgeAcq
 
     @OneToMany(mappedBy = "member")
-    private Map<Long, AchievementAcq> achievementAcqs = new HashMap<>(); // key = Achievement.id / value = AchievementAcq
+    private Map<Long, AchievementAcq> achievementAcqs; // key = Achievement.id / value = AchievementAcq
+
+    @Builder
+    public TempMember(String id, String studentId, String password, String name, Integer point, Integer exp, String profileImgPath) {
+
+        this.id = id;
+        this.studentId = studentId;
+        this.password = password;
+        this.name = name;
+        this.point = point;
+        this.exp = exp;
+        this.profileImgPath = profileImgPath;
+
+        this.badgeAcqs = new HashMap<>();
+        this.achievementAcqs = new HashMap<>();
+    }
 
     public Boolean hasBadge(@NotNull Badge badge) {
         return badgeAcqs.containsKey(badge.getId());
@@ -73,17 +88,54 @@ public class TempMember {
         achievementAcqs.remove(acq.getAchievement().getId());
     }
 
-    @Builder
-    public TempMember(String id, String studentId, String password, String name, Integer point, Integer exp, String profileImgPath) {
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
         this.studentId = studentId;
-        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
         this.exp = exp;
+    }
+
+    public String getProfileImgPath() {
+        return profileImgPath;
+    }
+
+    public void setProfileImgPath(String profileImgPath) {
         this.profileImgPath = profileImgPath;
     }
+
 
     @Override
     public String toString() {

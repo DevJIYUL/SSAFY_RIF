@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import team.a501.rif.domain.achievement.Achievement;
@@ -20,9 +21,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(value = false)
 class AchievementAcqRepositoryTest {
 
     @Autowired
@@ -60,7 +60,6 @@ class AchievementAcqRepositoryTest {
 
     @DisplayName("업적 획득 추가")
     @Test
-    @Transactional
     void createAchievementAcq(){
 
         Optional<TempMember> byStudentId = tempMemberRepository.findByStudentId("0847836");
@@ -72,12 +71,12 @@ class AchievementAcqRepositoryTest {
         AchievementAcq achievementAcq = new AchievementAcq();
         achievementAcq.setOnDisplay(false);
 
+        achievementAcqRepository.save(achievementAcq); // 영속성 컨텍스트에서 manage 됨
+
         achievement.addAchievementAcq(achievementAcq);
         // tempMemeber가 Badge/Achievement Acq 객체를 저장할 때 원본 Badge, Achievement의 Id를 참조하므로
         // achievement에 먼저 acq를 등록해야한다
         tempMember.addAchievementAcq(achievementAcq);
-
-        achievementAcqRepository.save(achievementAcq);
 
         List<AchievementAcq> all = achievementAcqRepository.findAll();
         System.out.println("==========================================================");

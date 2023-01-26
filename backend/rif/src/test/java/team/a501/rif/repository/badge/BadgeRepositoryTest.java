@@ -16,10 +16,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class) // JUnit4의 @Runwith(SpringRunner.class)를 대체한다
 @DataJpaTest(showSql = false) // application.yml의 logging 설정과 중복되어 콘솔에 쿼리가 두 번 출력되는 것을 방지한다 (default = true)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // application.yml에 설정한 data source를 사용한다
-@Rollback(false) // 연결되어 있는 DB에 실제로 쿼리를 반영한다. (default = true)
 class BadgeRepositoryTest {
 
     @Autowired

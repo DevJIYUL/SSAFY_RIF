@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(false)
 class AchievementRepositoryTest {
 
     @Autowired
@@ -71,7 +70,7 @@ class AchievementRepositoryTest {
             System.out.println(achievement);
         }
 
-        assertThat(all.size()).isEqualTo(2L);
+        assertThat(all.size()).isEqualTo(1L);
     }
     
 }

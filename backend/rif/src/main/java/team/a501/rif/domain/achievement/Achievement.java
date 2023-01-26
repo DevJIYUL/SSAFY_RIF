@@ -3,10 +3,7 @@ package team.a501.rif.domain.achievement;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +17,17 @@ public class Achievement {
 
     private Integer tier;
 
+    @Column(length = 20)
     private String title;
 
+    @Column(length = 100)
     private String description;
 
+    @Column(length = 40)
     private String achievementImgPath;
 
     @OneToMany(mappedBy = "achievement")
-    private List<AchievementAcq> achievementAcqs = new ArrayList<>();
+    private List<AchievementAcq> achievementAcqs;
 
     @Builder
     public Achievement(Integer tier, String title, String description, String achievementImgPath) {
@@ -35,6 +35,7 @@ public class Achievement {
         this.title = title;
         this.description = description;
         this.achievementImgPath = achievementImgPath;
+        this.achievementAcqs = new ArrayList<>();
     }
 
     public Long getId() {

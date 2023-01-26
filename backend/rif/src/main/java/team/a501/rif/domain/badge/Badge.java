@@ -3,15 +3,12 @@ package team.a501.rif.domain.badge;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @NoArgsConstructor
+@Entity
 public class Badge {
 
     @Id
@@ -20,12 +17,14 @@ public class Badge {
 
     private Integer tier;
 
+    @Column(length = 100)
     private String description;
 
+    @Column(length = 40)
     private String badgeImgPath;
 
     @OneToMany(mappedBy = "badge")
-    private List<BadgeAcq> badgeAcqs = new ArrayList<>();
+    private List<BadgeAcq> badgeAcqs;
 
     @Builder
     public Badge(Integer tier, String description, String badgeImgPath) {
@@ -33,6 +32,8 @@ public class Badge {
         this.tier = tier;
         this.description = description;
         this.badgeImgPath = badgeImgPath;
+
+        this.badgeAcqs = new ArrayList<>();
     }
 
     public Long getId() {

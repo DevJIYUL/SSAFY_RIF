@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface TempMemberRepository extends JpaRepository<TempMember, String> {
 
     Optional<TempMember> findByStudentId(String studentId);
+    void deleteByStudentId(String studentId);
 }

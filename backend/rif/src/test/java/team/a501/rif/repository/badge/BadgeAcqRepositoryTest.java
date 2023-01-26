@@ -13,12 +13,12 @@ import team.a501.rif.domain.tmp.TempMember;
 import team.a501.rif.repository.tmp.TempMemberRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(value = false)
 class BadgeAcqRepositoryTest {
 
     @Autowired
@@ -77,8 +77,9 @@ class BadgeAcqRepositoryTest {
         System.out.println("member = " + member);
         System.out.println("=================================================================");
 
-        Optional<Badge> byId = badgeRepository.findById(1L);
-        Badge badge = byId.orElseThrow();
+        List<Badge> all1 = badgeRepository.findAll();
+        if(all1.isEmpty()) throw new NoSuchElementException();
+        Badge badge = all1.get(0);
 
         System.out.println("=================================================================");
         System.out.println("badge = " + badge);
