@@ -5,6 +5,8 @@ import axios from "axios"
  * baseurl is fixed. So if you want to change this, you have to change in axiosInterface.
  * method and url are required. And their type is String.
  * data, headers and params, their type is object, they work like data in axios.
+ * If axios returned right response, it return common response.
+ * If axios raised an error, it return axios error. If you want to get response, you can use key named 'response'.
  */
 export default async function axiosInterface(
   method,
