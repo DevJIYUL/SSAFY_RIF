@@ -3,6 +3,7 @@ package team.a501.rif.config.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -11,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -25,9 +26,13 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers().permitAll() // 모든 요청을 허가할 것
-                .antMatchers().hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .antMatchers("/**").permitAll() // 모든 요청을 허가할 것
+//                .antMatchers().hasRole("ADMIN")
+                .antMatchers().authenticated()
+                .and()
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
