@@ -2,6 +2,7 @@ package team.a501.rif.domain.badge;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,18 +18,22 @@ public class Badge {
 
     private Integer tier;
 
+    @Column(length = 20)
+    private String title;
+
     @Column(length = 100)
     private String description;
 
     @Column(length = 40)
     private String badgeImgPath;
 
-    @OneToMany(mappedBy = "badge")
+    @OneToMany(mappedBy = "badge", orphanRemoval = true)
     private List<BadgeAcq> badgeAcqs;
 
     @Builder
-    public Badge(Integer tier, String description, String badgeImgPath) {
+    public Badge(Integer tier, String title, String description, String badgeImgPath) {
 
+        this.title = title;
         this.tier = tier;
         this.description = description;
         this.badgeImgPath = badgeImgPath;
@@ -38,6 +43,14 @@ public class Badge {
 
     public Long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getTier() {
@@ -68,15 +81,16 @@ public class Badge {
         return badgeAcqs;
     }
 
-    public void addBadgeAcq(BadgeAcq acq) {
+    public void addBadgeAcq(@NotNull BadgeAcq acq) {
 
         acq.setBadge(this);
-        this.getBadgeAcqs().add(acq);
+        this.badgeAcqs.add(acq);
     }
 
-    public void removeBadgeAcqs(BadgeAcq acq) {
+    public void removeBadgeAcq(@NotNull BadgeAcq acq){
+
         acq.setBadge(null);
-        badgeAcqs.remove(acq.getId());
+        this.badgeAcqs.remove(acq);
     }
 
     @Override

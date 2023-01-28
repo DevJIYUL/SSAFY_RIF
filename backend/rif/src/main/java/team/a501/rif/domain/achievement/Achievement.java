@@ -2,6 +2,7 @@ package team.a501.rif.domain.achievement;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Achievement {
     @Column(length = 40)
     private String achievementImgPath;
 
-    @OneToMany(mappedBy = "achievement")
+    @OneToMany(mappedBy = "achievement", orphanRemoval = true)
     private List<AchievementAcq> achievementAcqs;
 
     @Builder
@@ -80,7 +81,12 @@ public class Achievement {
 
     public void addAchievementAcq(AchievementAcq acq) {
         acq.setAchievement(this);
-        achievementAcqs.add(acq);
+        this.achievementAcqs.add(acq);
+    }
+
+    public void removeAchievementAcq(@NotNull AchievementAcq acq){
+        acq.setAchievement(null);
+        this.achievementAcqs.remove(acq);
     }
 
     @Override

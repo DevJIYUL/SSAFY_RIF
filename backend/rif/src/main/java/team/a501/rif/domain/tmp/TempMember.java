@@ -35,10 +35,10 @@ public class TempMember {
     @Column(length = 40)
     private String profileImgPath; // 기본값 /profile/default.png
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private Map<Long, BadgeAcq> badgeAcqs; // key = Badge.id / value = BadgeAcq
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private Map<Long, AchievementAcq> achievementAcqs; // key = Achievement.id / value = AchievementAcq
 
     @Builder
@@ -136,6 +136,13 @@ public class TempMember {
         this.profileImgPath = profileImgPath;
     }
 
+    public Map<Long, BadgeAcq> getBadgeAcqs() {
+        return badgeAcqs;
+    }
+
+    public Map<Long, AchievementAcq> getAchievementAcqs() {
+        return achievementAcqs;
+    }
 
     @Override
     public String toString() {
