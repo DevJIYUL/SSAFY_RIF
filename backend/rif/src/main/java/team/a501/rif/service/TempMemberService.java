@@ -33,15 +33,13 @@ public class TempMemberService {
         Optional<TempMember> byId = tempMemberRepository.findByStudentId(studentId);
         TempMember tempMember = byId.orElseThrow();
 
-        // 연결되어 있는 BadgeAcq 연결 해제
+         // Badge.badgeAcqs에서 삭제
         for(var acq: tempMember.getBadgeAcqs().values()){
-            acq.getMember().removeBadgeAcq(acq);
             acq.getBadge().removeBadgeAcq(acq);
         }
 
-        // 연결되어 있는 AchievementAcq 연결 해제
+        // Achievement.achievementAcqs에서 삭제
         for(var acq: tempMember.getAchievementAcqs().values()){
-            acq.getMember().removeAchievementAcq(acq);
             acq.getAchievement().removeAchievementAcq(acq);
         }
 

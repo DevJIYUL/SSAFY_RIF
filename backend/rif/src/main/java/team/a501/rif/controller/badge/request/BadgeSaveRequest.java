@@ -4,7 +4,7 @@ import lombok.Data;
 import team.a501.rif.domain.badge.Badge;
 
 @Data
-public class BadgeRequest {
+public class BadgeSaveRequest {
 
     private final Integer MIN_TIER = 1;
     private final Integer MAX_TIER = 10;

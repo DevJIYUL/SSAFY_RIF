@@ -27,7 +27,7 @@ public class Achievement {
     @Column(length = 40)
     private String achievementImgPath;
 
-    @OneToMany(mappedBy = "achievement", orphanRemoval = true)
+    @OneToMany(mappedBy = "achievement")
     private List<AchievementAcq> achievementAcqs;
 
     @Builder

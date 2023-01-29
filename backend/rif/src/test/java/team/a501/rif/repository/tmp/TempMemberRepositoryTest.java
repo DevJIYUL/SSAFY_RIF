@@ -3,13 +3,9 @@ package team.a501.rif.repository.tmp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
@@ -20,11 +16,7 @@ import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
 
-import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

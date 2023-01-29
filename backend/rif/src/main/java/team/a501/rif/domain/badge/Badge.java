@@ -27,7 +27,7 @@ public class Badge {
     @Column(length = 40)
     private String badgeImgPath;
 
-    @OneToMany(mappedBy = "badge", orphanRemoval = true)
+    @OneToMany(mappedBy = "badge")
     private List<BadgeAcq> badgeAcqs;
 
     @Builder
