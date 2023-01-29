@@ -1,7 +1,8 @@
-package team.a501.rif.service;
+package team.a501.rif.service.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.tmp.TempMember;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
@@ -10,6 +11,7 @@ import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.tmp.TempMemberRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class TempMemberService {
         Optional<TempMember> byId = tempMemberRepository.findByStudentId(studentId);
         TempMember tempMember = byId.orElseThrow();
 
-         // Badge.badgeAcqs에서 삭제
+        // Badge.badgeAcqs에서 삭제
         for(var acq: tempMember.getBadgeAcqs().values()){
             acq.getBadge().removeBadgeAcq(acq);
         }

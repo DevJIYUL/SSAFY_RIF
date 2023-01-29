@@ -1,12 +1,10 @@
 package team.a501.rif.domain.badge;
 
-import lombok.NoArgsConstructor;
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.tmp.TempMember;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
 public class BadgeAcq extends BaseEntity {
 
@@ -25,6 +23,11 @@ public class BadgeAcq extends BaseEntity {
     // todo 뱃지가 삭제되어도 멤버가 남아있다면 뱃지획득이 삭제되어선 안된다. 뱃지가 삭제되면 기본 뱃지로 대체되는 것도 고려해보자
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
+
+    public BadgeAcq(){
+
+        this.onDisplay = false;
+    }
 
     public Long getId() {
         return id;

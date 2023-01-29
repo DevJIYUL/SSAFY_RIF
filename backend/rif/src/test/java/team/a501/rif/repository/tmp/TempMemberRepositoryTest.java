@@ -113,12 +113,4 @@ class TempMemberRepositoryTest {
                 .build();
         tempMemberRepository.save(tempMember);
     }
-
-    @DisplayName("멤버 삭제시 해당 멤버가 뱃지획득, 업적획득 전부 삭제")
-    @Test
-    void removeMember(){
-
-        tempMemberRepository.deleteByStudentId("0844269");
-
-    }
 }

@@ -1,5 +1,6 @@
 package team.a501.rif.domain.badge;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,7 @@ public class Badge {
     @Column(length = 40)
     private String badgeImgPath;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "badge")
     private List<BadgeAcq> badgeAcqs;
 

@@ -34,9 +34,11 @@ class AchievementAcqRepositoryTest {
     @Autowired
     private AchievementRepository achievementRepository;
 
-    @BeforeEach
-    void setUp(){
-        TempMember tempMember = TempMember.builder()
+    @DisplayName("업적 획득 추가")
+    @Test
+    void createAchievementAcq(){
+
+        TempMember tempMember = tempMemberRepository.save(TempMember.builder()
                 .id(UUID.randomUUID().toString())
                 .studentId("0847836")
                 .password("0847836")
@@ -44,34 +46,17 @@ class AchievementAcqRepositoryTest {
                 .point(0)
                 .exp(0)
                 .profileImgPath("/profile/default.png")
-                .build();
+                .build());
 
-        tempMemberRepository.save(tempMember);
-
-        Achievement achievement = Achievement.builder()
+        Achievement achievement = achievementRepository.save(Achievement.builder()
                 .tier(0)
                 .title("업적 1")
                 .description("Tempus imperdiet nulla malesuada pellentesque elit eget gravida")
                 .achievementImgPath("/achievement/1.png")
-                .build();
+                .build());
 
-        achievementRepository.save(achievement);
-    }
-
-    @DisplayName("업적 획득 추가")
-    @Test
-    void createAchievementAcq(){
-
-        Optional<TempMember> byStudentId = tempMemberRepository.findByStudentId("0847836");
-        TempMember tempMember = byStudentId.orElseThrow();
-
-        Optional<Achievement> byId = achievementRepository.findById(1L);
-        Achievement achievement = byId.orElseThrow();
-
-        AchievementAcq achievementAcq = new AchievementAcq();
+        AchievementAcq achievementAcq = achievementAcqRepository.save(new AchievementAcq());// 영속성 컨텍스트에서 manage 됨
         achievementAcq.setOnDisplay(false);
-
-        achievementAcqRepository.save(achievementAcq); // 영속성 컨텍스트에서 manage 됨
 
         achievement.addAchievementAcq(achievementAcq);
         // tempMemeber가 Badge/Achievement Acq 객체를 저장할 때 원본 Badge, Achievement의 Id를 참조하므로
@@ -84,12 +69,5 @@ class AchievementAcqRepositoryTest {
             System.out.println(e);
         }
         System.out.println("==========================================================");
-    }
-
-    @AfterEach
-    void cleanUp(){
-        achievementAcqRepository.deleteAll();
-        achievementRepository.deleteAll();
-        tempMemberRepository.deleteAll();
     }
 }
