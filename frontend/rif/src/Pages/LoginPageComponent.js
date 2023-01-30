@@ -1,38 +1,55 @@
-import loginAPI from "../API/loginAPI"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { loginHandler } from "../store/auth"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { UIActions } from "../store/UISlice"
 
 const LoginPageComponent = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [id, setId] = useState("")
-  const [password, setPassword] = useState("")
-  const [loginInProgress, setLoginInProgress] = useState(false)
+  const [userInputId, setUserInputId] = useState("")
+  const [userInputPassword, setUserInputPassword] = useState("")
+  const status = useSelector((state) => state.ui.notification.status)
+  const token = useSelector((state) => state.auth.authentication.token)
+
+  useEffect(() => {
+    if (token) {
+      navigate("/index")
+    }
+  })
 
   const idChangeHandler = (event) => {
-    setId(event.target.value)
+    setUserInputId(event.target.value)
   }
   const passwordChangeHandler = (event) => {
-    setPassword(event.target.value)
+    setUserInputPassword(event.target.value)
   }
 
   async function formSubmitHandler(event) {
-    setLoginInProgress(true)
     event.preventDefault()
-    const response = await loginAPI(id, password)
+    dispatch(loginHandler({ userInputId, userInputPassword }))
+  }
 
-    const resData = response.data
-    const resStatus = response.status
-
-    setLoginInProgress(false)
-    if (resStatus === 200) {
-      console.log(resData)
-      navigate("/")
-    } else if (resStatus === 401) {
-      console.log("아이디 또는 비밀번호 오류!")
-      setPassword("")
-    } else {
-      console.log("알 수 없는 에러")
+  useEffect(() => {
+    if (status === "success") {
+      dispatch(UIActions.resetNofication())
+      navigate("/home")
+    } else if (status === "error") {
+      alert("아이디 또는 패스워드 오류!")
+      setUserInputPassword("")
     }
+  }, [status, navigate, dispatch])
+
+  let btnMessage
+
+  if (!status) {
+    btnMessage = "로그인"
+  } else if (status === "pending") {
+    btnMessage = "로그인 중 .."
+  } else if (status === "success") {
+    btnMessage = "로그인 성공!"
+  } else {
+    btnMessage = "로그인 실패"
   }
 
   return (
@@ -43,7 +60,7 @@ const LoginPageComponent = () => {
           type="text"
           name="id"
           id="id"
-          value={id}
+          value={userInputId}
           onChange={idChangeHandler}
           style={{ display: "block" }}
         />
@@ -51,13 +68,11 @@ const LoginPageComponent = () => {
           type="password"
           name="password"
           id="password"
-          value={password}
+          value={userInputPassword}
           onChange={passwordChangeHandler}
           style={{ display: "block" }}
         />
-        <button type="submit">
-          {loginInProgress ? "로그인 중.." : "로그인"}
-        </button>
+        <button type="submit">{btnMessage}</button>
       </form>
     </div>
   )
