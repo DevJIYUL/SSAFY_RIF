@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.controller.badge.request.BadgeSaveRequest;
+import team.a501.rif.dto.badge.BadgeSaveRequest;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.Badges;
 import team.a501.rif.repository.badge.BadgeRepository;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

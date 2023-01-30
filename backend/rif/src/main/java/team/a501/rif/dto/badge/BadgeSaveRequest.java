@@ -1,4 +1,4 @@
-package team.a501.rif.controller.badge.request;
+package team.a501.rif.dto.badge;
 
 import lombok.Data;
 import team.a501.rif.domain.badge.Badge;
