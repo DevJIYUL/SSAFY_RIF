@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.a501.rif.Repository.member.MemberRepository;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.member.MemberSaveDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,16 +25,11 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
 
-    @PostMapping("/member")
-    public ResponseEntity<?> registerMember(@RequestBody HashMap<String,Object> member){
-        System.out.println(member);
+    @PostMapping(value = "/member",produces = "application/json")
 
-//        Member.builder()
-//                .id(member.get("id"))
-//
-//        Member x = memberRepository.save(member);
-//        log.info("info log : {}",x);
-        return new ResponseEntity<Map>(member,HttpStatus.OK);
+    public ResponseEntity<?> registerMember(@RequestBody MemberSaveDto memberSaveDto){
+
+        return new ResponseEntity<Member>(memberSaveDto.toEntity(),HttpStatus.OK);
     }
 
 }

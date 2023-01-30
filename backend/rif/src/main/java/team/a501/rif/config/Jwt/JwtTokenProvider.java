@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import team.a501.rif.domain.auth.Token;
 
 import java.security.Key;
-import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;

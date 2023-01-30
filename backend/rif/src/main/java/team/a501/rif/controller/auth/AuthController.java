@@ -23,8 +23,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public Token login(@RequestBody Member member) throws RuntimeException{
-        Token token = authService.login(member.getStudnetId(), member.getPassword());
-        if(token.getAccessToken() != null) LOGGER.info("[Auth] 정상적인 로그인. id :{}, token : {}",member.getStudnetId(),token.getAccessToken());
+        Token token = authService.login(member.getStudentId(), member.getPassword());
+        if(token.getAccessToken() != null) LOGGER.info("[Auth] 정상적인 로그인. id :{}, token : {}",member.getStudentId(),token.getAccessToken());
         return token;
     }
 }
