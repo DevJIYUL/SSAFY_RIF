@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
-import team.a501.rif.domain.tmp.TempMember;
-import team.a501.rif.repository.tmp.TempMemberRepository;
+import team.a501.rif.domain.member.Member;
+import team.a501.rif.repository.member.MemberRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,14 +24,14 @@ class BadgeAcqRepositoryTest {
     private BadgeAcqRepository badgeAcqRepository;
 
     @Autowired
-    private TempMemberRepository tempMemberRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private BadgeRepository badgeRepository;
 
     @BeforeEach
     void setUp() {
-        TempMember tempMember = TempMember.builder()
+        Member member = Member.builder()
                 .id(UUID.randomUUID().toString())
                 .studentId("0847836")
                 .password("0847836")
@@ -41,7 +41,7 @@ class BadgeAcqRepositoryTest {
                 .profileImgPath("/profile/default.png")
                 .build();
 
-        tempMemberRepository.save(tempMember);
+        memberRepository.save(member);
 
         // Badge 추가
         Badge badge1 = Badge.builder().tier(1)
@@ -69,8 +69,8 @@ class BadgeAcqRepositoryTest {
     void createBadgeAcq() {
 
         String studentId = "0847836";
-        Optional<TempMember> byStudentId = tempMemberRepository.findByStudentId(studentId);
-        TempMember member = byStudentId.orElseThrow();
+        Optional<Member> byStudentId = memberRepository.findByStudentId(studentId);
+        Member member = byStudentId.orElseThrow();
 
         System.out.println("=================================================================");
         System.out.println("member = " + member);

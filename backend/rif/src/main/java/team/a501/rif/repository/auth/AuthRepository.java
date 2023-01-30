@@ -1,4 +1,4 @@
-package team.a501.rif.Repository.auth;
+package team.a501.rif.repository.auth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import team.a501.rif.domain.member.Member;

@@ -9,13 +9,13 @@ import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
-import team.a501.rif.domain.tmp.TempMember;
+import team.a501.rif.domain.member.Member;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
-import team.a501.rif.repository.tmp.TempMemberRepository;
-import team.a501.rif.service.member.TempMemberService;
+import team.a501.rif.repository.member.MemberRepository;
+import team.a501.rif.service.member.MemberService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,12 +24,12 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class TempMemberServiceTest {
+class MemberServiceTest {
 
     @Autowired
-    private TempMemberService tempMemberService;
+    private MemberService memberService;
     @Autowired
-    private TempMemberRepository tempMemberRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private AchievementAcqRepository achievementAcqRepository;
     @Autowired
@@ -50,7 +50,7 @@ class TempMemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        TempMember tempMember = tempMemberRepository.save(TempMember.builder()
+        Member member = memberRepository.save(Member.builder()
                 .id(id)
                 .studentId(studentId)
                 .password(password)
@@ -76,11 +76,11 @@ class TempMemberServiceTest {
 
         AchievementAcq achievementAcq = achievementAcqRepository.save(new AchievementAcq());
         achievement.addAchievementAcq(achievementAcq);
-        tempMember.addAchievementAcq(achievementAcq);
+        member.addAchievementAcq(achievementAcq);
 
         BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
         badge1.addBadgeAcq(badgeAcq);
-        tempMember.addBadgeAcq(badgeAcq);
+        member.addBadgeAcq(badgeAcq);
     }
 
     @DisplayName("멤버 저장")
@@ -94,7 +94,7 @@ class TempMemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        TempMember tempMember = TempMember.builder()
+        Member member = Member.builder()
                 .id(id)
                 .studentId(studentId)
                 .password(password)
@@ -104,9 +104,9 @@ class TempMemberServiceTest {
                 .profileImgPath(profileImgPath)
                 .build();
 
-        tempMemberService.save(tempMember);
+        memberService.save(member);
 
-        long count = tempMemberRepository.count();
+        long count = memberRepository.count();
         System.out.println("======================================");
         System.out.println("count = " + count);
         System.out.println("======================================");
@@ -124,9 +124,9 @@ class TempMemberServiceTest {
         System.out.println("System.out: 뱃지 개수 = " + badgeRepository.count());
         System.out.println("System.out: 뱃지 획득 개수 = " + badgeAcqRepository.count());
 
-        tempMemberService.deleteByStudentId("0847836");
+        memberService.deleteByStudentId("0847836");
 
-        assertThat(tempMemberRepository.count()).isEqualTo(0L);
+        assertThat(memberRepository.count()).isEqualTo(0L);
         assertThat(badgeAcqRepository.count()).isEqualTo(0L);
         assertThat(achievementAcqRepository.count()).isEqualTo(0L);
         assertThat(badgeRepository.count()).isEqualTo(1L);
