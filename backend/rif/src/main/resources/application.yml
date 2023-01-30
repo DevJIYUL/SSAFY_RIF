@@ -49,7 +49,7 @@ logging:
 spring:
   config:
     activate:
-      on-profile: local # todo 스프링부트 버젼이 달라지면서 변경되었다
+      on-profile: prod # todo 스프링부트 버젼이 달라지면서 변경되었다
   output:
     ansi:
       enabled: always

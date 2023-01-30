@@ -5,7 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import team.a501.rif.Repository.auth.AuthRepository;
+import team.a501.rif.repository.auth.AuthRepository;
 import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.auth.Token;
 

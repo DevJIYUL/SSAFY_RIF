@@ -10,19 +10,20 @@ import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
-import team.a501.rif.domain.tmp.TempMember;
+import team.a501.rif.domain.member.Member;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
+import team.a501.rif.repository.member.MemberRepository;
 
 import java.util.UUID;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TempMemberRepositoryTest {
+class MemberRepositoryTest {
     @Autowired
-    private TempMemberRepository tempMemberRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private AchievementRepository achievementRepository;
@@ -48,7 +49,7 @@ class TempMemberRepositoryTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        TempMember tempMember = TempMember.builder()
+        Member member = Member.builder()
                 .id(id)
                 .studentId(studentId)
                 .password(password)
@@ -57,7 +58,7 @@ class TempMemberRepositoryTest {
                 .exp(exp)
                 .profileImgPath(profileImgPath)
                 .build();
-        tempMemberRepository.save(tempMember);
+        memberRepository.save(member);
 
         // 테스트용 뱃지, 업적
         Badge badge = Badge.builder().tier(1)
@@ -84,10 +85,10 @@ class TempMemberRepositoryTest {
         achievementAcqRepository.save(achievementAcq);
 
         badge.addBadgeAcq(badgeAcq);
-        tempMember.addBadgeAcq(badgeAcq);
+        member.addBadgeAcq(badgeAcq);
 
         achievement.addAchievementAcq(achievementAcq);
-        tempMember.addAchievementAcq(achievementAcq);
+        member.addAchievementAcq(achievementAcq);
     }
 
     @DisplayName("임시 멤버 추가하기")
@@ -102,7 +103,7 @@ class TempMemberRepositoryTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        TempMember tempMember = TempMember.builder()
+        Member member = Member.builder()
                 .id(id)
                 .studentId(studentId)
                 .password(password)
@@ -111,6 +112,6 @@ class TempMemberRepositoryTest {
                 .exp(exp)
                 .profileImgPath(profileImgPath)
                 .build();
-        tempMemberRepository.save(tempMember);
+        memberRepository.save(member);
     }
 }
