@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import { loginHandler } from "../store/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { UIActions } from "../store/UISlice"
 
 const LoginPageComponent = () => {
   const dispatch = useDispatch()
@@ -12,12 +11,6 @@ const LoginPageComponent = () => {
   const status = useSelector((state) => state.ui.notification.status)
   const token = useSelector((state) => state.auth.authentication.token)
 
-  useEffect(() => {
-    if (token) {
-      navigate("/index")
-    }
-  })
-
   const idChangeHandler = (event) => {
     setUserInputId(event.target.value)
   }
@@ -25,20 +18,16 @@ const LoginPageComponent = () => {
     setUserInputPassword(event.target.value)
   }
 
-  async function formSubmitHandler(event) {
+  function formSubmitHandler(event) {
     event.preventDefault()
     dispatch(loginHandler({ userInputId, userInputPassword }))
   }
 
   useEffect(() => {
-    if (status === "success") {
-      dispatch(UIActions.resetNofication())
-      navigate("/home")
-    } else if (status === "error") {
-      alert("아이디 또는 패스워드 오류!")
-      setUserInputPassword("")
+    if (token) {
+      navigate("/index")
     }
-  }, [status, navigate, dispatch])
+  }, [token, navigate])
 
   let btnMessage
 

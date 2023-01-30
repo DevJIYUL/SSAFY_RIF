@@ -6,7 +6,7 @@ const notification = {
   message: "",
 }
 
-const infoUI = createSlice({
+const UISlice = createSlice({
   name: "UI",
   initialState: { notification },
   reducers: {
@@ -27,6 +27,6 @@ const infoUI = createSlice({
   },
 })
 
-export const UIActions = infoUI.actions
+export const UIActions = UISlice.actions
 
-export default infoUI
+export default UISlice

@@ -49,6 +49,8 @@ export const loginHandler = (data) => {
           message: "Login request successfully!",
         })
       )
+
+      dispatch(UIActions.resetNofication())
     } catch (error) {
       dispatch(
         UIActions.changeNofication({

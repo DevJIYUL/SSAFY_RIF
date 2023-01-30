@@ -4,6 +4,7 @@ import MainPageComponent from "./Pages/MainPageComponent"
 import HomePageComponent from "./Pages/HomePageComponent"
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent"
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
+import ErrorPageComponent from "./Pages/ErrorPageComponent"
 import LotComponent from "./Pages/LotComponent"
 import App from "./App"
 
@@ -22,6 +23,11 @@ const router = createBrowserRouter([
     // HomePage
     path: "/home",
     element: <HomePageComponent />,
+  },
+  {
+    // MainPage
+    path: "/index",
+    element: <MainPageComponent />,
   },
   {
     // Description Page (why RIF?)
