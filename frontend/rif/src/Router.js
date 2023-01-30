@@ -1,16 +1,17 @@
-import { createBrowserRouter } from "react-router-dom";
-import LoginPageComponent from "./Pages/LoginPageComponent";
-import MainPageComponent from "./Pages/MainPageComponent";
-import HomePageComponent from "./Pages/HomePageComponent";
-import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
-import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
-import LotComponent from "./Pages/LotComponent";
+import { createBrowserRouter } from "react-router-dom"
+import LoginPageComponent from "./Pages/LoginPageComponent"
+import MainPageComponent from "./Pages/MainPageComponent"
+import HomePageComponent from "./Pages/HomePageComponent"
+import DescriptionPageComponent from "./Pages/DescriptionPageComponent"
+import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
+import LotComponent from "./Pages/LotComponent"
+import App from "./App"
 
 const router = createBrowserRouter([
   {
-    // main page
     path: "/",
-    element: <MainPageComponent />,
+    element: <App />,
+    errorElement: <ErrorPageComponent />,
   },
   {
     // LoginPage
@@ -37,6 +38,6 @@ const router = createBrowserRouter([
     path: "/lot",
     element: <LotComponent />,
   },
-]);
+])
 
-export default router;
+export default router
