@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
-import team.a501.rif.domain.tmp.TempMember;
+import team.a501.rif.domain.member.Member;
 import team.a501.rif.repository.badge.BadgeRepository;
-import team.a501.rif.repository.tmp.TempMemberRepository;
+import team.a501.rif.repository.member.MemberRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,7 +22,7 @@ class BadgeAcqServiceTest {
     @Autowired
     private BadgeAcqService badgeAcqService;
     @Autowired
-    private TempMemberRepository tempMemberRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private BadgeRepository badgeRepository;
 
@@ -31,7 +31,7 @@ class BadgeAcqServiceTest {
     @Test
     void saveBadgeAcq() {
 
-        TempMember tempMember = tempMemberRepository.save(TempMember.builder().
+        Member member = memberRepository.save(Member.builder().
                 id(UUID.randomUUID().toString())
                 .studentId("1234567")
                 .password("1234567")
@@ -48,7 +48,7 @@ class BadgeAcqServiceTest {
                 .badgeImgPath("/badge/greeting.png")
                 .build());
 
-        BadgeAcq badgeAcq = badgeAcqService.save(tempMember.getId(), badge.getId());
+        BadgeAcq badgeAcq = badgeAcqService.save(member.getId(), badge.getId());
 
         assertThat(badgeAcq).isNotNull();
         System.out.println("badgeAcq = " + badgeAcq);
@@ -59,7 +59,7 @@ class BadgeAcqServiceTest {
     @Test
     void findByMember(){
 
-        TempMember tempMember1 = tempMemberRepository.save(TempMember.builder().
+        Member member1 = memberRepository.save(Member.builder().
                 id(UUID.randomUUID().toString())
                 .studentId("1234567")
                 .password("1234567")
@@ -69,7 +69,7 @@ class BadgeAcqServiceTest {
                 .profileImgPath("/profile/default.png")
                 .build());
 
-        TempMember tempMember2 = tempMemberRepository.save(TempMember.builder()
+        Member member2 = memberRepository.save(Member.builder()
                 .id(UUID.randomUUID().toString())
                 .studentId("7654321")
                 .password("7654321")
@@ -93,12 +93,12 @@ class BadgeAcqServiceTest {
                 .badgeImgPath("/badge/good-recycler.png")
                 .build());
 
-        badgeAcqService.save(tempMember1.getId(), badge1.getId());
-        badgeAcqService.save(tempMember1.getId(), badge2.getId());
+        badgeAcqService.save(member1.getId(), badge1.getId());
+        badgeAcqService.save(member1.getId(), badge2.getId());
 
-        badgeAcqService.save(tempMember2.getId(), badge1.getId());
+        badgeAcqService.save(member2.getId(), badge1.getId());
 
-        List<BadgeAcq> byMember = badgeAcqService.findByMemberStudentId(tempMember1.getStudentId());
+        List<BadgeAcq> byMember = badgeAcqService.findByMemberStudentId(member1.getStudentId());
 
         assertThat(byMember.size()).isEqualTo(2);
         System.out.println("============================================");

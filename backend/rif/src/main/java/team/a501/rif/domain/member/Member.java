@@ -5,43 +5,70 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import team.a501.rif.domain.achievement.Achievement;
+import team.a501.rif.domain.achievement.AchievementAcq;
+import team.a501.rif.domain.badge.Badge;
+import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.role.Role;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class Member implements UserDetails {
 
     @Id
     private String id;
 
+    @Column(unique = true, length = 10)
     private String studentId; // 학번
 
+    @Column(length = 100)
     private String password;
 
+    @Column(length = 20)
     private String name;
+
     private Integer point;
 
     private Integer exp;
 
+    @Column(length = 40)
     private String profileImgPath; // 기본값 /profile/default.png
-    @JsonIgnore
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private Map<Long, BadgeAcq> badgeAcqs;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private Map<Long, AchievementAcq> achievementAcqs;
+
     @OneToMany(mappedBy = "member")
     private List<Role> roles;
+
+    @Builder
+    public Member(String id, String studentId, String password, String name, Integer point, Integer exp, String profileImgPath) {
+
+        this.id = id;
+        this.studentId = studentId;
+        this.password = password;
+        this.name = name;
+        this.point = point;
+        this.exp = exp;
+        this.profileImgPath = profileImgPath;
+
+        this.badgeAcqs = new HashMap<>();
+        this.achievementAcqs = new HashMap<>();
+        this.roles = new ArrayList<>();
+    }
+
+    // implement UserDetails
     @JsonIgnore
     @Override
     public List<GrantedAuthority> getAuthorities() {
@@ -49,7 +76,6 @@ public class Member implements UserDetails {
                 .map(t->new SimpleGrantedAuthority(t.getType()))
                 .collect(Collectors.toList());
     }
-
     @JsonIgnore
     @Override
     public String getPassword() {
@@ -83,9 +109,10 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-//    todo 필드 유효성 검사
 
+    // implement UserDetails end
 
+    // getter setter
     public String getId() {
         return id;
     }
@@ -130,7 +157,60 @@ public class Member implements UserDetails {
         return profileImgPath;
     }
 
+    public Map<Long, BadgeAcq> getBadgeAcqs() {
+        return badgeAcqs;
+    }
+
+    public Map<Long, AchievementAcq> getAchievementAcqs() {
+        return achievementAcqs;
+    }
+
     public void setProfileImgPath(String profileImgPath) {
         this.profileImgPath = profileImgPath;
+    }
+
+    public Boolean hasBadge(@NotNull Badge badge) {
+        return badgeAcqs.containsKey(badge.getId());
+    }
+
+    public Boolean hasAchievement(@NotNull Achievement achievement) {
+        return achievementAcqs.containsKey(achievement.getId());
+    }
+
+    public void addBadgeAcq(@NotNull BadgeAcq acq) {
+
+        acq.setMember(this);
+        badgeAcqs.put(acq.getBadge().getId(), acq);
+    }
+
+    public void removeBadgeAcq(@NotNull BadgeAcq acq) {
+
+        acq.setMember(null);
+        badgeAcqs.remove(acq.getBadge().getId(), acq);
+    }
+
+    public void addAchievementAcq(@NotNull AchievementAcq acq) {
+
+        acq.setMember(this);
+        achievementAcqs.put(acq.getAchievement().getId(), acq);
+    }
+
+    public void removeAchievementAcq(@NotNull AchievementAcq acq) {
+
+        acq.setMember(null);
+        achievementAcqs.remove(acq.getAchievement().getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id='" + id + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", point=" + point +
+                ", exp=" + exp +
+                ", profileImgPath='" + profileImgPath + '\'' +
+                '}';
     }
 }
