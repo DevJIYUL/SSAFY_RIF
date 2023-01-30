@@ -5,6 +5,8 @@ import HomePageComponent from "./Pages/HomePageComponent";
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
 import LotComponent from "./Pages/LotComponent";
+import BadgePageComponent from "./Pages/BadgePageComponent";
+import TestComponent from "./Pages/TestComponent";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,16 @@ const router = createBrowserRouter([
     // Lotto Component
     path: "/lot",
     element: <LotComponent />,
+  },
+  {
+    // sectiontitle test
+    path: "/badge",
+    element: <BadgePageComponent />,
+  },
+  {
+    //test
+    path: "/test",
+    element: <TestComponent />,
   },
 ]);
 
