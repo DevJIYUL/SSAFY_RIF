@@ -1,10 +1,12 @@
 package team.a501.rif.dto.badge;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import team.a501.rif.domain.badge.Badge;
 
+@NoArgsConstructor
 @Data
-public class BadgeSaveRequest {
+public class BadgeSave {
 
     private final Integer MIN_TIER = 1;
     private final Integer MAX_TIER = 10;

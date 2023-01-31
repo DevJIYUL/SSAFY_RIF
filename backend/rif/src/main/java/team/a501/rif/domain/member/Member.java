@@ -1,12 +1,9 @@
 package team.a501.rif.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +20,14 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 public class Member implements UserDetails {
+    @JsonIgnore
+    public static final String DEFAULT_PROFILE_IMG = "/profile/default.png";
 
     @Id
-    private String id;
+    private String id; // 학번
 
-    @Column(unique = true, length = 10)
-    private String studentId; // 학번
+    @Column(unique = true, length = 100)
+    private String uid;
 
     @Column(length = 100)
     private String password;
@@ -50,13 +49,13 @@ public class Member implements UserDetails {
     private Map<Long, AchievementAcq> achievementAcqs;
 
     @OneToMany(mappedBy = "member")
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @Builder
-    public Member(String id, String studentId, String password, String name, Integer point, Integer exp, String profileImgPath) {
+    public Member(String id, String uid, String password, String name, Integer point, Integer exp, String profileImgPath) {
 
         this.id = id;
-        this.studentId = studentId;
+        this.uid = uid;
         this.password = password;
         this.name = name;
         this.point = point;
@@ -65,17 +64,20 @@ public class Member implements UserDetails {
 
         this.badgeAcqs = new HashMap<>();
         this.achievementAcqs = new HashMap<>();
-        this.roles = new ArrayList<>();
+        this.roles = new HashSet<>();
     }
 
     // implement UserDetails
+
     @JsonIgnore
     @Override
-    public List<GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(t->new SimpleGrantedAuthority(t.getType()))
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getType()))
                 .collect(Collectors.toList());
     }
+
     @JsonIgnore
     @Override
     public String getPassword() {
@@ -109,7 +111,6 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
     // implement UserDetails end
 
     // getter setter
@@ -121,12 +122,12 @@ public class Member implements UserDetails {
         this.id = id;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -157,10 +158,12 @@ public class Member implements UserDetails {
         return profileImgPath;
     }
 
+    @JsonIgnore
     public Map<Long, BadgeAcq> getBadgeAcqs() {
         return badgeAcqs;
     }
 
+    @JsonIgnore
     public Map<Long, AchievementAcq> getAchievementAcqs() {
         return achievementAcqs;
     }
@@ -205,7 +208,7 @@ public class Member implements UserDetails {
     public String toString() {
         return "Member{" +
                 "id='" + id + '\'' +
-                ", studentId='" + studentId + '\'' +
+                ", studentId='" + uid + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", point=" + point +

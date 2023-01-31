@@ -25,24 +25,25 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private final Key key;
     private final long expire;
+
     public JwtTokenProvider(@Value("${security.jwt.token.secret}") String secretKey,
-                            @Value("${security.jwt.token.expire}")long expire) {
+                            @Value("${security.jwt.token.expire}") long expire) {
         this.expire = expire;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // accesstoken 발행하는 메서드
-    public Token issueToken(Authentication authentication){
+    public Token issueToken(Authentication authentication) {
         final long now = new Date().getTime();
-        final Date accessExpire = new Date(now+expire);
+        final Date accessExpire = new Date(now + expire);
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("auth",authorities)
+                .claim("auth", authorities)
                 .setIssuedAt(new Date(now))
                 .setExpiration(accessExpire)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -54,28 +55,28 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 복호화 하여 토큰 정보 꺼내기
-    public Authentication getAuthentication(String accessToken){
+    public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화해서 권한 확인
         Claims claims = parseClaims(accessToken);
-        if(claims.get("auth") == null){
+        if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰");
         }
-        Collection<? extends  GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
+        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        UserDetails principal = new User(claims.getSubject(),"",authorities);
-        return new UsernamePasswordAuthenticationToken(principal,"",authorities);
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
-    public boolean validateToken(String token){
-        try{
+
+    public boolean validateToken(String token) {
+        try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        }
-        catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
-            log.info("Info Invalid JWT Token = {}",e);
-        }catch (ExpiredJwtException e){
-            log.info("Info Expired JWT Token = {}",e);
-        }catch (UnsupportedJwtException e){
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("Info Invalid JWT Token = {}", e);
+        } catch (ExpiredJwtException e) {
+            log.info("Info Expired JWT Token = {}", e);
+        } catch (UnsupportedJwtException e) {
             log.info("Info Unsupported JWT Token = {}", e);
         } catch (IllegalArgumentException e) {
             log.info("Info JWT claims string is empty.={}", e);
@@ -83,10 +84,11 @@ public class JwtTokenProvider {
         return false;
 
     }
-    private Claims parseClaims(String accessToken){
-        try{
+
+    private Claims parseClaims(String accessToken) {
+        try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
     }

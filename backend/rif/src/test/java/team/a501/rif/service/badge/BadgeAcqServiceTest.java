@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 class BadgeAcqServiceTest {
 
     @Autowired
-    private BadgeAcqService badgeAcqService;
+    private BadgeAcqServiceImpl badgeAcqService;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -31,10 +31,10 @@ class BadgeAcqServiceTest {
     @Test
     void saveBadgeAcq() {
 
-        Member member = memberRepository.save(Member.builder().
-                id(UUID.randomUUID().toString())
-                .studentId("1234567")
+        Member member = memberRepository.save(Member.builder()
+                .id("1234567")
                 .password("1234567")
+                .uid(UUID.randomUUID().toString())
                 .name("쨩싱콴")
                 .point(0)
                 .exp(0)
@@ -59,10 +59,10 @@ class BadgeAcqServiceTest {
     @Test
     void findByMember(){
 
-        Member member1 = memberRepository.save(Member.builder().
-                id(UUID.randomUUID().toString())
-                .studentId("1234567")
+        Member member1 = memberRepository.save(Member.builder()
+                .id("1234567")
                 .password("1234567")
+                .uid(UUID.randomUUID().toString())
                 .name("쨩싱콴")
                 .point(0)
                 .exp(0)
@@ -70,9 +70,9 @@ class BadgeAcqServiceTest {
                 .build());
 
         Member member2 = memberRepository.save(Member.builder()
-                .id(UUID.randomUUID().toString())
-                .studentId("7654321")
+                .id("7654321")
                 .password("7654321")
+                .uid(UUID.randomUUID().toString())
                 .name("강승곤")
                 .point(0)
                 .exp(0)
@@ -98,7 +98,7 @@ class BadgeAcqServiceTest {
 
         badgeAcqService.save(member2.getId(), badge1.getId());
 
-        List<BadgeAcq> byMember = badgeAcqService.findByMemberStudentId(member1.getStudentId());
+        List<BadgeAcq> byMember = badgeAcqService.findByMemberUid(member1.getUid());
 
         assertThat(byMember.size()).isEqualTo(2);
         System.out.println("============================================");

@@ -10,6 +10,7 @@ import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.member.MemberRegister;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
@@ -19,6 +20,7 @@ import team.a501.rif.service.member.MemberService;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,14 +52,10 @@ class MemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        Member member = memberRepository.save(Member.builder()
-                .id(id)
-                .studentId(studentId)
+        Member member = memberService.register(MemberRegister.builder()
+                .id(studentId)
                 .password(password)
                 .name(name)
-                .point(point)
-                .exp(exp)
-                .profileImgPath(profileImgPath)
                 .build());
 
         Achievement achievement = achievementRepository.save(Achievement.builder()
@@ -94,17 +92,12 @@ class MemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        Member member = Member.builder()
-                .id(id)
-                .studentId(studentId)
+        Member member = memberService.register(MemberRegister
+                .builder()
+                .id(studentId)
                 .password(password)
                 .name(name)
-                .point(point)
-                .exp(exp)
-                .profileImgPath(profileImgPath)
-                .build();
-
-        memberService.save(member);
+                .build());
 
         long count = memberRepository.count();
         System.out.println("======================================");
@@ -124,7 +117,10 @@ class MemberServiceTest {
         System.out.println("System.out: 뱃지 개수 = " + badgeRepository.count());
         System.out.println("System.out: 뱃지 획득 개수 = " + badgeAcqRepository.count());
 
-        memberService.deleteByStudentId("0847836");
+        Member member = memberRepository
+                .findById("0847836")
+                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 id에 해당하는 레코드가 존재하지 않습니다"));
+        memberRepository.delete(member);
 
         assertThat(memberRepository.count()).isEqualTo(0L);
         assertThat(badgeAcqRepository.count()).isEqualTo(0L);
