@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.a501.rif.domain.member.Member;
+
 import team.a501.rif.dto.member.MemberRegister;
 import team.a501.rif.service.member.MemberService;
 
@@ -21,6 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping(value = "/member", produces = "application/json")
+
 
     public ResponseEntity<?> registerMember(@RequestBody MemberRegister memberRegister) {
 
