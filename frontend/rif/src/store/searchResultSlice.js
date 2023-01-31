@@ -30,10 +30,19 @@ export const userSearchRequestHandler = (name) => {
       if (response.status !== 200) {
         throw new Error("response error!")
       }
-
+      dispatch(
+        UIActions.changeNofication({
+          status: "success",
+        })
+      )
       dispatch(searchResultActions.setRecentSearchWord(name))
       dispatch(
         searchResultActions.setRecentSearchResults(response.data.members)
+      )
+      dispatch(
+        UIActions.changeNofication({
+          status: "",
+        })
       )
     } catch (error) {
       console.log(error)
