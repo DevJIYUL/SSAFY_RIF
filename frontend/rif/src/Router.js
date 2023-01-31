@@ -6,6 +6,7 @@ import DescriptionPageComponent from "./Pages/DescriptionPageComponent"
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
 import ErrorPageComponent from "./Pages/ErrorPageComponent"
 import LotComponent from "./Pages/LotComponent"
+import UserSearchComponent from "./Pages/UserSearchComponent"
 import App from "./App"
 
 const router = createBrowserRouter([
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
     // Lotto Component
     path: "/lot",
     element: <LotComponent />,
+  },
+  {
+    // User Search Component
+    path: "/search",
+    element: <UserSearchComponent />,
   },
 ])
 
