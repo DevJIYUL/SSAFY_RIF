@@ -5,20 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import team.a501.rif.Repository.auth.AuthRepository;
 import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.auth.Token;
-import team.a501.rif.domain.member.Member;
-import team.a501.rif.service.member.MemberServiceImpl;
 
 import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthServieceImpl implements AuthService{
-    private final AuthRepository authRepository;
+public class AuthServiceImpl implements AuthService{
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     @Transactional

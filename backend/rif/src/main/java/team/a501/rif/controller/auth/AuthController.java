@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.a501.rif.domain.auth.Token;
-import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.LoginDto;
+
+import team.a501.rif.dto.auth.LoginRequest;
 import team.a501.rif.service.auth.AuthService;
 
 @RestController
@@ -20,13 +20,26 @@ import team.a501.rif.service.auth.AuthService;
 public class AuthController {
     private final AuthService authService;
 
-//    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
-    @PostMapping(value = "/login")
-    public Token login(@RequestBody LoginDto loginDto){
-        log.info("login info={}",loginDto);
-        Token token = authService.login(loginDto.getStudentId(), loginDto.getPassword());
-        if(token.getAccessToken() != null) log.info("[Auth] 정상적인 로그인. id :{}, token : {}",loginDto.getStudentId(),token.getAccessToken());
+
+    // todo security에서 설정해주는 엔드포인트가 있는지 찾아보자
+
+    @PostMapping("/login")
+    public Token login(@RequestBody LoginRequest loginRequest) {
+
+        Token token = authService
+                .login(
+                        loginRequest.getId(),
+                        loginRequest.getPassword()
+                );
+
+        if (token.getAccessToken() != null) {
+            LOGGER.info("[Auth] 정상적인 로그인. id :{}, token : {}"
+                    , loginRequest.getId()
+                    , token.getAccessToken()
+            );
+        }
         return token;
     }
 }

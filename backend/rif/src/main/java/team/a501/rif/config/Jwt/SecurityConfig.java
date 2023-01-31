@@ -1,14 +1,10 @@
 package team.a501.rif.config.Jwt;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -28,11 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 //@NoArgsConstructor
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public AccessDeniedHandler accessDeniedHandler(){
+    public AccessDeniedHandler accessDeniedHandler() {
         return ((request, response, accessDeniedException) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("text/plain;charset=UTF-8");
@@ -43,7 +38,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(){
+    public AuthenticationEntryPoint authenticationEntryPoint() {
         return ((request, response, authException) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("text/plain;charset=UTF-8");
@@ -52,34 +47,34 @@ public class SecurityConfig {
             response.getWriter().close();
         });
     }
+
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/assets/**","/h2-console/**");
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/assets/**", "/h2-console/**");
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http
-                .csrf().disable()
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers().hasRole("USER")
-                .antMatchers("/member","/auth/login").permitAll() // 모든 요청을 허가할 것
-
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/member/**").permitAll()
                 .and()
-
                 .httpBasic().disable()
+                .formLogin().disable()
+                .cors().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+                .authorizeRequests()
+                .anyRequest().permitAll()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
