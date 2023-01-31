@@ -7,7 +7,8 @@ import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
 import ErrorPageComponent from "./Pages/ErrorPageComponent"
 import LotComponent from "./Pages/LotComponent"
 import UserSearchComponent from "./Pages/UserSearchComponent"
-import BadgePageComponent from "./Pages/BadgePageComponent";
+import BadgePageComponent from "./Pages/BadgePageComponent"
+import RankingPageComponent from "./Pages/RankingPageComponent"
 import App from "./App"
 
 const router = createBrowserRouter([
@@ -56,7 +57,11 @@ const router = createBrowserRouter([
     path: "/badge",
     element: <BadgePageComponent />,
   },
-]);
-
+  {
+    // Ranking Page Component
+    path: "/ranking",
+    element: <RankingPageComponent />,
+  },
+])
 
 export default router
