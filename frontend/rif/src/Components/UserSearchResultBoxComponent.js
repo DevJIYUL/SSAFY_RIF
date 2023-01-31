@@ -1,13 +1,13 @@
-import UserSearchResultElementComponent from "./UserSearchResultElementComponent"
+import UserSearchResultItemComponent from "./UserSearchResultItemComponent"
 
 const UserSearchResultBoxComponent = (props) => {
   return (
     <div>
       {props.recentSearchResults.map((recentSearchResult) => (
-        <UserSearchResultElementComponent
+        <UserSearchResultItemComponent
           key={recentSearchResult.id}
           recentSearchResult={recentSearchResult}
-        ></UserSearchResultElementComponent>
+        ></UserSearchResultItemComponent>
       ))}
     </div>
   )
