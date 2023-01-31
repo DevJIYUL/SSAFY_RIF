@@ -26,7 +26,7 @@ public class Badge {
     private String description;
 
     @Column(length = 40)
-    private String badgeImgPath;
+    private String imgPath;
 
     @JsonIgnore
     @OneToMany(mappedBy = "badge")
@@ -38,7 +38,7 @@ public class Badge {
         this.title = title;
         this.tier = tier;
         this.description = description;
-        this.badgeImgPath = badgeImgPath;
+        this.imgPath = badgeImgPath;
 
         this.badgeAcqs = new ArrayList<>();
     }
@@ -71,12 +71,12 @@ public class Badge {
         this.description = description;
     }
 
-    public String getBadgeImgPath() {
-        return badgeImgPath;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setBadgeImgPath(String badgeImgPath) {
-        this.badgeImgPath = badgeImgPath;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public List<BadgeAcq> getBadgeAcqs() {
@@ -97,6 +97,6 @@ public class Badge {
 
     @Override
     public String toString() {
-        return "Badge{" + "\n id=" + id + ",\n tier=" + tier + ",\n description='" + description + '\'' + ",\n badgeImgPath='" + badgeImgPath + '\'' + "\n}";
+        return "Badge{" + "\n id=" + id + ",\n tier=" + tier + ",\n description='" + description + '\'' + ",\n badgeImgPath='" + imgPath + '\'' + "\n}";
     }
 }
