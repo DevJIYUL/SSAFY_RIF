@@ -1,4 +1,4 @@
-import axiosInterface from "./axiosInterface"
+import axiosInterface from "./axiosInterface";
 
 /**
  * It's important that you have to send request with token, it return top 10 user infos + client user info.
@@ -11,14 +11,14 @@ async function getRankingInfoWithMeAPI(token) {
     "GET",
     "api/user/ranking",
     {},
-    { "access-token": `${"bearer " + token}` }
-  )
+    { Authorization: `${"Bearer " + token}` }
+  );
 
   if (response.status === 200) {
-    return response
+    return response;
   }
 
-  return response.response
+  return response.response;
 }
 
-export default getRankingInfoWithMeAPI
+export default getRankingInfoWithMeAPI;
