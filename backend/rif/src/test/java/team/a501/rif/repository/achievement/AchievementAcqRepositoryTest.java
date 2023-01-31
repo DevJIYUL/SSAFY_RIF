@@ -31,9 +31,9 @@ class AchievementAcqRepositoryTest {
     void createAchievementAcq(){
 
         Member member = memberRepository.save(Member.builder()
-                .id(UUID.randomUUID().toString())
-                .studentId("0847836")
+                .id("0847836")
                 .password("0847836")
+                .uid(UUID.randomUUID().toString())
                 .name("강승곤")
                 .point(0)
                 .exp(0)

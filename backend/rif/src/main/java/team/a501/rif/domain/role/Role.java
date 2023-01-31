@@ -8,17 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
+@Entity
 public class Role {
     @Id
     @GeneratedValue
     private Long id;
 
     private String type;
+
     @ManyToOne
     private Member member;
 }
