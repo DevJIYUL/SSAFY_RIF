@@ -50,9 +50,9 @@ class MemberRepositoryTest {
         String profileImgPath = "/profile/default.png";
 
         Member member = Member.builder()
-                .id(id)
-                .studentId(studentId)
+                .id(studentId)
                 .password(password)
+                .uid(id)
                 .name(name)
                 .point(point)
                 .exp(exp)
@@ -104,9 +104,9 @@ class MemberRepositoryTest {
         String profileImgPath = "/profile/default.png";
 
         Member member = Member.builder()
-                .id(id)
-                .studentId(studentId)
+                .id(studentId)
                 .password(password)
+                .uid(id)
                 .name(name)
                 .point(point)
                 .exp(exp)

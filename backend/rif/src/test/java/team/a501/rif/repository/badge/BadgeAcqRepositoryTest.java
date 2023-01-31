@@ -32,9 +32,9 @@ class BadgeAcqRepositoryTest {
     @BeforeEach
     void setUp() {
         Member member = Member.builder()
-                .id(UUID.randomUUID().toString())
-                .studentId("0847836")
+                .id("0847836")
                 .password("0847836")
+                .uid(UUID.randomUUID().toString())
                 .name("강승곤")
                 .point(0)
                 .exp(0)
@@ -69,7 +69,7 @@ class BadgeAcqRepositoryTest {
     void createBadgeAcq() {
 
         String studentId = "0847836";
-        Optional<Member> byStudentId = memberRepository.findByStudentId(studentId);
+        Optional<Member> byStudentId = memberRepository.findById(studentId);
         Member member = byStudentId.orElseThrow();
 
         System.out.println("=================================================================");

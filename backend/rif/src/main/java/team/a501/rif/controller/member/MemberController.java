@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team.a501.rif.repository.member.MemberRepository;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.MemberSaveDto;
+import team.a501.rif.dto.member.MemberRegister;
+import team.a501.rif.service.member.MemberService;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,13 +18,14 @@ import team.a501.rif.dto.member.MemberSaveDto;
 @RequestMapping
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    @PostMapping(value = "/member",produces = "application/json")
+    @PostMapping(value = "/member", produces = "application/json")
 
-    public ResponseEntity<?> registerMember(@RequestBody MemberSaveDto memberSaveDto){
+    public ResponseEntity<?> registerMember(@RequestBody MemberRegister memberRegister) {
 
-        return new ResponseEntity<Member>(memberSaveDto.toEntity(),HttpStatus.OK);
+        Member member = memberService.register(memberRegister);
+        return new ResponseEntity<Member>(member, HttpStatus.OK);
     }
 
 }

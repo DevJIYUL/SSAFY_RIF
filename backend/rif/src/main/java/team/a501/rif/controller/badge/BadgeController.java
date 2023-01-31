@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.dto.badge.BadgeSaveRequest;
+import team.a501.rif.dto.badge.BadgeSave;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.Badges;
 import team.a501.rif.repository.badge.BadgeRepository;
@@ -16,7 +16,7 @@ public class BadgeController {
     private final BadgeRepository badgeRepository;
 
     @PostMapping("/badge")
-    public ResponseEntity<Badge> createBadge(@RequestBody BadgeSaveRequest badgeSaveRequest){
+    public ResponseEntity<Badge> createBadge(@RequestBody BadgeSave badgeSaveRequest){
 
         Badge badge = badgeRepository.save(badgeSaveRequest.toEntity());
 
