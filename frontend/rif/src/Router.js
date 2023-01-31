@@ -1,11 +1,12 @@
-import { createBrowserRouter } from "react-router-dom"
-import LoginPageComponent from "./Pages/LoginPageComponent"
-import MainPageComponent from "./Pages/MainPageComponent"
-import HomePageComponent from "./Pages/HomePageComponent"
-import DescriptionPageComponent from "./Pages/DescriptionPageComponent"
-import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
-import ErrorPageComponent from "./Pages/ErrorPageComponent"
-import LotComponent from "./Pages/LotComponent"
+
+import { createBrowserRouter } from "react-router-dom";
+import LoginPageComponent from "./Pages/LoginPageComponent";
+import MainPageComponent from "./Pages/MainPageComponent";
+import HomePageComponent from "./Pages/HomePageComponent";
+import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
+import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
+import LotComponent from "./Pages/LotComponent";
+import BadgePageComponent from "./Pages/BadgePageComponent";
 import App from "./App"
 
 const router = createBrowserRouter([
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
     path: "/lot",
     element: <LotComponent />,
   },
-])
+  {
+    // sectiontitle test
+    path: "/badge",
+    element: <BadgePageComponent />,
+  },
+]);
 
 export default router

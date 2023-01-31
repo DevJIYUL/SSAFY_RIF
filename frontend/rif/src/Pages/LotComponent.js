@@ -63,6 +63,7 @@ const LotComponent = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    // 여기다가 박기 큭큭 (로딩중을)
     console.log("modal closed");
   };
 
