@@ -23,6 +23,7 @@ public class Member implements UserDetails {
     @JsonIgnore
     public static final String DEFAULT_PROFILE_IMG = "/profile/default.png";
 
+
     @Id
     private String id; // 학번
 
@@ -81,8 +82,9 @@ public class Member implements UserDetails {
     @JsonIgnore
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
+
 
     @JsonIgnore
     @Override
@@ -112,6 +114,7 @@ public class Member implements UserDetails {
         return true;
     }
     // implement UserDetails end
+
 
     // getter setter
     public String getId() {
@@ -171,6 +174,7 @@ public class Member implements UserDetails {
     public void setProfileImgPath(String profileImgPath) {
         this.profileImgPath = profileImgPath;
     }
+
 
     public Boolean hasBadge(@NotNull Badge badge) {
         return badgeAcqs.containsKey(badge.getId());

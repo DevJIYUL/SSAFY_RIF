@@ -6,6 +6,5 @@ import team.a501.rif.domain.member.Member;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member,String> {
-
     Optional<Member> findByUid(String uid);
 }

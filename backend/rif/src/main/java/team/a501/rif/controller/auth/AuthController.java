@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.a501.rif.domain.auth.Token;
+
 import team.a501.rif.dto.auth.LoginRequest;
 import team.a501.rif.service.auth.AuthService;
 
@@ -20,6 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
 
     // todo security에서 설정해주는 엔드포인트가 있는지 찾아보자
 
@@ -38,7 +40,6 @@ public class AuthController {
                     , token.getAccessToken()
             );
         }
-
         return token;
     }
 }

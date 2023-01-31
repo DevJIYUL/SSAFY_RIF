@@ -1,10 +1,12 @@
 package team.a501.rif.service.member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.member.MemberRegister;
 import team.a501.rif.repository.member.MemberRepository;
