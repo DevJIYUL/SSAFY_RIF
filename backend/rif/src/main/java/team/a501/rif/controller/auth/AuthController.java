@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.a501.rif.domain.auth.Token;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.member.LoginDto;
 import team.a501.rif.service.auth.AuthService;
 
 @RestController
@@ -19,12 +20,13 @@ import team.a501.rif.service.auth.AuthService;
 public class AuthController {
     private final AuthService authService;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+//    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
-    @PostMapping("/login")
-    public Token login(@RequestBody Member member) throws RuntimeException{
-        Token token = authService.login(member.getStudentId(), member.getPassword());
-        if(token.getAccessToken() != null) LOGGER.info("[Auth] 정상적인 로그인. id :{}, token : {}",member.getStudentId(),token.getAccessToken());
+    @PostMapping(value = "/login")
+    public Token login(@RequestBody LoginDto loginDto){
+        log.info("login info={}",loginDto);
+        Token token = authService.login(loginDto.getStudentId(), loginDto.getPassword());
+        if(token.getAccessToken() != null) log.info("[Auth] 정상적인 로그인. id :{}, token : {}",loginDto.getStudentId(),token.getAccessToken());
         return token;
     }
 }

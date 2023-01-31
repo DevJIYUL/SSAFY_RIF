@@ -21,14 +21,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class Member implements UserDetails {
+
 
     @Id
     private String id;
-
     private String studentId; // 학번
 
     private String password;
@@ -53,13 +52,25 @@ public class Member implements UserDetails {
     @JsonIgnore
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
+    }
+
+    @Builder
+    public Member(String id, String studentId, String password, String name, Integer point, Integer exp, String profileImgPath, List<Role> roles) {
+        this.id = id;
+        this.studentId = studentId;
+        this.password = password;
+        this.name = name;
+        this.point = point;
+        this.exp = exp;
+        this.profileImgPath = profileImgPath;
+        this.roles = new ArrayList<>();
     }
 
     @JsonIgnore
     @Override
     public String getUsername() {
-        return id;
+        return studentId;
     }
 
     @JsonIgnore
@@ -85,6 +96,10 @@ public class Member implements UserDetails {
     }
 //    todo 필드 유효성 검사
 
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getId() {
         return id;
@@ -132,5 +147,18 @@ public class Member implements UserDetails {
 
     public void setProfileImgPath(String profileImgPath) {
         this.profileImgPath = profileImgPath;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id='" + id + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", point=" + point +
+                ", exp=" + exp +
+                ", profileImgPath='" + profileImgPath + '\'' +
+                '}';
     }
 }

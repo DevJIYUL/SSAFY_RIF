@@ -8,11 +8,11 @@ import java.util.UUID;
 @Data
 public class MemberSaveDto {
     private String studentId;
+    private String uid;
 
     private String password;
 
     private String name;
-
     public Member toEntity() {
         return Member.builder()
                 .id(UUID.randomUUID().toString())

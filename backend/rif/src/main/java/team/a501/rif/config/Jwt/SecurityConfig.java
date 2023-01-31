@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers().hasRole("USER")
-                .antMatchers("/member").permitAll() // 모든 요청을 허가할 것
+                .antMatchers("/member","/auth/login").permitAll() // 모든 요청을 허가할 것
 
                 .and()
 
