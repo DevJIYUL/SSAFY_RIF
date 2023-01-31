@@ -1,3 +1,4 @@
+
 import { createBrowserRouter } from "react-router-dom";
 import LoginPageComponent from "./Pages/LoginPageComponent";
 import MainPageComponent from "./Pages/MainPageComponent";
@@ -6,13 +7,13 @@ import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
 import LotComponent from "./Pages/LotComponent";
 import BadgePageComponent from "./Pages/BadgePageComponent";
-import TestComponent from "./Pages/TestComponent";
+import App from "./App"
 
 const router = createBrowserRouter([
   {
-    // main page
     path: "/",
-    element: <MainPageComponent />,
+    element: <App />,
+    errorElement: <ErrorPageComponent />,
   },
   {
     // LoginPage
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
     // HomePage
     path: "/home",
     element: <HomePageComponent />,
+  },
+  {
+    // MainPage
+    path: "/index",
+    element: <MainPageComponent />,
   },
   {
     // Description Page (why RIF?)
@@ -44,11 +50,6 @@ const router = createBrowserRouter([
     path: "/badge",
     element: <BadgePageComponent />,
   },
-  {
-    //test
-    path: "/test",
-    element: <TestComponent />,
-  },
 ]);
 
-export default router;
+export default router

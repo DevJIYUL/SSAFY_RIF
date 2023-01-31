@@ -1,22 +1,44 @@
-import loginAPI from "../API/loginAPI"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { loginHandler } from "../store/auth"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 const LoginPageComponent = () => {
-  const [id, setId] = useState("")
-  const [password, setPassword] = useState("")
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [userInputId, setUserInputId] = useState("")
+  const [userInputPassword, setUserInputPassword] = useState("")
+  const status = useSelector((state) => state.ui.notification.status)
+  const token = useSelector((state) => state.auth.authentication.token)
 
   const idChangeHandler = (event) => {
-    setId(event.target.value)
+    setUserInputId(event.target.value)
   }
   const passwordChangeHandler = (event) => {
-    setPassword(event.target.value)
+    setUserInputPassword(event.target.value)
   }
 
-  const formSubmitHandler = (event) => {
+  function formSubmitHandler(event) {
     event.preventDefault()
-    console.log("submit")
-    const response = loginAPI(id, password)
-    response.then((res) => console.log(res))
+    dispatch(loginHandler({ userInputId, userInputPassword }))
+  }
+
+  useEffect(() => {
+    if (token) {
+      navigate("/index")
+    }
+  }, [token, navigate])
+
+  let btnMessage
+
+  if (!status) {
+    btnMessage = "로그인"
+  } else if (status === "pending") {
+    btnMessage = "로그인 중 .."
+  } else if (status === "success") {
+    btnMessage = "로그인 성공!"
+  } else {
+    btnMessage = "로그인 실패"
   }
 
   return (
@@ -27,7 +49,7 @@ const LoginPageComponent = () => {
           type="text"
           name="id"
           id="id"
-          value={id}
+          value={userInputId}
           onChange={idChangeHandler}
           style={{ display: "block" }}
         />
@@ -35,11 +57,11 @@ const LoginPageComponent = () => {
           type="password"
           name="password"
           id="password"
-          value={password}
+          value={userInputPassword}
           onChange={passwordChangeHandler}
           style={{ display: "block" }}
         />
-        <button type="submit">로그인</button>
+        <button type="submit">{btnMessage}</button>
       </form>
     </div>
   )

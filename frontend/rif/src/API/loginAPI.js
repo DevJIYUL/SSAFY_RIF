@@ -1,6 +1,7 @@
 import axiosInterface from "./axiosInterface"
 
 /** Response status code in RIF is 200 or 401.
+ * This function is needed id, password.
  */
 async function loginAPI(id, password) {
   const response = await axiosInterface("post", "user/login", { id, password })
