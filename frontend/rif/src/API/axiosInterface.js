@@ -18,7 +18,7 @@ export default async function axiosInterface(
   let response = await axios({
     method: method,
     url: url,
-    baseURL: "https://b2c3c2d1-f354-474e-9dde-b77aa00f4dfc.mock.pstmn.io/api",
+    baseURL: "https://b2c3c2d1-f354-474e-9dde-b77aa00f4dfc.mock.pstmn.io/",
     data: data,
     headers: headers,
     params: params,
