@@ -1,33 +1,33 @@
-import { useSelector, useDispatch } from "react-redux"
-import {} from "@reduxjs/toolkit"
-import React, { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { mainPageRequestHandler } from "../store/getUserInfo"
+import { useSelector, useDispatch } from "react-redux";
+import {} from "@reduxjs/toolkit";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { mainPageRequestHandler } from "../store/getUserInfo";
 
-let isInitial = true
+let isInitial = true;
 
 const MainPageComponent = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const token = useSelector((state) => state.auth.authentication.token)
-  const id = useSelector((state) => state.auth.authentication.id)
-  const userInfo = useSelector((state) => state.user.userInfo)
-  const userRefBadges = useSelector((state) => state.user.userRefBadges)
+  const token = useSelector((state) => state.auth.authentication.token);
+  const id = useSelector((state) => state.auth.authentication.id);
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const userRefBadges = useSelector((state) => state.user.userRefBadges);
   const userRefAchievements = useSelector(
     (state) => state.user.userRefAchievements
-  )
+  );
 
   useEffect(() => {
     if (isInitial) {
       if (!token) {
-        navigate("/login")
-        return
+        navigate("/login");
+        return;
       }
-      isInitial = false
-      dispatch(mainPageRequestHandler(id))
+      isInitial = false;
+      dispatch(mainPageRequestHandler(id));
     }
-  }, [token, id, navigate, dispatch])
+  }, [token, id, navigate, dispatch]);
 
   return (
     <div>
@@ -57,7 +57,7 @@ const MainPageComponent = () => {
           )
         : null}
     </div>
-  )
-}
+  );
+};
 
-export default MainPageComponent
+export default MainPageComponent;
