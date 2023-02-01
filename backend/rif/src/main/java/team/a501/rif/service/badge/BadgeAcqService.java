@@ -7,6 +7,6 @@ import java.util.List;
 public interface BadgeAcqService {
 
     BadgeAcq save(String memberId, Long badgeId) ;
-
+    List<BadgeAcq> findByMemberId(String memberId);
     List<BadgeAcq> findByMemberUid(String memberUid);
 }

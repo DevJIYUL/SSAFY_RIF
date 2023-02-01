@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.a501.rif.domain.auth.Token;
 
 import team.a501.rif.dto.auth.LoginRequest;
@@ -17,6 +14,7 @@ import team.a501.rif.service.auth.AuthService;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @Slf4j
+@CrossOrigin("*")
 public class AuthController {
     private final AuthService authService;
 
