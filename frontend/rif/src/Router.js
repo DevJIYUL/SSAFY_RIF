@@ -5,7 +5,7 @@ import HomePageComponent from "./Pages/HomePageComponent";
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
 import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
 import ErrorPageComponent from "./Pages/ErrorPageComponent";
-import LotComponent from "./Pages/LotComponent";
+import LotPageComponent from "./Pages/LotPageComponent";
 import UserSearchComponent from "./Pages/UserSearchComponent";
 import BadgePageComponent from "./Pages/BadgePageComponent";
 import RankingPageComponent from "./Pages/RankingPageComponent";
