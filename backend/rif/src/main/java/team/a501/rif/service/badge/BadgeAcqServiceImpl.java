@@ -5,36 +5,34 @@ import org.springframework.stereotype.Service;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.exception.NoSuchEntityException;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
-import team.a501.rif.repository.member.MemberRepository;
+import team.a501.rif.service.member.MemberService;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
 public class BadgeAcqServiceImpl implements BadgeAcqService{
 
     private final BadgeAcqRepository badgeAcqRepository;
-    private final MemberRepository memberRepository;
     private final BadgeRepository badgeRepository;
+    private final MemberService memberService;
 
     @Override
     @Transactional
     public BadgeAcq save(String memberId, Long badgeId) {
 
 
-        Member member = memberRepository
-                .findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 memberId를 갖는 member를 찾을 수 없습니다"));
+        Member member = memberService.findById(memberId);
 
 //        tempMember.getBadgeAcqs().containsKey(badgeId) 중복되는 뱃지를 가지고 있다
 
         Badge badge = badgeRepository
                 .findById(badgeId)
-                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 badgeI를 갖는 badge를 찾을 수 없습니다"));
+                .orElseThrow(() -> new NoSuchEntityException(Badge.class.getName()));
 
         BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
 
@@ -46,11 +44,18 @@ public class BadgeAcqServiceImpl implements BadgeAcqService{
 
     @Override
     @Transactional
+    public List<BadgeAcq> findByMemberId(String memberId) {
+
+        Member member = memberService.findById(memberId);
+
+        return badgeAcqRepository.findByMember(member);
+    }
+
+    @Override
+    @Transactional
     public List<BadgeAcq> findByMemberUid(String memberUid){
 
-        Member member = memberRepository
-                .findByUid(memberUid)
-                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 studentId를 갖는 멤버가 없습니다"));
+        Member member = memberService.findByUid(memberUid);
 
         return badgeAcqRepository.findByMember(member);
     }

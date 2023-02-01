@@ -25,7 +25,7 @@ public class Achievement {
     private String description;
 
     @Column(length = 40)
-    private String achievementImgPath;
+    private String imgPath;
 
     @OneToMany(mappedBy = "achievement")
     private List<AchievementAcq> achievementAcqs;
@@ -35,7 +35,7 @@ public class Achievement {
         this.tier = tier;
         this.title = title;
         this.description = description;
-        this.achievementImgPath = achievementImgPath;
+        this.imgPath = achievementImgPath;
         this.achievementAcqs = new ArrayList<>();
     }
 
@@ -67,12 +67,12 @@ public class Achievement {
         this.description = description;
     }
 
-    public String getAchievementImgPath() {
-        return achievementImgPath;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setAchievementImgPath(String achievementImgPath) {
-        this.achievementImgPath = achievementImgPath;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public List<AchievementAcq> getAchievementAcqs() {
@@ -91,6 +91,6 @@ public class Achievement {
 
     @Override
     public String toString() {
-        return "Achievement{" + "\n id=" + id + ",\n title='" + title + '\'' + ",\n description='" + description + '\'' + ",\n achievementImgPath='" + achievementImgPath + '\'' + "\n}";
+        return "Achievement{" + "\n id=" + id + ",\n title='" + title + '\'' + ",\n description='" + description + '\'' + ",\n achievementImgPath='" + imgPath + '\'' + "\n}";
     }
 }

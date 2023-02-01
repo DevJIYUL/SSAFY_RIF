@@ -1,12 +1,10 @@
 package team.a501.rif.domain.achievement;
 
-import lombok.NoArgsConstructor;
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
 public class AchievementAcq extends BaseEntity {
 
@@ -25,6 +23,10 @@ public class AchievementAcq extends BaseEntity {
     // todo 업적이 삭제 되더라도 멤버가 삭제되지 않았다면 Null로 대체 되거나 디폴트 값으로 변경?
     @ManyToOne(fetch = FetchType.LAZY)
     private Achievement achievement;
+
+    public AchievementAcq() {
+        onDisplay = false;
+    }
 
     public Long getId() {
         return id;
