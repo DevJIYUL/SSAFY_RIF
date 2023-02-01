@@ -1,14 +1,13 @@
 package team.a501.rif.service.member;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.MemberRegister;
+import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.repository.member.MemberRepository;
 
 import javax.transaction.Transactional;
@@ -23,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member register(MemberRegister memberRegister) {
+    public Member register(MemberRegisterRequest memberRegister) {
         return memberRepository.save(Member.builder()
                 .id(memberRegister.getId())
                 .password(passwordEncoder.encode(memberRegister.getPassword()))
@@ -33,6 +32,20 @@ public class MemberServiceImpl implements MemberService {
                 .exp(0)
                 .profileImgPath(Member.DEFAULT_PROFILE_IMG)
                 .build());
+    }
+
+    @Override
+    public Member findByUid(String uid) {
+        return memberRepository
+                .findByUid(uid)
+                .orElseThrow(() -> new NoSuchElementException("해당하는 Uid로 멤버를 찾을 수 없습니다"));
+    }
+
+    @Override
+    public Member findById(String id) {
+        return memberRepository
+                .findById(id)
+                .orElseThrow(() -> new NoSuchElementException("해당하는 Id로 멤버를 찾을 수 없습니다"));
     }
 
     @Override
@@ -54,6 +67,26 @@ public class MemberServiceImpl implements MemberService {
         }
 
         memberRepository.delete(member);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(String id){
+
+        Member member = memberRepository
+                .findById(id)
+                .orElseThrow(() -> new NoSuchElementException("해당 Id로 멤버를 찾을 수 없습니다"));
+
+        for(var acq: member.getBadgeAcqs().values()){
+            acq.getBadge().removeBadgeAcq(acq);
+        }
+
+        for(var acq: member.getAchievementAcqs().values()){
+            acq.getAchievement().removeAchievementAcq(acq);
+        }
+
+        memberRepository.delete(member);
+
     }
 
     @Override

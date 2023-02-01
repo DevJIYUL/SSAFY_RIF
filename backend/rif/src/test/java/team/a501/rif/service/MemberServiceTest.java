@@ -10,7 +10,7 @@ import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.MemberRegister;
+import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
@@ -52,7 +52,7 @@ class MemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        Member member = memberService.register(MemberRegister.builder()
+        Member member = memberService.register(MemberRegisterRequest.builder()
                 .id(studentId)
                 .password(password)
                 .name(name)
@@ -92,7 +92,7 @@ class MemberServiceTest {
         Integer exp = 0;
         String profileImgPath = "/profile/default.png";
 
-        Member member = memberService.register(MemberRegister
+        Member member = memberService.register(MemberRegisterRequest
                 .builder()
                 .id(studentId)
                 .password(password)
