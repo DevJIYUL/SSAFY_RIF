@@ -10,4 +10,6 @@ import lombok.*;
 public class Token {
     private String grantType;
     private String accessToken;
+
+    private String id;
 }
