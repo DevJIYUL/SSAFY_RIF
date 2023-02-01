@@ -1,30 +1,31 @@
-import { useState } from "react";
-import BadgeInfoComponent from "./BadgeInfoComponent";
+import { useState } from "react"
+import BadgeInfoComponent from "./BadgeInfoComponent"
 
 const RewardItemComponent = (props) => {
-  const { badge, hasBadge, onDisplay } = props.badge;
+  const { badge, hasBadge, onDisplay } = props.badge
+  console.log(props.badge)
 
-  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" };
-  const displayStyle = { border: "5px solid #FFD600", borderRadius: "150px" };
+  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" }
+  const displayStyle = { border: "5px solid #FFD600", borderRadius: "150px" }
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false)
   const handleModalOpen = () => {
     // open modal component
-    setModalOpen(true);
-    console.log("modal opened");
-  };
+    setModalOpen(true)
+    console.log("modal opened")
+  }
 
   const handleModalClose = () => {
     // close modal component
-    setModalOpen(false);
-    console.log("modal closed");
-  };
+    setModalOpen(false)
+    console.log("modal closed")
+  }
 
-  let style = {};
+  let style = {}
   if (!hasBadge) {
-    style = NotHasStyle;
+    style = NotHasStyle
   } else if (onDisplay) {
-    style = displayStyle;
+    style = displayStyle
   }
 
   return (
@@ -43,7 +44,7 @@ const RewardItemComponent = (props) => {
         height="75px"
       />
     </div>
-  );
-};
+  )
+}
 
-export default RewardItemComponent;
+export default RewardItemComponent
