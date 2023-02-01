@@ -1,6 +1,6 @@
 import axiosInterface from "./axiosInterface";
 
-async function changeProfileInfo(profileImgPathId, nickname, token) {
+async function changeProfileInfoAPI(profileImgPathId, nickname, token) {
   const data = {
     profileImgPathId,
     nickname,
@@ -21,4 +21,4 @@ async function changeProfileInfo(profileImgPathId, nickname, token) {
   return response.response;
 }
 
-export default changeProfileInfo;
+export default changeProfileInfoAPI;
