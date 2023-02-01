@@ -4,6 +4,10 @@ import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { mainPageRequestHandler } from "../store/getUserInfo"
 
+// Temporary import
+import { Link } from "react-router-dom"
+import BtnComponent from "../UI/BtnComponent"
+
 let isInitial = true
 
 const MainPageComponent = () => {
@@ -31,6 +35,9 @@ const MainPageComponent = () => {
 
   return (
     <div>
+      <Link to="/lot" style={{ textDecoration: "none" }}>
+        <BtnComponent> 로또 컴포넌트 </BtnComponent>
+      </Link>
       {userInfo
         ? Object.entries(userInfo).map(([key, value]) => (
             <p key={key}>

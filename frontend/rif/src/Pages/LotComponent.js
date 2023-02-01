@@ -1,42 +1,42 @@
-import PageChangerComponent from "../UI/PageChangerComponent";
-import BtnComponent from "../UI/BtnComponent";
+import PageChangerComponent from "../UI/PageChangerComponent"
+import BtnComponent from "../UI/BtnComponent"
 import {
   Grid,
   Dialog,
   DialogTitle,
   DialogContentText,
   DialogContent,
-} from "@mui/material";
-import React, { useEffect } from "react";
-import getUserInfoAPI from "../API/getUserInfoAPI";
-import LottoAPI from "../API/LottoAPI";
+} from "@mui/material"
+import React, { useEffect } from "react"
+import LottoAPI from "../API/LottoAPI"
+import { useSelector } from "react-redux"
 
 const LotDialog = (props) => {
   const [badge, setBadge] = React.useState({
     badgeTitle: "로딩 중",
     badgeDesc: "로딩 중",
-  });
+  })
 
   useEffect(() => {
     if (props.open === true) {
       // when Dialog opened
-      const apiResponse = LottoAPI();
+      const apiResponse = LottoAPI()
       apiResponse.then((res) => {
         const lotResult = {
           badgeTitle: res.data.badge.title,
           badgeDesc: res.data.badge.description,
-        };
-        setBadge(lotResult);
-      });
+        }
+        setBadge(lotResult)
+      })
     }
     return () => {
       const lotResult = {
         badgeTitle: "로딩 중",
         badgeDesc: "로딩 중",
-      };
-      setBadge(lotResult);
-    };
-  }, [props.open]);
+      }
+      setBadge(lotResult)
+    }
+  }, [props.open])
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth={"sm"}>
@@ -51,34 +51,22 @@ const LotDialog = (props) => {
         확인
       </BtnComponent>
     </Dialog>
-  );
-};
+  )
+}
 
 const LotComponent = () => {
   // state to control modal dialog
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const handleOpen = () => {
-    setOpen(true);
-    console.log("modal opened");
-  };
+    setOpen(true)
+    console.log("modal opened")
+  }
   const handleClose = () => {
-    setOpen(false);
-    // 여기다가 박기 큭큭 (로딩중을)
-    console.log("modal closed");
-  };
+    setOpen(false)
+    console.log("modal closed")
+  }
 
-  // state to control userPoints
-  const [userPoint, setPoint] = React.useState(0);
-
-  useEffect(() => {
-    const tempUserId = "0844232"; // redux 들어오면, 유저 아이디로 변환
-
-    const apiResponse = getUserInfoAPI(tempUserId);
-    apiResponse.then((res) => {
-      setPoint(res.data.point);
-      console.log("LotComopnent Mounted");
-    });
-  }, []);
+  let userPoint = useSelector((state) => state.user.userInfo.point)
 
   return (
     <div>
@@ -110,7 +98,7 @@ const LotComponent = () => {
       </Grid>
       <LotDialog open={open} onClose={handleClose}></LotDialog>
     </div>
-  );
-};
+  )
+}
 
-export default LotComponent;
+export default LotComponent
