@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { mainPageRequestHandler } from "../store/getUserInfo";
-import changeProfileInfo from "../API/changeProfileInfo";
+import changeProfileInfoAPI from "../API/changeProfileInfoAPI";
 import { useNavigate } from "react-router-dom";
 
 const ChangeProfilePageComponent = () => {
@@ -35,7 +35,7 @@ const ChangeProfilePageComponent = () => {
     event.preventDefault();
     async function changeProfileRequest(profileImgPathId, nickname, token) {
       try {
-        const response = await changeProfileInfo(
+        const response = await changeProfileInfoAPI(
           profileImgPathId,
           nickname,
           token
