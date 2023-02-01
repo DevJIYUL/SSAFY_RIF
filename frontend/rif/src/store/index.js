@@ -3,6 +3,7 @@ import UISlice from "./UISlice"
 import authSlice from "./auth"
 import userInfoSlice from "./getUserInfo"
 import searchResultSlice from "./searchResultSlice"
+import lottoSlice from "./lottoSlice"
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     auth: authSlice.reducer,
     user: userInfoSlice.reducer,
     search: searchResultSlice.reducer,
+    lotto: lottoSlice.reducer,
   },
 })
 

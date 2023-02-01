@@ -7,44 +7,21 @@ import {
   DialogContentText,
   DialogContent,
 } from "@mui/material"
-import React, { useEffect } from "react"
-import LottoAPI from "../API/LottoAPI"
-import { useSelector } from "react-redux"
+import React from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice"
 
 const LotDialog = (props) => {
-  const [badge, setBadge] = React.useState({
-    badgeTitle: "로딩 중",
-    badgeDesc: "로딩 중",
-  })
-
-  useEffect(() => {
-    if (props.open === true) {
-      // when Dialog opened
-      const apiResponse = LottoAPI()
-      apiResponse.then((res) => {
-        const lotResult = {
-          badgeTitle: res.data.badge.title,
-          badgeDesc: res.data.badge.description,
-        }
-        setBadge(lotResult)
-      })
-    }
-    return () => {
-      const lotResult = {
-        badgeTitle: "로딩 중",
-        badgeDesc: "로딩 중",
-      }
-      setBadge(lotResult)
-    }
-  }, [props.open])
+  const badgeTitle = useSelector((state) => state.lotto.badgeTitle)
+  const badgeDesc = useSelector((state) => state.lotto.badgeDesc)
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth={"sm"}>
       <DialogTitle sx={{ textAlign: "center" }}> 뽑기 결과 </DialogTitle>
       <DialogContent>
-        <h1 style={{ textAlign: "center" }}> {badge.badgeTitle} </h1>
+        <h1 style={{ textAlign: "center" }}> {badgeTitle} </h1>
         <DialogContentText>
-          <span style={{ textAlign: "center" }}> {badge.badgeDesc} </span>
+          <span style={{ textAlign: "center" }}> {badgeDesc} </span>
         </DialogContentText>
       </DialogContent>
       <BtnComponent onClick={props.onClose} color="secondary">
@@ -57,16 +34,21 @@ const LotDialog = (props) => {
 const LotComponent = () => {
   // state to control modal dialog
   const [open, setOpen] = React.useState(false)
-  const handleOpen = () => {
-    setOpen(true)
-    console.log("modal opened")
-  }
-  const handleClose = () => {
-    setOpen(false)
-    console.log("modal closed")
-  }
+  const dispatch = useDispatch()
 
   let userPoint = useSelector((state) => state.user.userInfo.point)
+
+  const modelOpenHandler = () => {
+    setOpen(true)
+    console.log("modal opened")
+    dispatch(lotteryOpenHandler())
+  }
+
+  const modelCloseHandler = () => {
+    setOpen(false)
+    console.log("modal closed")
+    dispatch(lotteryCloseHandler())
+  }
 
   return (
     <div>
@@ -89,14 +71,14 @@ const LotComponent = () => {
         <Grid item className="grid-buttons">
           <BtnComponent
             color="secondary"
-            onClick={handleOpen}
+            onClick={modelOpenHandler}
             disabled={userPoint < 100 ? true : false}
           >
             뽑기
           </BtnComponent>
         </Grid>
       </Grid>
-      <LotDialog open={open} onClose={handleClose}></LotDialog>
+      <LotDialog open={open} onClose={modelCloseHandler}></LotDialog>
     </div>
   )
 }
