@@ -10,6 +10,7 @@ import UserSearchComponent from "./Pages/UserSearchComponent";
 import BadgePageComponent from "./Pages/BadgePageComponent";
 import RankingPageComponent from "./Pages/RankingPageComponent";
 import ChangeProfilePageComponent from "./Pages/ChangeProfilePageComponent";
+import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent";
 import App from "./App";
 
 const router = createBrowserRouter([
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
     // Change Profile Component
     path: "/change-profile",
     element: <ChangeProfilePageComponent />,
+  },
+  {
+    // Change Password Page Component
+    path: "/change-password",
+    element: <ChangePasswordPageComponent />,
   },
 ]);
 
