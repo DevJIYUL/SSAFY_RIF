@@ -1,0 +1,134 @@
+spring:
+  profiles:
+    active: local
+
+--- # local
+spring:
+  config:
+    activate:
+      on-profile: local # todo 스프링부트 버젼이 달라지면서 변경되었다
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/rif
+    username: root
+    password: root
+
+  jpa:
+    open-in-view: true
+
+    hibernate:
+      ddl-auto: create # 실행할 때마다 스키마 초기화
+
+    properties:
+      hibernate:
+        format_sql: true # hibernate가 생성한 쿼리를 정리해준다
+
+        jdbc:
+          lob:
+            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
+
+        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
+
+security:
+  jwt:
+    token:
+      secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
+      expire: 360000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type.descriptor.sql: trace
+
+--- # dev
+spring:
+  config:
+    activate:
+      on-profile: dev # todo 스프링부트 버젼이 달라지면서 변경되었다
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/rif
+    username: root
+    password: root
+
+  jpa:
+    open-in-view: true
+
+    hibernate:
+      ddl-auto: create # 실행할 때마다 스키마 초기화
+
+    properties:
+      hibernate:
+        format_sql: true # hibernate가 생성한 쿼리를 정리해준다
+
+        jdbc:
+          lob:
+            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
+
+        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
+
+security:
+  jwt:
+    token:
+      secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
+      expire: 360000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type.descriptor.sql: trace
+
+--- # prod
+spring:
+  config:
+    activate:
+      on-profile: prod # todo 스프링부트 버젼이 달라지면서 변경되었다
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/rif
+    username: root
+    password: root
+
+  jpa:
+    open-in-view: true
+
+    hibernate:
+      ddl-auto: none # 실행할 때마다 스키마 초기화
+
+    properties:
+      hibernate:
+        format_sql: true # hibernate가 생성한 쿼리를 정리해준다
+
+        jdbc:
+          lob:
+            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
+
+        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
+
+security:
+  jwt:
+    token:
+      secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
+      expire: 360000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type.descriptor.sql: trace
+...
+
