@@ -47,7 +47,7 @@ const router = createBrowserRouter([
   {
     // Lotto Component
     path: "/lot",
-    element: <LotComponent />,
+    element: <LotPageComponent />,
   },
   {
     // User Search Component
