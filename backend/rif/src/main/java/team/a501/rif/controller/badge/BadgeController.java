@@ -11,6 +11,7 @@ import team.a501.rif.repository.badge.BadgeRepository;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin("*")
 public class BadgeController {
 
     private final BadgeRepository badgeRepository;
