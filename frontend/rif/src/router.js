@@ -15,12 +15,13 @@ import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent"
 import LogPageComponent from "./Pages/LogPageComponent"
 import AchievementPageComponent from "./Pages/AchievementPageComponent"
 import RootLayOut from "./UI/RootLayOut"
+import RewardComponent from "./Components/RewardComponent"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayOut />,
-    errorElement: <ErrorPageComponent />,
+    // errorElement: <ErrorPageComponent />,
     children: [
       {
         // LoginPage
@@ -87,6 +88,11 @@ const router = createBrowserRouter([
         // Achievement Page Component
         path: "/achievement",
         element: <AchievementPageComponent />,
+      },
+      {
+        // TEMP
+        path: "/temp",
+        element: <RewardComponent />,
       },
     ],
   },

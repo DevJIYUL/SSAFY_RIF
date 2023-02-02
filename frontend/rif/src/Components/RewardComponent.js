@@ -1,32 +1,53 @@
-import RewardItemComponent from "./RewardItemComponent";
-import getBadgesAPI from "../API/getBadgesAPI";
-import { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import RewardItemComponent from "./RewardItemComponent"
+import getBadgesAPI from "../API/getBadgesAPI"
+import getAchievementsAPI from "../API/getAchievementsAPI"
+import { useState, useEffect } from "react"
+import { Grid } from "@mui/material"
+
+async function APIHandler(type) {
+  let totalRewards
+  let hasReward
+
+  if (type === "badge") {
+    const apiResponse = getBadgesAPI("testaccestoken")
+    apiResponse.then((res) => {
+      totalRewards = res.data.totalBadge
+    })
+    hasReward = "hasBadge"
+  } else if (type === "achievement") {
+    const apiResponse = getAchievementsAPI("testaccestoken")
+    apiResponse.then((res) => {
+      totalRewards = res.data.totalachievement
+    })
+    hasReward = "hasAchievement"
+  }
+
+  return { totalRewards, hasReward }
+}
 
 const RewardComponent = (props) => {
   // states
-  const [badges, setBadges] = useState([]);
+  const [rewards, setRewards] = useState([])
+  const type = props.type
 
   // when mounted
-  useEffect(() => {
-    const apiResponse = getBadgesAPI("testaccesstoken");
-    apiResponse.then((res) => {
-      const totalBadges = res.data.totalBadge; // get all badges\
+  useEffect(async () => {
+    const { totalRewards, hasReward } = await APIHandler(type)
+    console.log("total reward", totalRewards)
 
-      const tempBadgesHas = [];
-      const tempBadgesNotHas = [];
+    const tempRewardsHas = []
+    const tempRewardsNotHas = []
 
-      for (const badgeInfo of totalBadges) {
-        if (badgeInfo.hasBadge) {
-          tempBadgesHas.push(badgeInfo);
-        } else {
-          tempBadgesNotHas.push(badgeInfo);
-        }
+    for (const rewardInfo of totalRewards) {
+      if (rewardInfo[hasReward]) {
+        tempRewardsHas.push(rewardInfo)
+      } else {
+        tempRewardsNotHas.push(rewardInfo)
       }
+    }
 
-      setBadges(tempBadgesHas.concat(tempBadgesNotHas));
-    });
-  }, []);
+    setRewards(tempRewardsHas.concat(tempRewardsNotHas))
+  }, [type])
 
   return (
     <div>
@@ -36,7 +57,7 @@ const RewardComponent = (props) => {
         sx={{ display: "flex", margin: "auto" }}
         spacing={1}
       >
-        {badges.map((value, index) => {
+        {rewards.map((value, index) => {
           return (
             <Grid
               item
@@ -49,11 +70,11 @@ const RewardComponent = (props) => {
             >
               <RewardItemComponent badge={value}></RewardItemComponent>
             </Grid>
-          );
+          )
         })}
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default RewardComponent;
+export default RewardComponent

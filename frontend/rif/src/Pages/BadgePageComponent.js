@@ -1,7 +1,6 @@
 import PageChangerComponent from "../UI/PageChangerComponent"
 import SectionTitleComponent from "../UI/SectionTitleComponent"
 import { Grid } from "@mui/material"
-// import RewardItemComponent from "../Components/RewardItemComponent";
 import RewardComponent from "../Components/RewardComponent"
 
 const BadgePageComponent = () => {
@@ -20,7 +19,7 @@ const BadgePageComponent = () => {
           sectionDetail="정렬"
         ></SectionTitleComponent>
 
-        <RewardComponent></RewardComponent>
+        <RewardComponent type="badge"></RewardComponent>
       </Grid>
     </div>
   )
