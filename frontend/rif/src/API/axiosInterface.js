@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 /** axiosInterface is using axios module.
  * It's just help to fetch easly axios's argument.
@@ -24,7 +24,7 @@ export default async function axiosInterface(
     params: params,
   })
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => err);
 
-  return response
+  return response;
 }
