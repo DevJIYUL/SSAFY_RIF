@@ -12,6 +12,7 @@ import BadgePageComponent from "./Pages/BadgePageComponent"
 import RankingPageComponent from "./Pages/RankingPageComponent"
 import ChangeProfilePageComponent from "./Pages/ChangeProfilePageComponent"
 import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent"
+import LogPageComponent from "./Pages/LogPageComponent"
 import RootLayOut from "./UI/RootLayOut"
 
 const router = createBrowserRouter([
@@ -75,6 +76,11 @@ const router = createBrowserRouter([
         // Change Password Page Component
         path: "/change-password",
         element: <ChangePasswordPageComponent />,
+      },
+      {
+        // Log Page Component
+        path: "/log",
+        element: <LogPageComponent />,
       },
     ],
   },
