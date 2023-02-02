@@ -1,17 +1,18 @@
-import { createBrowserRouter } from "react-router-dom";
-import LoginPageComponent from "./Pages/LoginPageComponent";
-import MainPageComponent from "./Pages/MainPageComponent";
-import HomePageComponent from "./Pages/HomePageComponent";
-import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
-import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
-import ErrorPageComponent from "./Pages/ErrorPageComponent";
-import LotComponent from "./Pages/LotComponent";
-import UserSearchComponent from "./Pages/UserSearchComponent";
-import BadgePageComponent from "./Pages/BadgePageComponent";
-import RankingPageComponent from "./Pages/RankingPageComponent";
-import ChangeProfilePageComponent from "./Pages/ChangeProfilePageComponent";
-import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent";
-import App from "./App";
+import { createBrowserRouter } from "react-router-dom"
+import LoginPageComponent from "./Pages/LoginPageComponent"
+import MainPageComponent from "./Pages/MainPageComponent"
+import HomePageComponent from "./Pages/HomePageComponent"
+import DescriptionPageComponent from "./Pages/DescriptionPageComponent"
+import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo"
+import ErrorPageComponent from "./Pages/ErrorPageComponent"
+import LotPageComponent from "./Pages/LotPageComponent"
+import UserSearchComponent from "./Pages/UserSearchComponent"
+import BadgePageComponent from "./Pages/BadgePageComponent"
+import RankingPageComponent from "./Pages/RankingPageComponent"
+import ChangeProfilePageComponent from "./Pages/ChangeProfilePageComponent"
+import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent"
+import LogPageComponent from "./Pages/LogPageComponent"
+import App from "./App"
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
   {
     // Lotto Component
     path: "/lot",
-    element: <LotComponent />,
+    element: <LotPageComponent />,
   },
   {
     // User Search Component
@@ -74,6 +75,11 @@ const router = createBrowserRouter([
     path: "/change-password",
     element: <ChangePasswordPageComponent />,
   },
-]);
+  {
+    // Log Page Component
+    path: "/log",
+    element: <LogPageComponent />,
+  },
+])
 
-export default router;
+export default router
