@@ -38,6 +38,9 @@ const MainPageComponent = () => {
       <Link to="/lot" style={{ textDecoration: "none" }}>
         <BtnComponent> 로또 컴포넌트 </BtnComponent>
       </Link>
+      <Link to="/log" style={{ textDecoration: "none" }}>
+        <BtnComponent> 로그 컴포넌트 </BtnComponent>
+      </Link>
       {userInfo
         ? Object.entries(userInfo).map(([key, value]) => (
             <p key={key}>
