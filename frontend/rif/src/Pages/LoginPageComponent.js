@@ -26,7 +26,7 @@ const LoginPageComponent = () => {
 
   useEffect(() => {
     if (token) {
-      navigate("/index");
+      navigate("/main");
     }
   }, [token, navigate]);
 
