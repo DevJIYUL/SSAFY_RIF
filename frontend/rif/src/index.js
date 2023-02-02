@@ -1,20 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import router from "./Router";
-import "./index.css";
-// import App from './App';
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import NavigationBar from "./UI/NavigationBar";
 import store from "./store/index";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <RouterProvider router={router} />
-      <NavigationBar />
+      <App />
     </React.StrictMode>
   </Provider>
 );
