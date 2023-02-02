@@ -1,8 +1,8 @@
-import { useSelector, useDispatch } from "react-redux"
-import {} from "@reduxjs/toolkit"
-import React, { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { mainPageRequestHandler } from "../store/getUserInfo"
+import { useSelector, useDispatch } from "react-redux";
+import {} from "@reduxjs/toolkit";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { mainPageRequestHandler } from "../store/getUserInfo";
 
 // Temporary import
 import { Link } from "react-router-dom"
@@ -11,35 +11,32 @@ import BtnComponent from "../UI/BtnComponent"
 let isInitial = true
 
 const MainPageComponent = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const token = useSelector((state) => state.auth.authentication.token)
-  const id = useSelector((state) => state.auth.authentication.id)
-  const userInfo = useSelector((state) => state.user.userInfo)
-  const userRefBadges = useSelector((state) => state.user.userRefBadges)
+  const token = useSelector((state) => state.auth.authentication.token);
+  const id = useSelector((state) => state.auth.authentication.id);
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const userRefBadges = useSelector((state) => state.user.userRefBadges);
   const userRefAchievements = useSelector(
     (state) => state.user.userRefAchievements
-  )
+  );
 
   useEffect(() => {
     if (isInitial) {
       if (!token) {
-        navigate("/login")
-        return
+        navigate("/login");
+        return;
       }
-      isInitial = false
-      dispatch(mainPageRequestHandler(id))
+      isInitial = false;
+      dispatch(mainPageRequestHandler(id));
     }
-  }, [token, id, navigate, dispatch])
+  }, [token, id, navigate, dispatch]);
 
   return (
     <div>
       <Link to="/lot" style={{ textDecoration: "none" }}>
         <BtnComponent> 로또 컴포넌트 </BtnComponent>
-      </Link>
-      <Link to="/log" style={{ textDecoration: "none" }}>
-        <BtnComponent> 로그 컴포넌트 </BtnComponent>
       </Link>
       {userInfo
         ? Object.entries(userInfo).map(([key, value]) => (
@@ -67,7 +64,7 @@ const MainPageComponent = () => {
           )
         : null}
     </div>
-  )
-}
+  );
+};
 
-export default MainPageComponent
+export default MainPageComponent;
