@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Transactional
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Member register(MemberRegisterRequest memberRegister) {
         return memberRepository.save(Member.builder()
                 .id(memberRegister.getId())
@@ -43,6 +44,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void registerAll(List<MemberRegisterRequest> memberRegisterRequests) {
+        for(var e: memberRegisterRequests){
+            memberRepository.save(Member.builder()
+                    .id(e.getId())
+                    .password(passwordEncoder.encode(e.getPassword()))
+                    .uid(e.getUid())
+                    .name(e.getName())
+                    .point(0)
+                    .exp(0)
+                    .profileImgPath(Member.DEFAULT_PROFILE_IMG)
+                    .build());
+            memberRepository.flush();
+        }
+    }
+
+    @Override
+    @Transactional
     public Member findByUid(String uid) {
         return memberRepository
                 .findByUid(uid)
@@ -50,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public Member findById(String id) {
         return memberRepository
                 .findById(id)
@@ -57,6 +76,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException());
@@ -89,6 +109,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void updateDisplayingBadges(String memberId, List<Long> badgeIds) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException());
@@ -109,6 +130,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void deleteByUid(String uid) {
 
         Member member = memberRepository
@@ -129,6 +151,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void deleteById(String id) {
 
         Member member = memberRepository
@@ -148,6 +171,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         UserDetails userDetails = memberRepository

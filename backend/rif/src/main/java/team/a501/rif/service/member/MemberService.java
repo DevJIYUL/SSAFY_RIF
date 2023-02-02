@@ -13,6 +13,8 @@ public interface MemberService extends UserDetailsService {
 
     Member register(MemberRegisterRequest memberRegister);
 
+    void registerAll(List<MemberRegisterRequest> memberRegisterRequests);
+
     Member findByUid(String uid);
 
     Member findById(String id);
