@@ -11,6 +11,7 @@ import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
+import team.a501.rif.domain.riflog.RifLog;
 import team.a501.rif.domain.role.Role;
 
 import javax.persistence.*;
@@ -22,8 +23,6 @@ import java.util.stream.Collectors;
 public class Member implements UserDetails {
     @JsonIgnore
     public static final String DEFAULT_PROFILE_IMG = "/profile/default.png";
-
-
     @Id
     private String id; // 학번
 
@@ -49,6 +48,9 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, AchievementAcq> achievementAcqs;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<RifLog> rifLogs;
+
     @OneToMany(mappedBy = "member")
     private Set<Role> roles;
 
@@ -65,12 +67,12 @@ public class Member implements UserDetails {
 
         this.badgeAcqs = new HashMap<>();
         this.achievementAcqs = new HashMap<>();
+        this.rifLogs = new ArrayList<>();
         this.roles = new HashSet<>();
     }
 
     // implement UserDetails
 
-    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
@@ -79,36 +81,30 @@ public class Member implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    @JsonIgnore
     @Override
     public String getPassword() {
         return this.password;
     }
 
 
-    @JsonIgnore
     @Override
     public String getUsername() {
         return id;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
@@ -161,12 +157,10 @@ public class Member implements UserDetails {
         return profileImgPath;
     }
 
-    @JsonIgnore
     public Map<Long, BadgeAcq> getBadgeAcqs() {
         return badgeAcqs;
     }
 
-    @JsonIgnore
     public Map<Long, AchievementAcq> getAchievementAcqs() {
         return achievementAcqs;
     }
@@ -206,6 +200,31 @@ public class Member implements UserDetails {
 
         acq.setMember(null);
         achievementAcqs.remove(acq.getAchievement().getId());
+    }
+
+    public void setBadgeAcqs(Map<Long, BadgeAcq> badgeAcqs) {
+        this.badgeAcqs = badgeAcqs;
+    }
+
+    public void setAchievementAcqs(Map<Long, AchievementAcq> achievementAcqs) {
+        this.achievementAcqs = achievementAcqs;
+    }
+
+    public List<RifLog> getRifLogs() {
+        return rifLogs;
+    }
+
+    public void addRifLog(RifLog rifLog){
+        rifLog.setMember(this);
+        this.rifLogs.add(rifLog);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
