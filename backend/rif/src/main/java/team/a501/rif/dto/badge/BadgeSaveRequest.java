@@ -6,7 +6,7 @@ import team.a501.rif.domain.badge.Badge;
 
 @NoArgsConstructor
 @Data
-public class BadgeSave {
+public class BadgeSaveRequest {
 
     private final Integer MIN_TIER = 1;
     private final Integer MAX_TIER = 10;
