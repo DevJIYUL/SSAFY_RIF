@@ -1,36 +1,52 @@
-// import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  Equalizer,
+  Search,
+  Home,
+  Person,
+  LocalActivity,
+} from "@mui/icons-material";
+import { useState } from "react";
 
 const NavigationComponent = () => {
-  // const navigate = useNavigate();
-  const navigationBarClickHandler = (event) => {
-    const data = event.target.dataset.navigation;
-    console.log(data);
-  };
+  const [navigateTarget, setNavigateTarget] = useState("");
+  const navigate = useNavigate();
+
+  const navigationURLList = ["search", "ranking", "home", "main", "lot"];
+  const navigationName = ["검색", "랭킹", "홈페이지", "프로필", "뽑기"];
+  const navigationMUIIconList = [
+    <Search />,
+    <Equalizer />,
+    <Home />,
+    <Person />,
+    <LocalActivity />,
+  ];
+
   return (
-    <nav style={{ width: "100%" }}>
-      <ul
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-evenly",
+    <Paper
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      elevation={3}
+    >
+      <BottomNavigation
+        showLabels
+        value={navigateTarget}
+        onChange={(event, newValue) => {
+          console.log(newValue);
+          navigate(`/${newValue}`);
+          setNavigateTarget(newValue);
         }}
       >
-        {["search", "ranking", "home", "main", "lot"].map((value, index) => (
-          <li>
-            <Link to={`/${value}`}>
-              <img
-                src={`navigationbar/${value}.png`}
-                alt={value}
-                key={`navigation${index}`}
-                data-navigation={value}
-                onClick={navigationBarClickHandler}
-              />
-            </Link>
-          </li>
+        {navigationURLList.map((value, index) => (
+          <BottomNavigationAction
+            label={navigationName[index]}
+            value={value}
+            key={`mui-nav-${index}`}
+            icon={navigationMUIIconList[index]}
+          ></BottomNavigationAction>
         ))}
-      </ul>
-    </nav>
+      </BottomNavigation>
+    </Paper>
   );
 };
 
