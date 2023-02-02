@@ -8,7 +8,7 @@ const NavigationBar = () => {
     console.log(data);
   };
   return (
-    <nav>
+    <nav style={{ width: "100%" }}>
       <ul
         style={{
           width: "100%",
