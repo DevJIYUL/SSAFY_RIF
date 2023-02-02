@@ -1,7 +1,7 @@
 // import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const NavigationBar = () => {
+const NavigationComponent = () => {
   // const navigate = useNavigate();
   const navigationBarClickHandler = (event) => {
     const data = event.target.dataset.navigation;
@@ -34,4 +34,4 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar;
+export default NavigationComponent;
