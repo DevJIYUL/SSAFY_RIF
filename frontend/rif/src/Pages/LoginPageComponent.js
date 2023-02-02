@@ -20,7 +20,8 @@ const LoginPageComponent = () => {
 
   function formSubmitHandler(event) {
     event.preventDefault();
-    dispatch(loginHandler({ userInputId, userInputPassword }));
+    console.log(userInputId, userInputPassword);
+    dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
   }
 
   useEffect(() => {
