@@ -1,4 +1,4 @@
-package team.a501.rif.service;
+package team.a501.rif.service.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
