@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import NavigationBar from "./NavigationBar";
+import NavigationComponent from "./NavigationComponent";
 
 const RootLayOut = () => {
   return (
@@ -7,7 +7,7 @@ const RootLayOut = () => {
       <main>
         <Outlet />
       </main>
-      <NavigationBar />
+      <NavigationComponent />
     </>
   );
 };
