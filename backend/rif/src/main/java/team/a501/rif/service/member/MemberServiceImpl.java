@@ -28,7 +28,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -69,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
                     .password(passwordEncoder.encode(e.getPassword()))
                     .uid(e.getUid())
                     .name(e.getName())
-                    .point(0)
+                    .point(1000)
                     .exp(0)
                     .profileImgPath(Member.DEFAULT_PROFILE_IMG)
                     .build());
