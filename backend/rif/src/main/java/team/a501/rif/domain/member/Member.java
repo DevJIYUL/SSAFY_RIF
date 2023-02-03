@@ -43,6 +43,8 @@ public class Member implements UserDetails {
     @Column(length = 40)
     private String profileImgPath; // 기본값 /profile/default.png
 
+    private String refreshToken;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, BadgeAcq> badgeAcqs;
 

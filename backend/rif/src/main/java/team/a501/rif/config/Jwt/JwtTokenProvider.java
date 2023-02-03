@@ -12,12 +12,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import team.a501.rif.domain.auth.Token;
+import team.a501.rif.domain.auth.RefreshToken;
+import team.a501.rif.dto.auth.TokenDto;
+import team.a501.rif.repository.auth.RefreshtokenRepository;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,14 +30,14 @@ public class JwtTokenProvider {
     private final long expire;
 
     public JwtTokenProvider(@Value("${security.jwt.token.secret}") String secretKey,
-                            @Value("${security.jwt.token.expire}") long expire) {
+                            @Value("${security.jwt.token.expire}") long expire, RefreshtokenRepository refreshtokenRepository) {
         this.expire = expire;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // accesstoken 발행하는 메서드
-    public Token issueToken(Authentication authentication) {
+    public TokenDto issueToken(Authentication authentication) {
         final long now = new Date().getTime();
         final Date accessExpire = new Date(now + expire);
 
@@ -48,11 +51,12 @@ public class JwtTokenProvider {
                 .setExpiration(accessExpire)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        return Token.builder()
-                .grantType("Bearer")
+        return TokenDto.builder()
+                .grantType("Bearer ")
                 .accessToken(accessToken)
                 .build();
     }
+
 
     // JWT 토큰 복호화 하여 토큰 정보 꺼내기
     public Authentication getAuthentication(String accessToken) {

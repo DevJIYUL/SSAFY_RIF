@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.domain.auth.Token;
+import team.a501.rif.dto.auth.TokenDto;
 
 import team.a501.rif.dto.auth.LoginRequest;
 import team.a501.rif.service.auth.AuthService;
@@ -24,9 +25,9 @@ public class AuthController {
     // todo security에서 설정해주는 엔드포인트가 있는지 찾아보자
 
     @PostMapping("/login")
-    public Token login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<TokenDto> login(@RequestBody LoginRequest loginRequest) {
 
-        Token token = authService
+        TokenDto token = authService
                 .login(
                         loginRequest.getId(),
                         loginRequest.getPassword()
@@ -38,6 +39,11 @@ public class AuthController {
                     , token.getAccessToken()
             );
         }
-        return token;
+        return ResponseEntity.ok(token);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenDto tokenDto) throws Exception {
+        return ResponseEntity.ok(authService.refreshAccessToken(tokenDto));
     }
 }
