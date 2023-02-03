@@ -1,12 +1,12 @@
 import PageChangerComponent from "../UI/PageChangerComponent"
 import SectionTitleComponent from "../UI/SectionTitleComponent"
-import { Grid } from "@mui/material"
 import RewardComponent from "../Components/RewardComponent"
+import { Grid } from "@mui/material"
 
-const BadgePageComponent = () => {
+const AchievementPageComponent = () => {
   return (
     <div>
-      <PageChangerComponent to="/home"> 마이 페이지</PageChangerComponent>
+      <PageChangerComponent to="/home"> 마이 페이지 </PageChangerComponent>
 
       <Grid
         container
@@ -15,14 +15,14 @@ const BadgePageComponent = () => {
         alignItems="center"
       >
         <SectionTitleComponent
-          sectionTitle="뱃지"
+          sectionTitle="업적"
           sectionDetail="정렬"
         ></SectionTitleComponent>
 
-        <RewardComponent type="badge"></RewardComponent>
+        <RewardComponent type="achievement"></RewardComponent>
       </Grid>
     </div>
   )
 }
 
-export default BadgePageComponent
+export default AchievementPageComponent

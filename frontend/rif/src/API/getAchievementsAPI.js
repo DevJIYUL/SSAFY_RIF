@@ -3,10 +3,10 @@ import axiosInterface from "./axiosInterface"
 /**
  * Get infos about badges
  */
-async function getBadgesAPI(accessToken) {
+async function getAchievementsAPI(accessToken) {
   const response = await axiosInterface(
     "GET",
-    "api/user/badge",
+    "api/user/achievement",
     {},
     {
       Authorization: `Baerer ${accessToken}`,
@@ -20,4 +20,4 @@ async function getBadgesAPI(accessToken) {
   return response.response
 }
 
-export default getBadgesAPI
+export default getAchievementsAPI
