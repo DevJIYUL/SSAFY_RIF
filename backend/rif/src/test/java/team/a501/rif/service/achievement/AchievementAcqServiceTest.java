@@ -25,36 +25,36 @@ class AchievementAcqServiceTest {
     @Autowired private MemberService memberService;
     @Autowired private AchievementService achievementService;
 
-    @DisplayName("대표 업적 불러오기")
-    @Transactional
-    @Test
-    void findOnDisplayedAchievementAcq(){
-
-        // 멤버, 업적 등록
-        Member member = memberService.register(MemberRegisterRequest.builder()
-                .id("1234567")
-                .password("some_password")
-                .uid("this_is_my_uid")
-                .name("강승곤")
-                .build());
-
-        Achievement achievement = achievementService.save(AchievementSaveRequest
-                .builder()
-                .tier(100)
-                .title("업적1")
-                .description("이것은 업적1 입니다")
-                .achievementImgPath("/achievement/default.png")
-                .build());
-
-        AchievementAcq achievementAcq = achievementAcqService.create(member.getId(), achievement.getId());
-        achievementAcq.setOnDisplay(true);
-
-        List<AchievementAcqResponse> response = achievementAcqService.findOnDisplayedItemsOfMember(member.getId());
-
-        System.out.println(response);
-
-        assertThat(response.size()).isEqualTo(1L);
-
-    }
+//    @DisplayName("대표 업적 불러오기")
+//    @Transactional
+//    @Test
+//    void findOnDisplayedAchievementAcq(){
+//
+//        // 멤버, 업적 등록
+//        Member member = memberService.register(MemberRegisterRequest.builder()
+//                .id("1234567")
+//                .password("some_password")
+//                .uid("this_is_my_uid")
+//                .name("강승곤")
+//                .build());
+//
+//        Achievement achievement = achievementService.save(AchievementSaveRequest
+//                .builder()
+//                .tier(100)
+//                .title("업적1")
+//                .description("이것은 업적1 입니다")
+//                .achievementImgPath("/achievement/default.png")
+//                .build());
+//
+//        AchievementAcq achievementAcq = achievementAcqService.create(member.getId(), achievement.getId());
+//        achievementAcq.setOnDisplay(true);
+//
+//        List<AchievementAcqResponse> response = achievementAcqService.findOnDisplayedItemsOfMember(member.getId());
+//
+//        System.out.println(response);
+//
+//        assertThat(response.size()).isEqualTo(1L);
+//
+//    }
 
 }

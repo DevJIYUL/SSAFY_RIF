@@ -3,16 +3,28 @@ package team.a501.rif.service.member;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import team.a501.rif.domain.member.Member;
 
+import team.a501.rif.dto.badge.BadgeAcqInfo;
+import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
+import team.a501.rif.dto.member.MemberResponse;
+
+import java.util.List;
 
 
 public interface MemberService extends UserDetailsService {
 
-    Member register(MemberRegisterRequest memberRegister);
+    MemberResponse register(MemberRegisterRequest memberRegister);
 
-    Member findByUid(String uid);
+    void registerAll(List<MemberRegisterRequest> memberRegisterRequests);
 
-    Member findById(String id);
+    MemberResponse findByUid(String uid);
+
+    MemberResponse findById(String id);
+
+    List<BadgeAcqInfo> findAllBadgeAcq(String memberId);
+
+    BadgeGatchaResponse drawRandomBadge(String memberId);
+    BadgeAcqInfo updateDisplayingBadge(String memberId, Long badgeId);
     void deleteByUid(String uid);
 
     void deleteById(String id);

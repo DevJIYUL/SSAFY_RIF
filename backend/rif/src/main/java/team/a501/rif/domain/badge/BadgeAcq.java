@@ -2,6 +2,7 @@ package team.a501.rif.domain.badge;
 
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.badge.BadgeAcqInfo;
 
 import javax.persistence.*;
 
@@ -45,6 +46,10 @@ public class BadgeAcq extends BaseEntity {
         this.onDisplay = onDisplay;
     }
 
+    public void toggleOnDisplay(){
+        this.onDisplay = !this.onDisplay;
+    }
+
     public Member getMember() {
         return member;
     }
@@ -59,6 +64,15 @@ public class BadgeAcq extends BaseEntity {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
+    }
+
+    public BadgeAcqInfo getInfo(){
+        return BadgeAcqInfo.builder()
+                .id(this.id)
+                .achievedAt(this.getCreated())
+                .onDisplay(this.onDisplay)
+                .badgeInfo(this.badge.getInfo())
+                .build();
     }
 
     @Override
