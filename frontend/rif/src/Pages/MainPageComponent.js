@@ -4,11 +4,17 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { mainPageRequestHandler } from "../store/getUserInfo";
 
-// Temporary import
-import { Link } from "react-router-dom"
-import BtnComponent from "../UI/BtnComponent"
+import { Box, Grid, createTheme, Paper, ThemeProvider } from "@mui/material";
 
-let isInitial = true
+let isInitial = true;
+
+const profileTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#9CB59D",
+    },
+  },
+});
 
 const MainPageComponent = () => {
   const navigate = useNavigate();
@@ -33,11 +39,9 @@ const MainPageComponent = () => {
     }
   }, [token, id, navigate, dispatch]);
 
+  //exp, id, name, point, profileImgPath
   return (
-    <div>
-      <Link to="/lot" style={{ textDecoration: "none" }}>
-        <BtnComponent> 로또 컴포넌트 </BtnComponent>
-      </Link>
+    <ThemeProvider theme={profileTheme}>
       {userInfo
         ? Object.entries(userInfo).map(([key, value]) => (
             <p key={key}>
@@ -45,6 +49,40 @@ const MainPageComponent = () => {
             </p>
           ))
         : null}
+      <Paper
+        elevation={3}
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          m: 1,
+          width: "100%",
+          minWidth: "100px",
+          height: "100%",
+          minHeight: "100px",
+          backgroundColor: "primary.main",
+        }}
+      >
+        <Grid container>
+          <Grid sx={{ width: "50%", padding: "5%" }}>
+            <img
+              src={userInfo.profileImgPath}
+              alt=""
+              srcset=""
+              style={{ width: "90%" }}
+            />
+          </Grid>
+          <Grid sx={{ width: "50%", padding: "5%" }}>
+            <Grid>
+              <div>name</div>
+              <div>id</div>
+            </Grid>
+            <Grid>
+              <div>exp</div>
+              <div>point</div>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
       {userRefBadges
         ? userRefBadges.map((userRefBadge) =>
             Object.entries(userRefBadge).map(([key, value]) => (
@@ -63,7 +101,7 @@ const MainPageComponent = () => {
             ))
           )
         : null}
-    </div>
+    </ThemeProvider>
   );
 };
 
