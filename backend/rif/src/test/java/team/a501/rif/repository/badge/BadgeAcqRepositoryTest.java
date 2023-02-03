@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @DataJpaTest(showSql = false)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BadgeAcqRepositoryTest {
 
     @Autowired

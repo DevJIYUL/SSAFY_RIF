@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 @DataJpaTest(showSql = false)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AchievementAcqRepositoryTest {
 
     @Autowired
