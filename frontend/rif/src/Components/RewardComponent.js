@@ -4,49 +4,56 @@ import getAchievementsAPI from "../API/getAchievementsAPI"
 import { useState, useEffect } from "react"
 import { Grid } from "@mui/material"
 
-async function APIHandler(type) {
-  let totalRewards
-  let hasReward
-
-  if (type === "badge") {
-    const apiResponse = getBadgesAPI("testaccestoken")
-    apiResponse.then((res) => {
-      totalRewards = res.data.totalBadge
-    })
-    hasReward = "hasBadge"
-  } else if (type === "achievement") {
-    const apiResponse = getAchievementsAPI("testaccestoken")
-    apiResponse.then((res) => {
-      totalRewards = res.data.totalachievement
-    })
-    hasReward = "hasAchievement"
-  }
-
-  return { totalRewards, hasReward }
-}
-
 const RewardComponent = (props) => {
   // states
   const [rewards, setRewards] = useState([])
   const type = props.type
 
   // when mounted
-  useEffect(async () => {
-    const { totalRewards, hasReward } = await APIHandler(type)
-    console.log("total reward", totalRewards)
+  useEffect(() => {
+    async function getAchievements() {
+      const response = await getAchievementsAPI("accessToken")
+      let totalReward = response.data.totalAchievement
 
-    const tempRewardsHas = []
-    const tempRewardsNotHas = []
+      const rewardHas = []
+      const rewardNotHas = []
 
-    for (const rewardInfo of totalRewards) {
-      if (rewardInfo[hasReward]) {
-        tempRewardsHas.push(rewardInfo)
-      } else {
-        tempRewardsNotHas.push(rewardInfo)
-      }
+      totalReward.forEach((reward, rewardIndex) => {
+        if (reward.hasReward) {
+          rewardHas.push(reward)
+        } else {
+          rewardNotHas.push(reward)
+        }
+      })
+
+      totalReward = [...rewardHas, ...rewardNotHas]
+      setRewards(totalReward)
     }
 
-    setRewards(tempRewardsHas.concat(tempRewardsNotHas))
+    async function getBadges() {
+      const response = await getBadgesAPI("accessToken")
+      let totalReward = response.data.totalBadge
+
+      const rewardHas = []
+      const rewardNotHas = []
+
+      totalReward.forEach((reward, rewardIndex) => {
+        if (reward.hasReward) {
+          rewardHas.push(reward)
+        } else {
+          rewardNotHas.push(reward)
+        }
+      })
+
+      totalReward = [...rewardHas, ...rewardNotHas]
+      setRewards(totalReward)
+    }
+
+    if (type === "badge") {
+      getBadges()
+    } else {
+      getAchievements()
+    }
   }, [type])
 
   return (
@@ -68,7 +75,7 @@ const RewardComponent = (props) => {
               justifyContent="center"
               alignContent="center"
             >
-              <RewardItemComponent badge={value}></RewardItemComponent>
+              <RewardItemComponent reward={value}></RewardItemComponent>
             </Grid>
           )
         })}
