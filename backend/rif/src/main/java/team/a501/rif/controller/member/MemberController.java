@@ -30,13 +30,6 @@ public class MemberController {
     }
 
     @GetMapping(value = "/member")
-    public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id){
-
-        MemberResponse memberResponse = memberService.findByUid(id);
-        return ResponseEntity.ok(memberResponse);
-    }
-
-    @GetMapping(value = "/member")
     public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid){
 
         MemberResponse memberResponse = memberService.findByUid(uid);
