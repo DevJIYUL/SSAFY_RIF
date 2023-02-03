@@ -2,11 +2,9 @@ package team.a501.rif.controller.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberBadgeAcqInfoResponse;
@@ -32,16 +30,23 @@ public class MemberController {
     }
 
     @GetMapping(value = "/member")
-    public ResponseEntity<MemberResponse> findMember(@RequestParam String uid){
+    public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id){
+
+        MemberResponse memberResponse = memberService.findByUid(id);
+        return ResponseEntity.ok(memberResponse);
+    }
+
+    @GetMapping(value = "/member")
+    public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid){
 
         MemberResponse memberResponse = memberService.findByUid(uid);
         return ResponseEntity.ok(memberResponse);
     }
 
     @GetMapping("/api/member/badge")
-    public ResponseEntity<MemberBadgeAcqInfoResponse> getAllMemberBadgeAcq(Authentication auth) {
+    public ResponseEntity<MemberBadgeAcqInfoResponse> getAllMemberBadgeAcq(@RequestParam String memberId) {
 
-        List<BadgeAcqInfo> badgeAcqInfoList = memberService.findAllBadgeAcq(auth.getName());
+        List<BadgeAcqInfo> badgeAcqInfoList = memberService.findAllBadgeAcq(memberId);
 
         MemberBadgeAcqInfoResponse response = MemberBadgeAcqInfoResponse.builder()
                 .badgeAcqInfoList(badgeAcqInfoList)
@@ -51,18 +56,16 @@ public class MemberController {
     }
 
     @PatchMapping("/api/member/badge")
-    public ResponseEntity<BadgeAcqInfo> updateDisplayingBadge(Authentication auth,
-                                                              @RequestParam Long id) {
+    public ResponseEntity<BadgeAcqInfo> updateDisplayingBadge(@RequestParam String memberId,
+                                                              @RequestParam Long badgeId) {
 
-        BadgeAcqInfo response = memberService.updateDisplayingBadge(auth.getName(), id);
+        BadgeAcqInfo response = memberService.updateDisplayingBadge(memberId, badgeId);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/api/gatcha")
-    public ResponseEntity<BadgeGatchaResponse> badgeGatcha(Authentication auth) {
-
-        String memberId = auth.getName();
+    public ResponseEntity<BadgeGatchaResponse> badgeGatcha(@RequestParam String memberId) {
 
         BadgeGatchaResponse badgeGatchaResponse = memberService.drawRandomBadge(memberId);
 
