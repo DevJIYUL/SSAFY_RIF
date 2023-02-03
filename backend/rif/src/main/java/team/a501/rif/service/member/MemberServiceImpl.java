@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
                 .password(passwordEncoder.encode(memberRegister.getPassword()))
                 .uid(memberRegister.getUid())
                 .name(memberRegister.getName())
-                .point(0)
+                .point(1000)
                 .exp(0)
                 .profileImgPath(Member.DEFAULT_PROFILE_IMG)
                 .build());

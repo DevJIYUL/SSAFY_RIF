@@ -37,33 +37,9 @@ public class DummyDataInitializer implements CommandLineRunner {
         List<MemberRegisterRequest> memberRegisterRequests = new ArrayList<>();
         memberRegisterRequests.add(MemberRegisterRequest
                 .builder()
-                .id("0847836")
-                .password("0847836")
-                .uid("4467F187")
-                .name("강승곤")
-                .build());
-
-        memberRegisterRequests.add(MemberRegisterRequest
-                .builder()
-                .id("0844269")
-                .password("0844269")
-                .uid("44705687")
-                .name("송지율")
-                .build());
-
-        memberRegisterRequests.add(MemberRegisterRequest
-                .builder()
-                .id("0843031")
-                .password("0843031")
-                .uid("44610A87")
-                .name("박도윤")
-                .build());
-
-        memberRegisterRequests.add(MemberRegisterRequest
-                .builder()
                 .id("0847647")
                 .password("0847647")
-                .uid("4457E287")
+                .uid("67f18755")
                 .name("진윤태")
                 .build());
 
