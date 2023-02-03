@@ -3,6 +3,22 @@ import { loginHandler } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import {
+  Box,
+  TextField,
+  Button,
+  Grid,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
+
+const loginTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#357a38",
+    },
+  },
+});
 const LoginPageComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +37,7 @@ const LoginPageComponent = () => {
   function formSubmitHandler(event) {
     event.preventDefault();
     console.log(userInputId, userInputPassword);
+
     dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
   }
 
@@ -43,28 +60,60 @@ const LoginPageComponent = () => {
   }
 
   return (
-    <div>
-      <div>Login</div>
-      <form action="" method="post" onSubmit={formSubmitHandler}>
-        <input
-          type="text"
-          name="id"
-          id="id"
-          value={userInputId}
-          onChange={idChangeHandler}
-          style={{ display: "block" }}
-        />
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={userInputPassword}
-          onChange={passwordChangeHandler}
-          style={{ display: "block" }}
-        />
-        <button type="submit">{btnMessage}</button>
-      </form>
-    </div>
+    <ThemeProvider theme={loginTheme}>
+      <Grid
+        container
+        className="grid-container"
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ my: "8rem" }}
+      >
+        <Grid item className="grid-header">
+          <img
+            src="/rif-logo-96.png"
+            alt="rif logo 96"
+            className="rif-logo-96"
+          />
+        </Grid>
+        <Grid item className="grid-body" sx={{ mx: 2 }}>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={formSubmitHandler}
+          >
+            <TextField
+              fullWidth
+              id="id"
+              label="아이디"
+              type="number"
+              sx={{ mb: 2 }}
+              defaultValue={userInputId}
+              onChange={idChangeHandler}
+            />
+            <TextField
+              fullWidth
+              id="password"
+              label="비밀번호"
+              type="password"
+              autoComplete="current-password"
+              sx={{ mb: 2 }}
+              value={userInputPassword}
+              onChange={passwordChangeHandler}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              type="submit"
+              sx={{ height: "56px" }}
+            >
+              {btnMessage}
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 
