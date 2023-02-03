@@ -2,6 +2,7 @@ package team.a501.rif;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import team.a501.rif.domain.achievement.Achievement;
@@ -15,6 +16,11 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@ConditionalOnProperty(
+        prefix = "command.line.runner",
+        value = "enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
 @Profile("local")
@@ -23,24 +29,6 @@ public class DummyDataInitializer implements CommandLineRunner {
     private final MemberService memberService;
     private final BadgeRepository badgeRepository;
     private final AchievementRepository achievementRepository;
-
-    /*
-    ##1.
-    In hex:  44 67 F1 87
-    In dec:  68 103 241 135
-
-            ##2.
-    In hex:  44 70 56 87
-    In dec:  68 112 86 135
-
-            ##3.
-    In hex:  44 61 0A 87
-    In dec:  68 97 010 135
-
-            ##4.
-    In hex:  44 57 E2 87
-    In dec:  68 87 226 135
-    */
 
     @Override
     public void run(String... args) throws Exception {
@@ -57,24 +45,24 @@ public class DummyDataInitializer implements CommandLineRunner {
 
         memberRegisterRequests.add(MemberRegisterRequest
                 .builder()
-                .id("123") // todo 지율이형 학번 넣기
-                .password("0847836")
-                .uid("44 70 56 87")
+                .id("0844269")
+                .password("0844269")
+                .uid("44705687")
                 .name("송지율")
                 .build());
 
         memberRegisterRequests.add(MemberRegisterRequest
                 .builder()
-                .id("456") // todo 도윤이 학번 넣기
-                .password("0847836")
+                .id("0843031")
+                .password("0843031")
                 .uid("44610A87")
                 .name("박도윤")
                 .build());
 
         memberRegisterRequests.add(MemberRegisterRequest
                 .builder()
-                .id("789") // todo 윤태 학번 넣기
-                .password("0847836")
+                .id("0847647")
+                .password("0847647")
                 .uid("4457E287")
                 .name("진윤태")
                 .build());

@@ -22,4 +22,15 @@ public class BadgeInfo {
         this.description = description;
         this.imgPath = imgPath;
     }
+
+    @Override
+    public String toString() {
+        return "BadgeInfo{" +
+                "\nid=" + id +
+                ",\n tier=" + tier +
+                ",\n title='" + title + '\'' +
+                ",\n description='" + description + '\'' +
+                ",\n imgPath='" + imgPath + '\'' +
+                "\n}";
+    }
 }

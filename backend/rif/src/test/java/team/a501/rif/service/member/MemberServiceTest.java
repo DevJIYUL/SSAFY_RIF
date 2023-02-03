@@ -1,16 +1,24 @@
 package team.a501.rif.service.member;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
+import team.a501.rif.dto.member.MemberResponse;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
@@ -23,121 +31,53 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = {"command.line.runner.enabled=true"})
+@Transactional
 class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
+
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private AchievementAcqRepository achievementAcqRepository;
-    @Autowired
-    private AchievementRepository achievementRepository;
-    @Autowired
-    private BadgeAcqRepository badgeAcqRepository;
-    @Autowired
-    private BadgeRepository badgeRepository;
 
-    @BeforeEach
-    void setUp() {
-
-        String id = UUID.randomUUID().toString();
-        String studentId = "0847836";
-        String password = "0847836";
-        String name = "강승곤";
-        Integer point = 0;
-        Integer exp = 0;
-        String profileImgPath = "/profile/default.png";
-
-        Member member = memberService.register(MemberRegisterRequest.builder()
-                .id(studentId)
-                .password(password)
-                .name(name)
+    @DisplayName("멤버 등록")
+    @Test
+    void saveMemberTest() {
+        MemberResponse memberResponse = memberService.register(MemberRegisterRequest.builder()
+                .id("12345")
+                .password("12345")
+                .uid("abcdef")
+                .name("saveMemberTest")
                 .build());
 
-        Achievement achievement = achievementRepository.save(Achievement.builder()
-                .tier(0)
-                .title("업적 1")
-                .description("Tempus imperdiet nulla malesuada pellentesque elit eget gravida")
-                .achievementImgPath("/achievement/1.png")
-                .build());
+        System.out.println(memberResponse);
 
-        Badge badge1 = badgeRepository.save(Badge.builder()
-                .title("뱃지 1")
-                .tier(1)
-                .description("Lorem ipsum")
-                .badgeImgPath("badge/1.png")
-                .build());
-
-        AchievementAcq achievementAcq = achievementAcqRepository.save(new AchievementAcq());
-        achievement.addAchievementAcq(achievementAcq);
-        member.addAchievementAcq(achievementAcq);
-
-        BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
-        badge1.addBadgeAcq(badgeAcq);
-        member.addBadgeAcq(badgeAcq);
+        assertThat(memberRepository.count()).isEqualTo(5);
     }
 
-    @DisplayName("멤버 저장")
+    @DisplayName("뱃지 가챠")
     @Test
-    void saveMember() {
-        String id = UUID.randomUUID().toString();
-        String studentId = "0844269";
-        String password = "0844269";
-        String name = "송지율";
-        Integer point = 0;
-        Integer exp = 0;
-        String profileImgPath = "/profile/default.png";
-
-        Member member = memberService.register(MemberRegisterRequest
-                .builder()
-                .id(studentId)
-                .password(password)
-                .name(name)
+    void getRandomBadge() {
+        memberService.register(MemberRegisterRequest.builder()
+                .id("12345")
+                .password("12345")
+                .uid("abcdef")
+                .name("getRandomBadgeTest")
                 .build());
 
-        long count = memberRepository.count();
-        System.out.println("======================================");
-        System.out.println("count = " + count);
-        System.out.println("======================================");
+        Member member = memberRepository.findById("12345")
+                .orElseThrow(() -> new NoSuchElementException());
 
-        assertThat(count).isEqualTo(2L);
-    }
+        member.setPoint(10000);
 
-    @DisplayName("멤버 삭제")
-    @Test
-    @Transactional
-    void removeMemberByStudentId() {
+        BadgeGatchaResponse badgeGatchaResponse = memberService.drawRandomBadge(member.getId());
 
-        System.out.println("System.out: 업적 개수 = " + achievementRepository.count());
-        System.out.println("System.out: 업적 획득 개수 = " + achievementAcqRepository.count());
-        System.out.println("System.out: 뱃지 개수 = " + badgeRepository.count());
-        System.out.println("System.out: 뱃지 획득 개수 = " + badgeAcqRepository.count());
+        assertThat(member.getBadgeAcqs().size()).isEqualTo(1);
 
-        Member member = memberRepository
-                .findById("0847836")
-                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 id에 해당하는 레코드가 존재하지 않습니다"));
-        memberRepository.delete(member);
-
-        assertThat(memberRepository.count()).isEqualTo(0L);
-        assertThat(badgeAcqRepository.count()).isEqualTo(0L);
-        assertThat(achievementAcqRepository.count()).isEqualTo(0L);
-        assertThat(badgeRepository.count()).isEqualTo(1L);
-        assertThat(achievementRepository.count()).isEqualTo(1L);
-
-        List<Achievement> achievementRepositoryAll = achievementRepository.findAll();
-        for (var e : achievementRepositoryAll) {
-            System.out.println("title = " + e.getTitle());
-            System.out.println("total related acqs = " + e.getAchievementAcqs().size());
-        }
-
-        List<Badge> badgeRepositoryAll = badgeRepository.findAll();
-        for (var e : badgeRepositoryAll) {
-            System.out.println("title = " + e.getTitle());
-            System.out.println("total related acqs = " + e.getBadgeAcqs().size());
-        }
+        System.out.println(badgeGatchaResponse);
     }
 }

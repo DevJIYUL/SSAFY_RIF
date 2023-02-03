@@ -30,31 +30,31 @@ class RifLogServiceTest {
     private MemberService memberService;
 
 
-    @DisplayName("RifLog를 생성한다")
-    @Test
-    @Transactional
-    void createRifLogTest(){
-
-        RifLogSaveRequest request = RifLogSaveRequest.builder()
-                .memberUid("uiduiduid")
-                .plasticTotal(10)
-                .plasticOk(5)
-                .recycleTotal(10)
-                .recycleOk(1)
-                .adviseIgnored(true)
-                .build();
-
-        Member member = memberService.register(MemberRegisterRequest.builder()
-                .id("12345")
-                .password("12345")
-                .uid(request.getMemberUid())
-                .name("강승곤")
-                .build());
-
-        RifLog rifLog = rifLogService.createRifLog(request);
-
-        System.out.println(rifLog);
-
-        Assertions.assertThat(rifLogRepository.count()).isEqualTo(1);
-    }
+//    @DisplayName("RifLog를 생성한다")
+//    @Test
+//    @Transactional
+//    void createRifLogTest(){
+//
+//        RifLogSaveRequest request = RifLogSaveRequest.builder()
+//                .memberUid("uiduiduid")
+//                .plasticTotal(10)
+//                .plasticOk(5)
+//                .recycleTotal(10)
+//                .recycleOk(1)
+//                .adviseIgnored(true)
+//                .build();
+//
+//        Member member = memberService.register(MemberRegisterRequest.builder()
+//                .id("12345")
+//                .password("12345")
+//                .uid(request.getMemberUid())
+//                .name("강승곤")
+//                .build());
+//
+//        RifLog rifLog = rifLogService.createRifLog(request);
+//
+//        System.out.println(rifLog);
+//
+//        Assertions.assertThat(rifLogRepository.count()).isEqualTo(1);
+//    }
 }

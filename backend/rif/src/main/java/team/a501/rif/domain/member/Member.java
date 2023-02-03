@@ -96,10 +96,12 @@ public class Member implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -170,12 +172,12 @@ public class Member implements UserDetails {
     }
 
 
-    public Boolean hasBadge(@NotNull Badge badge) {
-        return badgeAcqs.containsKey(badge.getId());
+    public Boolean hasBadge(@NotNull Long badgeId) {
+        return badgeAcqs.containsKey(badgeId);
     }
 
-    public Boolean hasAchievement(@NotNull Achievement achievement) {
-        return achievementAcqs.containsKey(achievement.getId());
+    public Boolean hasAchievement(@NotNull Long achievementId) {
+        return achievementAcqs.containsKey(achievementId);
     }
 
     public void addBadgeAcq(@NotNull BadgeAcq acq) {
@@ -214,7 +216,7 @@ public class Member implements UserDetails {
         return rifLogs;
     }
 
-    public void addRifLog(RifLog rifLog){
+    public void addRifLog(RifLog rifLog) {
         rifLog.setMember(this);
         this.rifLogs.add(rifLog);
     }
