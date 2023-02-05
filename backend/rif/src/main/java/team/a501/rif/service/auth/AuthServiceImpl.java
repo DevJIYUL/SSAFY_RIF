@@ -1,5 +1,6 @@
 package team.a501.rif.service.auth;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 RefreshToken.builder()
                         .id(studentId)
                         .refreshToken(UUID.randomUUID().toString())
-                        .expiration(10)
+                        .expiration(3)
                         .build()
         );
         return token.getRefreshToken();
@@ -61,9 +62,9 @@ public class AuthServiceImpl implements AuthService {
         if(token.getRefreshToken() == null){
             return null;
         }else{
-            // refreshtoken 3분 미만 남았을 때 요청하면 10분으로 초기화
-            if(token.getExpiration() < 3){
-                token.setExpiration(10);
+            // refreshtoken 1일 미만 남았을 때 요청하면 2일으로 초기화
+            if(token.getExpiration() <= 1){
+                token.setExpiration(2);
                 refreshtokenRepository.save(token);
             }
             //  Req토큰이 DB토큰과 같은지 비교
@@ -72,13 +73,18 @@ public class AuthServiceImpl implements AuthService {
         }
     }
     public TokenDto refreshAccessToken(TokenDto token) throws Exception{
-        Authentication authentication = jwtTokenProvider.getAuthentication(token.getAccessToken());
-        Member member = memberRepository.findById(authentication.getPrincipal().toString()).orElseThrow(()->
-                new BadCredentialsException("로그인을 다시 해주세요"));
+        Claims claims = jwtTokenProvider.parseClaims(token.getAccessToken());
+        log.info("Claims info= {}",claims);
+        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(()->
+                new BadCredentialsException("잘못된 계정입니다."));
+        log.info("Member info= {}",member);
         RefreshToken refreshToken = validRefreshToken(member.getId(),token.getRefreshToken());
+        log.info("RefreshToken info= {}",refreshToken);
+
         if(refreshToken != null){
             return TokenDto.builder()
-                    .accessToken(jwtTokenProvider.issueToken(authentication).toString())
+                    .grantType("Bearer ")
+                    .accessToken(jwtTokenProvider.issueToken(jwtTokenProvider.getAuthentication(token.getAccessToken())).getAccessToken())
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
         } else {

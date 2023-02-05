@@ -55,19 +55,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/member/**").permitAll()
-                .and()
-                .httpBasic().disable()
-                .formLogin().disable()
+        return http
                 .cors().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeRequests()
+                .antMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
+                .and()
+//                .httpBasic().disable()
+//                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

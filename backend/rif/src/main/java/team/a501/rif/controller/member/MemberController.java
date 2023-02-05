@@ -19,11 +19,14 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping(value = "/member")
-
     public ResponseEntity<?> registerMember(@RequestBody MemberRegisterRequest memberRegister) {
 
         Member member = memberService.register(memberRegister);
         return new ResponseEntity<Member>(member, HttpStatus.OK);
     }
-
+    @PostMapping(value = "/api/hello")
+    public String hello(){
+        log.info("info ={}","hello");
+        return "hello";
+    }
 }
