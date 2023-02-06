@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import team.a501.rif.domain.member.Member;
 
 import team.a501.rif.dto.member.MemberRegisterRequest;
+import team.a501.rif.dto.member.PasswordChangeRequest;
 import team.a501.rif.service.member.MemberService;
 
 @RestController
@@ -28,5 +29,11 @@ public class MemberController {
     public String hello(){
         log.info("info ={}","hello");
         return "hello";
+    }
+    @PatchMapping(value = "/api/member/password{memberId}")
+    public String passwordChange(@PathVariable("memberId") String memberId, @RequestBody PasswordChangeRequest passwordChangeRequest){
+        log.info("passwordChange info : {}",passwordChangeRequest,memberId);
+        log.info("memberid ={}",memberId);
+        return "good";
     }
 }
