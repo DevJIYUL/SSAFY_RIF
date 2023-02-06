@@ -64,5 +64,9 @@ public class MemberController {
 
         return ResponseEntity.ok(badgeGatchaResponse);
     }
-
+    @PostMapping(value = "/api/hello")
+    public String hello(){
+        log.info("info ={}","hello");
+        return "hello";
+    }
 }
