@@ -14,7 +14,7 @@ import team.a501.rif.service.auth.AuthService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @Slf4j
 @CrossOrigin("*")
 public class AuthController {
