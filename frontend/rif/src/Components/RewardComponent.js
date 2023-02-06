@@ -19,7 +19,7 @@ const RewardComponent = (props) => {
       const rewardNotHas = [];
 
       totalReward.forEach((reward, rewardIndex) => {
-        if (reward.hasReward) {
+        if (reward.hasAchievement) {
           rewardHas.push(reward);
         } else {
           rewardNotHas.push(reward);
@@ -38,7 +38,7 @@ const RewardComponent = (props) => {
       const rewardNotHas = [];
 
       totalReward.forEach((reward, rewardIndex) => {
-        if (reward.hasReward) {
+        if (reward.hasBadge) {
           rewardHas.push(reward);
         } else {
           rewardNotHas.push(reward);
@@ -57,30 +57,32 @@ const RewardComponent = (props) => {
   }, [type]);
 
   return (
-    <div>
-      <Grid
-        container
-        columns={{ xs: 6, sm: 12 }}
-        sx={{ display: "flex", margin: "auto" }}
-        spacing={1}
-      >
-        {rewards.map((value, index) => {
-          return (
-            <Grid
-              item
-              xs={2}
-              sm={4}
-              key={index}
-              display="flex"
-              justifyContent="center"
-              alignContent="center"
-            >
-              <RewardItemComponent reward={value}></RewardItemComponent>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </div>
+    <Grid
+      container
+      columns={{ xs: 6, sm: 12 }}
+      sx={{ display: "flex", margin: "auto", mt: "1rem" }}
+      rowSpacing={1}
+      width="75%"
+    >
+      {rewards.map((value, index) => {
+        return (
+          <Grid
+            item
+            xs={2}
+            sm={4}
+            key={index}
+            display="flex"
+            justifyContent="center"
+            alignContent="center"
+          >
+            <RewardItemComponent
+              reward={value}
+              type={type}
+            ></RewardItemComponent>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 
