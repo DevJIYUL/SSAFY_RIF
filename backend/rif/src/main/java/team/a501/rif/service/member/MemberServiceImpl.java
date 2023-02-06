@@ -1,11 +1,16 @@
 package team.a501.rif.service.member;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import team.a501.rif.config.Jwt.JwtAuthenticationFilter;
+import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
@@ -14,12 +19,14 @@ import team.a501.rif.dto.badge.BadgeInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.PasswordChangeRequest;
 import team.a501.rif.exception.NotEnoughPoints;
 import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.member.MemberRepository;
 import team.a501.rif.service.badge.BadgeAcqService;
 import team.a501.rif.service.badge.BadgeService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +35,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -37,6 +45,8 @@ public class MemberServiceImpl implements MemberService {
     private final BadgeRepository badgeRepository;
 
     private final BadgeService badgeService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Override
@@ -224,6 +234,34 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.delete(member);
 
+    }
+
+    @Override
+    public MemberResponse passwordChange(HttpServletRequest request, String memberId, PasswordChangeRequest passwordChangeRequest) {
+        String accessToken = jwtAuthenticationFilter.resolveToken(request).substring(7);
+
+        log.info("passwordChange info : {}",passwordChangeRequest,memberId);
+        log.info("memberid ={}",memberId);
+        Claims claims = jwtTokenProvider.parseClaims(accessToken);
+        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(()->new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
+        if(!memberId.equals(member.getId()))throw new BadCredentialsException("잘못된 유저입니다.");
+        if(!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(),member.getPassword())) throw new BadCredentialsException("다시 입력해주세요.");
+        if(!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm())) throw new BadCredentialsException("다시 입력해주세요.");
+        Member changeMember = memberRepository.save(Member.builder()
+                .id(member.getId())
+                .uid(member.getUid())
+                .exp(member.getExp())
+                .password(passwordEncoder.encode(passwordChangeRequest.getNewPassword()))
+                .name(member.getName())
+                .point(member.getPoint())
+                .profileImgPath(member.getProfileImgPath())
+                .build());
+        return MemberResponse.builder()
+                .id(changeMember.getId())
+                .uid(changeMember.getUid())
+                .name(changeMember.getName())
+                .imgPath(changeMember.getProfileImgPath())
+                .build();
     }
 
     @Override

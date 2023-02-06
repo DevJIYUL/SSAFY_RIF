@@ -1,21 +1,20 @@
 package team.a501.rif.controller.member;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberBadgeAcqInfoResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
-<<<<<<< HEAD
 import team.a501.rif.dto.member.PasswordChangeRequest;
-=======
 import team.a501.rif.dto.member.MemberResponse;
->>>>>>> c8592ded5319a27a93820a48da4dfb58afdf864c
 import team.a501.rif.service.member.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -80,9 +79,11 @@ public class MemberController {
         return "hello";
     }
     @PatchMapping(value = "/api/member/password{memberId}")
-    public String passwordChange(@PathVariable("memberId") String memberId, @RequestBody PasswordChangeRequest passwordChangeRequest){
-        log.info("passwordChange info : {}",passwordChangeRequest,memberId);
-        log.info("memberid ={}",memberId);
-        return "good";
+    public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
+                                 @PathVariable("memberId") String memberId,
+                                 @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
+
+        MemberResponse member = memberService.passwordChange(request,memberId,passwordChangeRequest);
+        return ResponseEntity.ok(member);
     }
 }
