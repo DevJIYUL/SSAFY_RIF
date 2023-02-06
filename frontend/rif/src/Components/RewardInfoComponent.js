@@ -4,11 +4,11 @@ import {
   DialogContent,
   DialogContentText,
   Grid,
-} from "@mui/material"
-import BtnComponent from "../UI/BtnComponent"
+} from "@mui/material";
+import BtnComponent from "../UI/BtnComponent";
 
 const RewardInfoComponent = (props) => {
-  const { imageId, title, description, imgPath, achievedAt } = props.reward
+  const { imageId, title, description, imgPath, achievedAt } = props.reward;
   return (
     <Dialog onClose={props.onClose} open={props.open}>
       <DialogContent sx={{ bgcolor: "#A6BB8D" }}>
@@ -38,7 +38,7 @@ const RewardInfoComponent = (props) => {
         )}
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default RewardInfoComponent
+export default RewardInfoComponent;
