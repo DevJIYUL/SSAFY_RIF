@@ -28,16 +28,19 @@ public class AuthServiceImpl implements AuthService {
 
     private final MemberRepository memberRepository;
     private final RefreshtokenRepository refreshtokenRepository;
+
+    private final Integer REISSUE_LIMIT_TIME = 3;
     @Transactional
     @Override
     public TokenDto login(String studentId, String password) {
         log.info("studentId info id,password = {}", studentId,password);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(studentId, password);
-        log.info("authenticationToken info = {}", authenticationToken);
+        log.info("AuthenticationToken info = {}", authenticationToken);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        log.info("authentication info={}", authentication);
+        log.info("Authentication info={}", authentication);
         TokenDto accessToken = jwtTokenProvider.issueToken(authentication);
+        log.info("AccessToken info={}", accessToken);
         TokenDto token = TokenDto.builder()
                 .grantType(accessToken.getGrantType())
                 .accessToken(accessToken.getAccessToken())
@@ -51,20 +54,23 @@ public class AuthServiceImpl implements AuthService {
                 RefreshToken.builder()
                         .id(studentId)
                         .refreshToken(UUID.randomUUID().toString())
-                        .expiration(3)
+                        .expiration(5)
                         .build()
         );
+        log.info("RefreshToken info={}", token);
         return token.getRefreshToken();
     }
 
     public RefreshToken validRefreshToken(String studentId, String refreshToken) throws Exception{
-        RefreshToken token = refreshtokenRepository.findById(studentId).orElseThrow(() ->  new Exception("다시 로그인하세요"));
+        RefreshToken token = refreshtokenRepository.findById(studentId).orElseThrow(() ->  new Exception("로그인을 해주세요"));
+        log.info("ValidRefreshtoken info={}", token);
         if(token.getRefreshToken() == null){
             return null;
         }else{
             // refreshtoken 1일 미만 남았을 때 요청하면 2일으로 초기화
-            if(token.getExpiration() <= 1){
-                token.setExpiration(2);
+            if(token.getExpiration() <= REISSUE_LIMIT_TIME){
+                log.info("RefreshToken re-issue info={}", REISSUE_LIMIT_TIME);
+                token.setExpiration(5);
                 refreshtokenRepository.save(token);
             }
             //  Req토큰이 DB토큰과 같은지 비교
