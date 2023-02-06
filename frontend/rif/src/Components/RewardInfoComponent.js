@@ -9,6 +9,8 @@ import BtnComponent from "../UI/BtnComponent";
 
 const RewardInfoComponent = (props) => {
   const { imageId, title, description, imgPath, achievedAt } = props.reward;
+  const imgPathColored = imgPath.slice(0, -4) + "_colored.png";
+
   return (
     <Dialog onClose={props.onClose} open={props.open}>
       <DialogContent sx={{ bgcolor: "#A6BB8D" }}>
@@ -19,7 +21,11 @@ const RewardInfoComponent = (props) => {
             display="flex"
             alignItems="center"
           >
-            <img src={imgPath} alt={imageId} height="75px" />
+            {props.type === "badge" ? (
+              <img src={imgPathColored} alt={imageId} height="75px" />
+            ) : (
+              <img src={imgPath} alt={imageId} height="75px" />
+            )}
           </Grid>
           <Grid item className="grid-name" sx={{ ml: "2rem" }}>
             <h2 style={{ margin: "0px", textAlign: "center" }}>{title}</h2>

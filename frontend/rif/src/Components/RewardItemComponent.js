@@ -1,43 +1,44 @@
-import { useState } from "react"
-import RewardInfoComponent from "./RewardInfoComponent"
+import { useState } from "react";
+import RewardInfoComponent from "./RewardInfoComponent";
 
 const renameKeys = (oldObj) => {
-  const newKeys = ["reward", "hasReward", "onDisplay"]
-  const oldKeys = Object.keys(oldObj)
+  const newKeys = ["reward", "hasReward", "onDisplay"];
+  const oldKeys = Object.keys(oldObj);
 
-  const returnObj = {}
+  const returnObj = {};
 
   newKeys.forEach((key, keyIndex) => {
-    returnObj[key] = oldObj[oldKeys[keyIndex]]
-  })
+    returnObj[key] = oldObj[oldKeys[keyIndex]];
+  });
 
-  return returnObj
-}
+  return returnObj;
+};
 
 const RewardItemComponent = (props) => {
-  const { reward, hasReward, onDisplay } = renameKeys(props.reward)
+  const { reward, hasReward, onDisplay } = renameKeys(props.reward);
 
-  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" }
-  const displayStyle = { border: "5px solid #FFD600", borderRadius: "150px" }
+  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" };
+  const displayStyle = {
+    filter:
+      "drop-shadow(1px 1px 3px #EBDD5D) drop-shadow(-1px -1px 3px #EBDD5D)",
+  };
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     // open modal component
-    setModalOpen(true)
-    console.log("modal opened")
-  }
+    setModalOpen(true);
+  };
 
   const handleModalClose = () => {
     // close modal component
-    setModalOpen(false)
-    console.log("modal closed")
-  }
+    setModalOpen(false);
+  };
 
-  let style = {}
+  let style = {};
   if (!hasReward) {
-    style = NotHasStyle
+    style = NotHasStyle;
   } else if (onDisplay) {
-    style = displayStyle
+    style = displayStyle;
   }
 
   return (
@@ -47,6 +48,7 @@ const RewardItemComponent = (props) => {
         onClose={handleModalClose}
         reward={reward}
         onDisplay={onDisplay}
+        type={props.type}
       ></RewardInfoComponent>
       <img
         src={reward.imgPath}
@@ -56,7 +58,7 @@ const RewardItemComponent = (props) => {
         height="75px"
       />
     </div>
-  )
-}
+  );
+};
 
-export default RewardItemComponent
+export default RewardItemComponent;
