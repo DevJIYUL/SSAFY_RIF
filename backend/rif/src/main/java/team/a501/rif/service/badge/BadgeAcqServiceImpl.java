@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.MemberResponse;
-import team.a501.rif.exception.NoSuchEntityException;
+import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.member.MemberRepository;
-import team.a501.rif.service.member.MemberService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,13 +29,13 @@ public class BadgeAcqServiceImpl implements BadgeAcqService{
 
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
 //        tempMember.getBadgeAcqs().containsKey(badgeId) 중복되는 뱃지를 가지고 있다
 
         Badge badge = badgeRepository
                 .findById(badgeId)
-                .orElseThrow(() -> new NoSuchEntityException(Badge.class.getName()));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
 
@@ -51,7 +50,7 @@ public class BadgeAcqServiceImpl implements BadgeAcqService{
     public List<BadgeAcq> findByMemberId(String memberId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return badgeAcqRepository.findByMember(member);
     }
@@ -61,7 +60,7 @@ public class BadgeAcqServiceImpl implements BadgeAcqService{
     public List<BadgeAcq> findByMemberUid(String memberUid){
 
         Member member = memberRepository.findByUid(memberUid)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return badgeAcqRepository.findByMember(member);
     }
