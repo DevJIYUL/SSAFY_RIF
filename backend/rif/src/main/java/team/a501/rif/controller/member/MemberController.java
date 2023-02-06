@@ -22,17 +22,23 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping(value = "/member")
+    @PostMapping("/member")
     public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRegisterRequest memberRegister) {
 
         MemberResponse memberResponse = memberService.register(memberRegister);
         return ResponseEntity.ok(memberResponse);
     }
 
-    @GetMapping(value = "/member")
+    @GetMapping("/member")
     public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid){
 
         MemberResponse memberResponse = memberService.findByUid(uid);
+        return ResponseEntity.ok(memberResponse);
+    }
+
+    @GetMapping("/member/profile")
+    public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id){
+        MemberResponse memberResponse = memberService.findById(id);
         return ResponseEntity.ok(memberResponse);
     }
 
