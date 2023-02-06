@@ -1,4 +1,4 @@
-package team.a501.rif.domain.auth;
+package team.a501.rif.dto.auth;
 
 import lombok.*;
 
@@ -7,7 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Token {
+public class TokenDto {
     private String grantType;
     private String accessToken;
+    private String refreshToken;
 }
