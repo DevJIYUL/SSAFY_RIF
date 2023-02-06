@@ -1,4 +1,4 @@
-import axiosInterface from "./axiosInterface"
+import axiosInterface from "./axiosInterface";
 
 /**
  * Get infos about badges
@@ -6,18 +6,18 @@ import axiosInterface from "./axiosInterface"
 async function getBadgesAPI(accessToken) {
   const response = await axiosInterface(
     "GET",
-    "api/user/badge",
+    "api/member/badge",
     {},
     {
       Authorization: `Baerer ${accessToken}`,
     }
-  )
+  );
 
   if (response.status === 200) {
-    return response
+    return response;
   }
 
-  return response.response
+  return response.response;
 }
 
-export default getBadgesAPI
+export default getBadgesAPI;
