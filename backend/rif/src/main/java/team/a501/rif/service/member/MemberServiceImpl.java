@@ -14,16 +14,15 @@ import team.a501.rif.dto.badge.BadgeInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
-import team.a501.rif.exception.NotEnoughPoints;
+import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.member.MemberRepository;
 import team.a501.rif.service.badge.BadgeAcqService;
 import team.a501.rif.service.badge.BadgeService;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse findByUid(String uid) {
         Member member = memberRepository
                 .findByUid(uid)
-                .orElseThrow(() -> new NoSuchElementException("해당하는 Uid로 멤버를 찾을 수 없습니다"));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return MemberResponse.builder()
                 .id(member.getId())
@@ -96,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse findById(String id) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new NoSuchElementException("해당하는 Id로 멤버를 찾을 수 없습니다"));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return MemberResponse.builder()
                 .id(member.getId())
@@ -110,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow();
 
         List<BadgeAcqInfo> badgeAcqInfoList = member.getBadgeAcqs()
                 .values()
@@ -145,11 +144,11 @@ public class MemberServiceImpl implements MemberService {
     public BadgeGatchaResponse drawRandomBadge(String memberId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow();
 
         Integer balance = member.getPoint();
         if (balance < GATCHA_COST)
-            throw new NotEnoughPoints();
+            throw new RifCustomException(ExceptionCode.NOT_ENOUGH_POINTS);
 
         member.setPoint(balance - GATCHA_COST);
 
@@ -175,10 +174,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public BadgeAcqInfo updateDisplayingBadge(String memberId, Long badgeId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow();
 
         BadgeAcq badgeAcq = Optional.of(member.getBadgeAcqs().get(badgeId))
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         badgeAcq.toggleOnDisplay();
 
@@ -191,7 +190,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository
                 .findByUid(uid)
-                .orElseThrow(() -> new NoSuchElementException("인자로 넘어온 uid에 해당하는 레코드를 찾을 수 없습니다"));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         // Badge.badgeAcqs에서 삭제
         for (var acq : member.getBadgeAcqs().values()) {
@@ -212,7 +211,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new NoSuchElementException("해당 Id로 멤버를 찾을 수 없습니다"));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         for (var acq : member.getBadgeAcqs().values()) {
             acq.getBadge().removeBadgeAcq(acq);
@@ -228,11 +227,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 
         UserDetails userDetails = memberRepository
                 .findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("해당하는 username으로 멤버를 조회할 수 없습니다"));
+                .orElseThrow(() -> new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
 
         return userDetails;
     }
