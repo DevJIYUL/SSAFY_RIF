@@ -22,9 +22,6 @@ public class AuthController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
-
-    // todo security에서 설정해주는 엔드포인트가 있는지 찾아보자
-
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginRequest loginRequest) {
 
@@ -46,6 +43,7 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestParam TokenDto tokenDto) throws Exception {
         log.info("reissue info= {}",tokenDto);
-        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);
+        return ResponseEntity.ok(authService.refreshAccessToken(tokenDto));
+//        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);
     }
 }

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
 --- # local
 spring:
@@ -10,15 +10,15 @@ spring:
   output:
     ansi:
       enabled: always
+  h2:
+    console:
+      enabled: true
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/rif
-    username: root
-    password: root
-  redis:
-    host: localhost
-    port: 6379
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+
   jpa:
     open-in-view: true
 
@@ -61,6 +61,9 @@ spring:
     url: jdbc:mariadb://localhost:3306/rif
     username: root
     password: root
+  redis:
+    host: localhost
+    port: 6379
 
   jpa:
     open-in-view: true
@@ -82,7 +85,7 @@ security:
   jwt:
     token:
       secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
-      expire: 360000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+      expire: 180000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
 
 logging:
   level:
@@ -104,12 +107,15 @@ spring:
     url: jdbc:mariadb://localhost:3306/rif
     username: root
     password: root
+  redis:
+    host: localhost
+    port: 6379
 
   jpa:
     open-in-view: true
 
     hibernate:
-      ddl-auto: none # 실행할 때마다 스키마 초기화
+      ddl-auto: none # 실행할 때마다 스키마 초기화 x
 
     properties:
       hibernate:
@@ -125,7 +131,7 @@ security:
   jwt:
     token:
       secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
-      expire: 360000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+      expire: 180000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
 
 logging:
   level:
