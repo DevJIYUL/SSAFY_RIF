@@ -94,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
         } else {
-            throw new Exception("로그인을 해주세요");
+            throw new Exception("로그인을 해주세요"); // RuntimeException으로
         }
     }
 }

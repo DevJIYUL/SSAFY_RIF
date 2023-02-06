@@ -43,6 +43,7 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestBody TokenDto tokenDto) throws Exception {
         log.info("reissue info= {}",tokenDto);
-        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);
+        return ResponseEntity.ok(authService.refreshAccessToken(tokenDto));
+//        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);
     }
 }
