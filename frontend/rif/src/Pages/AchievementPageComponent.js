@@ -1,7 +1,7 @@
-import PageChangerComponent from "../UI/PageChangerComponent"
-import SectionTitleComponent from "../UI/SectionTitleComponent"
-import RewardComponent from "../Components/RewardComponent"
-import { Grid } from "@mui/material"
+import PageChangerComponent from "../UI/PageChangerComponent";
+import SectionTitleComponent from "../UI/SectionTitleComponent";
+import RewardComponent from "../Components/RewardComponent";
+import { Grid } from "@mui/material";
 
 const AchievementPageComponent = () => {
   return (
@@ -22,7 +22,7 @@ const AchievementPageComponent = () => {
         <RewardComponent type="achievement"></RewardComponent>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default AchievementPageComponent
+export default AchievementPageComponent;
