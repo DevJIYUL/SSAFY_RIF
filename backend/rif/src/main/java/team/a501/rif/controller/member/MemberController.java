@@ -18,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin("*")
+@RequestMapping("/api")
 public class MemberController {
 
     private final MemberService memberService;
@@ -42,7 +43,7 @@ public class MemberController {
         return ResponseEntity.ok(memberResponse);
     }
 
-    @GetMapping("/api/member/badge")
+    @GetMapping("/v/member/badge")
     public ResponseEntity<MemberBadgeAcqInfoResponse> getAllMemberBadgeAcq(@RequestParam String memberId) {
 
         List<BadgeAcqInfo> badgeAcqInfoList = memberService.findAllBadgeAcq(memberId);
@@ -54,7 +55,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/api/member/badge")
+    @PatchMapping("/v/member/badge")
     public ResponseEntity<BadgeAcqInfo> updateDisplayingBadge(@RequestParam String memberId,
                                                               @RequestParam Long badgeId) {
 
@@ -63,14 +64,14 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/api/gatcha")
+    @PostMapping("/v/gatcha")
     public ResponseEntity<BadgeGatchaResponse> badgeGatcha(@RequestParam String memberId) {
 
         BadgeGatchaResponse badgeGatchaResponse = memberService.drawRandomBadge(memberId);
 
         return ResponseEntity.ok(badgeGatchaResponse);
     }
-    @PostMapping(value = "/api/hello")
+    @PostMapping(value = "/v/hello")
     public String hello(){
         log.info("info ={}","hello");
         return "hello";
