@@ -1,43 +1,46 @@
-import { useState } from "react"
-import RewardInfoComponent from "./RewardInfoComponent"
+import { useState } from "react";
+import RewardInfoComponent from "./RewardInfoComponent";
 
 const renameKeys = (oldObj) => {
-  const newKeys = ["reward", "hasReward", "onDisplay"]
-  const oldKeys = Object.keys(oldObj)
+  const newKeys = ["reward", "hasReward", "onDisplay"];
+  const oldKeys = Object.keys(oldObj);
 
-  const returnObj = {}
+  const returnObj = {};
 
   newKeys.forEach((key, keyIndex) => {
-    returnObj[key] = oldObj[oldKeys[keyIndex]]
-  })
+    returnObj[key] = oldObj[oldKeys[keyIndex]];
+  });
 
-  return returnObj
-}
+  return returnObj;
+};
 
 const RewardItemComponent = (props) => {
-  const { reward, hasReward, onDisplay } = renameKeys(props.reward)
+  const { reward, hasReward, onDisplay } = renameKeys(props.reward);
+  console.log(hasReward);
 
-  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" }
-  const displayStyle = { border: "5px solid #FFD600", borderRadius: "150px" }
+  console.log(reward);
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" };
+  const displayStyle = { border: "5px solid #FFD600", borderRadius: "150px" };
+
+  const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     // open modal component
-    setModalOpen(true)
-    console.log("modal opened")
-  }
+    setModalOpen(true);
+    console.log("modal opened");
+  };
 
   const handleModalClose = () => {
     // close modal component
-    setModalOpen(false)
-    console.log("modal closed")
-  }
+    setModalOpen(false);
+    console.log("modal closed");
+  };
 
-  let style = {}
+  let style = {};
   if (!hasReward) {
-    style = NotHasStyle
+    style = NotHasStyle;
   } else if (onDisplay) {
-    style = displayStyle
+    style = displayStyle;
   }
 
   return (
@@ -56,7 +59,7 @@ const RewardItemComponent = (props) => {
         height="75px"
       />
     </div>
-  )
-}
+  );
+};
 
-export default RewardItemComponent
+export default RewardItemComponent;
