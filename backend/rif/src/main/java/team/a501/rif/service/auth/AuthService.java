@@ -1,8 +1,9 @@
 package team.a501.rif.service.auth;
 
-import team.a501.rif.domain.auth.Token;
+import team.a501.rif.dto.auth.TokenDto;
 
 public interface AuthService {
 
-    Token login(String studentId,String password) throws RuntimeException;
+    TokenDto login(String studentId, String password) throws RuntimeException;
+    TokenDto refreshAccessToken(TokenDto tokenDto) throws Exception;
 }
