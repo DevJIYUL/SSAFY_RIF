@@ -14,7 +14,7 @@ public class MemberBadgeAcqInfoResponse {
     List<BadgeAcqInfo> badgeAcqInfoList;
 
     @Builder
-    public MemberBadgeAcqInfoResponse(List<BadgeAcqInfo> badgeAcqInfoList){
+    public MemberBadgeAcqInfoResponse(List<BadgeAcqInfo> badgeAcqInfoList) {
         this.badgeAcqInfoList = badgeAcqInfoList;
     }
 }

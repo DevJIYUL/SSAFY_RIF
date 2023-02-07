@@ -7,6 +7,4 @@ import team.a501.rif.domain.member.Member;
 import java.util.List;
 
 public interface BadgeAcqRepository extends JpaRepository<BadgeAcq, Long> {
-
-    List<BadgeAcq> findByMember(Member member);
 }

@@ -12,12 +12,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import team.a501.rif.domain.auth.RefreshToken;
 import team.a501.rif.dto.auth.TokenDto;
 import team.a501.rif.repository.auth.RefreshtokenRepository;
 
 import java.security.Key;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j

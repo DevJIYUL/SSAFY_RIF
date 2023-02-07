@@ -13,8 +13,6 @@ import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.service.member.MemberService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @ConditionalOnProperty(
         prefix = "command.line.runner",

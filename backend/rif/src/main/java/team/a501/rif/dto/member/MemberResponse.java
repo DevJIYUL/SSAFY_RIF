@@ -10,11 +10,8 @@ import team.a501.rif.domain.member.Member;
 public class MemberResponse {
 
     String id;
-
     String uid;
-
     String name;
-
     String imgPath;
 
     @Builder
