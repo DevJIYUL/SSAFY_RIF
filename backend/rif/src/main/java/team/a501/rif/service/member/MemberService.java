@@ -2,7 +2,6 @@ package team.a501.rif.service.member;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import team.a501.rif.domain.riflog.RifLog;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
@@ -38,4 +37,6 @@ public interface MemberService extends UserDetailsService {
     List<GetMembersName> getMembersName();
 
     List<FindMemberByName> findByName(String name);
+
+    List<MemberResponse> getFirst10ByOrderByExp();
 }

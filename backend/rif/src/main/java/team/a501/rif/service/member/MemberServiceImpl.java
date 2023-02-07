@@ -120,17 +120,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository
+                .findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<BadgeAcqInfo> badgeAcqInfoList = member
+        return member
                 .getBadgeAcqs()
                 .values()
                 .stream()
-                .map(badgeAcq -> BadgeAcqInfo.from(badgeAcq))
+                .map(BadgeAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return badgeAcqInfoList;
     }
 
     @Override
@@ -138,15 +137,13 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<BadgeAcqInfo> badgeAcqInfoList = member
+        return member
                 .getBadgeAcqs()
                 .values()
                 .stream()
-                .filter(acq -> acq.getOnDisplay())
-                .map(acq -> BadgeAcqInfo.from(acq))
+                .filter(BadgeAcq::getOnDisplay)
+                .map(BadgeAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return badgeAcqInfoList;
     }
 
     @Override
@@ -155,14 +152,12 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<AchievementAcqInfo> achievementAcqInfoList = member
+        return member
                 .getAchievementAcqs()
                 .values()
                 .stream()
-                .map(acq -> AchievementAcqInfo.from(acq))
+                .map(AchievementAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return achievementAcqInfoList;
     }
 
     @Override
@@ -170,14 +165,12 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<AchievementAcqInfo> achievementAcqInfoList = member.getAchievementAcqs()
+        return member.getAchievementAcqs()
                 .values()
                 .stream()
-                .filter(acq -> acq.getOnDisplay())
-                .map(acq -> AchievementAcqInfo.from(acq))
+                .filter(AchievementAcq::getOnDisplay)
+                .map(AchievementAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return achievementAcqInfoList;
     }
 
     private static final Integer GATCHA_COST = 100;
@@ -253,8 +246,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public RifLogInfo addRifLog(RifLogSaveRequest dto) {
-        RifLogInfo rifLogInfo = rifLogService.save(dto);
-        return rifLogInfo;
+        return rifLogService.save(dto);
     }
 
     @Override
@@ -355,13 +347,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberResponse> getFirst10ByOrderByExp() {
+
+        return memberRepository
+                .findFirst10ByOrderByExpDesc()
+                .stream()
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
 
-        UserDetails userDetails = memberRepository
+        return memberRepository
                 .findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
-
-        return userDetails;
     }
 }

@@ -2,7 +2,6 @@ package team.a501.rif.repository.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.member.MemberResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +12,7 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     List<Member> findAll();
 
     List<Member> findAllByName(String name);
+
+    List<Member> findFirst10ByOrderByExpDesc();
+
 }
