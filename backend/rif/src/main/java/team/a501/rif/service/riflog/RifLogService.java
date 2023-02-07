@@ -8,6 +8,4 @@ import java.util.List;
 public interface RifLogService {
 
     RifLog createRifLog(RifLogSaveRequest dto);
-
-    List<RifLog> findByMember(String memberId);
 }
