@@ -50,4 +50,6 @@ public interface MemberService extends UserDetailsService {
     List<GetMembersName> getMembersName();
 
     List<FindMemberByName> findByName(String name);
+
+    List<MemberResponse> getFirst10ByOrderByExp();
 }

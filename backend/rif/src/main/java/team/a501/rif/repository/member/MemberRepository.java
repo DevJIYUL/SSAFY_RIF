@@ -12,4 +12,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     List<Member> findAll();
 
     List<Member> findAllByName(String name);
+    List<Member> findTop10ByOrderByExpDesc();
+
 }
