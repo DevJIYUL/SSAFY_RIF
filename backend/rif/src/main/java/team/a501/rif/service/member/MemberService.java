@@ -24,6 +24,8 @@ public interface MemberService extends UserDetailsService {
     List<AchievementAcqInfo> findAllAchievementAcq(String memberId);
     List<AchievementAcqInfo> findAchievementAcqOnDisplay(String memberId);
     AchievementAcqInfo updateAchievementOnDisplay(String memberId, Long achievementId);
+    BadgeAcqInfo addBadgeAcq(String memberId, Long badgeId);
+    AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId);
     void deleteByUid(String uid);
 
     void deleteById(String id);
