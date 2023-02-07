@@ -3,8 +3,8 @@ package team.a501.rif.controller.member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberBadgeAcqInfoResponse;
@@ -56,12 +56,20 @@ public class MemberController {
     }
 
     @PatchMapping("/v/member/badge")
-    public ResponseEntity<BadgeAcqInfo> updateDisplayingBadge(@RequestParam String memberId,
+    public ResponseEntity<BadgeAcqInfo> updateBadgesDisplaying(@RequestParam String memberId,
                                                               @RequestParam Long badgeId) {
 
-        BadgeAcqInfo response = memberService.updateDisplayingBadge(memberId, badgeId);
+        BadgeAcqInfo response = memberService.updateBadgeDisplaying(memberId, badgeId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/member/achievement")
+    public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId){
+
+        List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqDisplaying(memberId);
+
+        return ResponseEntity.ok(onDisplayAchievements);
     }
 
     @PostMapping("/v/gatcha")
