@@ -5,9 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import team.a501.rif.domain.riflog.RifLog;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 
