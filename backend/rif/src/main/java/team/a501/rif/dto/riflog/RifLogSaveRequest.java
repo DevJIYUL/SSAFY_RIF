@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RifLogSaveRequest {
-    private String memberUid;
+    private String uid;
     private Integer plasticTotal;
     private Integer plasticOk;
     private Integer recycleTotal;
     private Integer recycleOk;
-    private Boolean adviseIgnored;
+    private Boolean adviceIgnored;
 
     @Builder
-    public RifLogSaveRequest(String memberUid, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviseIgnored) {
-        this.memberUid = memberUid;
+    public RifLogSaveRequest(String uid, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviceIgnored) {
+        this.uid = uid;
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
-        this.adviseIgnored = adviseIgnored;
+        this.adviceIgnored = adviceIgnored;
     }
 }

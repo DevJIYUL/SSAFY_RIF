@@ -9,6 +9,8 @@ import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.riflog.RifLogInfo;
+import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;
 
 import java.util.List;
@@ -23,9 +25,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
-    public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRegisterRequest memberRegister) {
+    public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRegisterRequest body) {
 
-        MemberResponse memberResponse = memberService.register(memberRegister);
+        MemberResponse memberResponse = memberService.register(body);
         return ResponseEntity.ok(memberResponse);
     }
 
@@ -89,6 +91,14 @@ public class MemberController {
         BadgeGatchaResponse result = memberService.drawRandomBadge(memberId);
 
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/member/riflog")
+    public ResponseEntity<RifLogInfo> addRifLog(@RequestBody RifLogSaveRequest body){
+
+        RifLogInfo rifLogInfo = memberService.addRifLog(body);
+
+        return ResponseEntity.ok(rifLogInfo);
     }
     @PostMapping(value = "/v/hello")
     public String hello(){

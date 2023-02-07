@@ -23,7 +23,7 @@ import java.util.List;
         matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
-@Profile("dev")
+@Profile("local")
 public class DummyDataInitializer implements CommandLineRunner {
 
     private final MemberService memberService;
