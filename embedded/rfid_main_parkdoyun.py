@@ -75,7 +75,7 @@ class MyApp(QWidget, Ui_Form):
             uid_str = uid_str[2:]
 
         
-            r = requests.get('https://i8a501.p.ssafy.io:8080/member', params={'uid': uid_str})
+            r = requests.get('http://i8a501.p.ssafy.io:8080/member', params={'uid': uid_str})
             if r.status_code != 200:
                 print("Connect ERROR")
             else:
