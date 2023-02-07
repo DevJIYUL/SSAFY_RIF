@@ -30,9 +30,15 @@ const LotDialog = (props) => {
           <span style={{ textAlign: "center" }}> {badgeDesc} </span>
         </DialogContentText>
       </DialogContent>
-      <BtnComponent onClick={props.onClose} color="secondary">
-        확인
-      </BtnComponent>
+      {badgeTier ?
+        <BtnComponent onClick={props.onClose} color="secondary" disabled>
+          확인
+        </BtnComponent>
+        :
+        <BtnComponent onClick={props.onClose} color="secondary">
+          확인
+        </BtnComponent>
+      }
     </Dialog>
   );
 };

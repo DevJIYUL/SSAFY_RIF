@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fireworkCloseHandler } from "../store/lottoSlice";
 
 let ctx;
 let canvas;
 
 const Firework = () => {
-  const badgeTier = useSelector((state) => state.lotto.badgeTier);
+  let badgeTier = useSelector((state) => state.lotto.badgeTier);
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!canvas) {
@@ -39,7 +42,7 @@ const Firework = () => {
     shell.x = 1 * left;
     shell.y = 1;
     shell.xoff = (0.001 + Math.random() * 0.007) * (left ? 1 : -1);
-    shell.yoff = 0.01 + Math.random() * 0.0007;
+    shell.yoff = 0.01 + Math.random() * 0.007;
     shell.size = Math.random() * 7 + 3; // 폭죽의 크기
     shell.color = colors[tier][Math.floor(Math.random() * colors[tier].length)];
 
@@ -138,6 +141,7 @@ const Firework = () => {
         cancelAnimationFrame(() => {
           run(tier);
         });
+        dispatch(fireworkCloseHandler())
         runAgain = 1;
         return;
       }
@@ -149,15 +153,25 @@ const Firework = () => {
 
   return (
     <div>
-      <canvas
-        id="firework"
-        style={{
-          position: "absolute",
-          top: "0px",
-          bottom: "0px",
-          zIndex: "-1",
-        }}
-      ></canvas>
+      {badgeTier ?
+        <canvas
+          id="firework"
+          style={{
+            position: "absolute",
+            top: "0px",
+            bottom: "0px",
+            zIndex: "2000",
+          }}
+        ></canvas> : <canvas
+          id="firework"
+          style={{
+            position: "absolute",
+            top: "0px",
+            bottom: "0px",
+            zIndex: "-1",
+          }}
+        ></canvas>
+      }
     </div>
   );
 };

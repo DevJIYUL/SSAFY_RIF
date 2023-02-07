@@ -27,6 +27,9 @@ const lottoSlice = createSlice({
       state.badgeDesc = "";
       state.badgeTier = "";
     },
+    drawTierReset(state, action) {
+      state.badgeTier = "";
+    },
   },
 });
 
@@ -62,5 +65,12 @@ export const lotteryCloseHandler = () => {
   return async (dispatch) => {
     // change the status to empty
     dispatch(lottoSlice.actions.drawLotteryReset());
+  };
+};
+
+export const fireworkCloseHandler = () => {
+  return async (dispatch) => {
+    // change the status to empty
+    dispatch(lottoSlice.actions.drawTierReset());
   };
 };
