@@ -16,10 +16,7 @@ import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.badge.BadgeInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.MemberResponse;
-import team.a501.rif.dto.member.PasswordChangeRequest;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.exception.NotEnoughPoints;
 import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.member.MemberRepository;
@@ -28,10 +25,7 @@ import team.a501.rif.service.badge.BadgeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -238,12 +232,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberResponse passwordChange(HttpServletRequest request, String memberId, PasswordChangeRequest passwordChangeRequest) {
-        String accessToken = jwtAuthenticationFilter.resolveToken(request).substring(7);
+        String accessToken = jwtAuthenticationFilter.resolveToken(request);
 
         log.info("passwordChange info : {}",passwordChangeRequest,memberId);
         log.info("memberid ={}",memberId);
+        log.info("accesstoken info ={}",accessToken);
         Claims claims = jwtTokenProvider.parseClaims(accessToken);
+        log.info("Claims info = {}",claims);
         Member member = memberRepository.findById(claims.getSubject()).orElseThrow(()->new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
+        log.info("Member by token info = {}",member);
         if(!memberId.equals(member.getId()))throw new BadCredentialsException("잘못된 유저입니다.");
         if(!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(),member.getPassword())) throw new BadCredentialsException("다시 입력해주세요.");
         if(!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm())) throw new BadCredentialsException("다시 입력해주세요.");
@@ -262,6 +259,31 @@ public class MemberServiceImpl implements MemberService {
                 .name(changeMember.getName())
                 .imgPath(changeMember.getProfileImgPath())
                 .build();
+    }
+
+    @Override
+    public List<GetMembersName> getMembersName() {
+        List<Member> getNameAll = memberRepository.findAll();
+        List<GetMembersName> response = new ArrayList<>();
+        for (Member b : getNameAll){
+            response.add(GetMembersName.builder().name(b.getName()).build());
+        }
+        return response;
+    }
+
+    @Override
+    public List<FindMemberByName> findByName(String name) {
+        List<Member> repo = memberRepository.findAllByName(name);
+        List<FindMemberByName> response = new ArrayList<>();
+        for (Member b : repo){
+            response.add(FindMemberByName.builder()
+                    .id(b.getId())
+                    .name(b.getName())
+                    .exp(b.getExp())
+                    .profileImgPath(b.getProfileImgPath())
+                    .build());
+        }
+        return response;
     }
 
     @Override

@@ -4,14 +4,11 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberBadgeAcqInfoResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.PasswordChangeRequest;
-import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.service.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,10 +77,24 @@ public class MemberController {
     }
     @PatchMapping(value = "/api/member/password{memberId}")
     public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
-                                 @PathVariable("memberId") String memberId,
-                                 @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
-
+                                 @RequestParam(name = "memberId") String memberId,
+                                 @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
+        log.info("asd : {}",memberId);
+        log.info("httpservletRequest info = {}",request);
         MemberResponse member = memberService.passwordChange(request,memberId,passwordChangeRequest);
         return ResponseEntity.ok(member);
+    }
+    @GetMapping(value = "/member/name")
+    public ResponseEntity<List<GetMembersName>> getMemberNameAll(){
+        List<GetMembersName> getNameAll = memberService.getMembersName();
+        log.info("MemberNameAll info = {}",getNameAll);
+        return ResponseEntity.ok(getNameAll);
+    }
+    @GetMapping(value = "/api/member/search{name}")
+    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam(name = "name") String name){
+        log.info("Search member name info = {}",name);
+        List<FindMemberByName> repoResponse = memberService.findByName(name);
+
+        return ResponseEntity.ok(repoResponse);
     }
 }
