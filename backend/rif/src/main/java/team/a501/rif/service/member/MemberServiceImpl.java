@@ -17,11 +17,11 @@ import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.badge.BadgeInfo;
-import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.riflog.RifLogInfo;
+import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.exception.ExceptionCode;
 import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementRepository;
@@ -30,6 +30,7 @@ import team.a501.rif.repository.member.MemberRepository;
 import team.a501.rif.service.achievement.AchievementAcqService;
 import team.a501.rif.service.badge.BadgeAcqService;
 import team.a501.rif.service.badge.BadgeService;
+import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -51,15 +52,16 @@ public class MemberServiceImpl implements MemberService {
     private final BadgeAcqService badgeAcqService;
     private final AchievementRepository achievementRepository;
     private final AchievementAcqService achievementAcqService;
+    private final RifLogService rifLogService;
 
 
     @Override
-    public MemberResponse register(MemberRegisterRequest memberRegister) {
+    public MemberResponse register(MemberRegisterRequest dto) {
         Member member = memberRepository.save(Member.builder()
-                .id(memberRegister.getId())
-                .password(passwordEncoder.encode(memberRegister.getPassword()))
-                .uid(memberRegister.getUid())
-                .name(memberRegister.getName())
+                .id(dto.getId())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .uid(dto.getUid())
+                .name(dto.getName())
                 .point(1000)
                 .exp(0)
                 .profileImgPath(Member.DEFAULT_PROFILE_IMG)
@@ -74,8 +76,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void registerAll(List<MemberRegisterRequest> memberRegisterRequests) {
-        for (var e : memberRegisterRequests) {
+    public void registerAll(List<MemberRegisterRequest> dtoList) {
+        for (var e : dtoList) {
             memberRepository.save(Member.builder()
                     .id(e.getId())
                     .password(passwordEncoder.encode(e.getPassword()))
@@ -248,6 +250,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId) {
         return achievementAcqService.save(memberId, achievementId);
+    }
+
+    @Override
+    public RifLogInfo addRifLog(RifLogSaveRequest dto) {
+        RifLogInfo rifLogInfo = rifLogService.save(dto);
+        return rifLogInfo;
     }
 
     @Override
