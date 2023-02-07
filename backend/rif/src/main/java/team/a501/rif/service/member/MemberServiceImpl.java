@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import team.a501.rif.config.Jwt.JwtAuthenticationFilter;
 import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.achievement.AchievementAcq;
@@ -17,9 +16,7 @@ import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.exception.ExceptionCode;
@@ -34,7 +31,9 @@ import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -301,16 +300,18 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse passwordChange(HttpServletRequest request, String memberId, PasswordChangeRequest passwordChangeRequest) {
         String accessToken = jwtAuthenticationFilter.resolveToken(request);
 
-        log.info("passwordChange info : {}",passwordChangeRequest,memberId);
-        log.info("memberid ={}",memberId);
-        log.info("accesstoken info ={}",accessToken);
+        log.info("passwordChange info : {}", passwordChangeRequest, memberId);
+        log.info("memberid ={}", memberId);
+        log.info("accesstoken info ={}", accessToken);
         Claims claims = jwtTokenProvider.parseClaims(accessToken);
-        log.info("Claims info = {}",claims);
-        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(()->new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
-        log.info("Member by token info = {}",member);
-        if(!memberId.equals(member.getId()))throw new BadCredentialsException("잘못된 유저입니다.");
-        if(!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(),member.getPassword())) throw new BadCredentialsException("다시 입력해주세요.");
-        if(!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm())) throw new BadCredentialsException("다시 입력해주세요.");
+        log.info("Claims info = {}", claims);
+        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
+        log.info("Member by token info = {}", member);
+        if (!memberId.equals(member.getId())) throw new BadCredentialsException("잘못된 유저입니다.");
+        if (!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(), member.getPassword()))
+            throw new BadCredentialsException("다시 입력해주세요.");
+        if (!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm()))
+            throw new BadCredentialsException("다시 입력해주세요.");
         Member changeMember = memberRepository.save(Member.builder()
                 .id(member.getId())
                 .uid(member.getUid())
@@ -332,7 +333,7 @@ public class MemberServiceImpl implements MemberService {
     public List<GetMembersName> getMembersName() {
         List<Member> getNameAll = memberRepository.findAll();
         List<GetMembersName> response = new ArrayList<>();
-        for (Member b : getNameAll){
+        for (Member b : getNameAll) {
             response.add(GetMembersName.builder().name(b.getName()).build());
         }
         return response;
@@ -342,7 +343,7 @@ public class MemberServiceImpl implements MemberService {
     public List<FindMemberByName> findByName(String name) {
         List<Member> repo = memberRepository.findAllByName(name);
         List<FindMemberByName> response = new ArrayList<>();
-        for (Member b : repo){
+        for (Member b : repo) {
             response.add(FindMemberByName.builder()
                     .id(b.getId())
                     .name(b.getName())
