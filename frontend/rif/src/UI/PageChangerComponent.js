@@ -11,6 +11,7 @@ const PageChangerComponent = (props) => {
         <Button
           variant="text"
           color="pageChanger"
+          style={{ fontFamily: "NanumSquareEB" }}
           className={`${props.className}`}
           onClick={props.onClick}
           startIcon={<KeyboardArrowLeftIcon sx={{ color: "#5C855D" }} />}
