@@ -1,34 +1,40 @@
 package team.a501.rif.controller.badge;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.a501.rif.dto.badge.BadgeInfo;
 import team.a501.rif.dto.badge.BadgeSaveRequest;
-import team.a501.rif.domain.badge.Badge;
-import team.a501.rif.domain.badge.Badges;
-import team.a501.rif.repository.badge.BadgeRepository;
+import team.a501.rif.service.badge.BadgeService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/api")
 public class BadgeController {
 
-    private final BadgeRepository badgeRepository;
+    private final BadgeService badgeService;
 
     @PostMapping("/badge")
-    public ResponseEntity<Badge> createBadge(@RequestBody BadgeSaveRequest badgeSaveRequest){
+    public ResponseEntity<BadgeInfo> createBadge(@RequestBody BadgeSaveRequest request){
 
-        Badge badge = badgeRepository.save(badgeSaveRequest.toEntity());
+        BadgeInfo badgeInfo = BadgeInfo.from(badgeService.save(request));
 
-        return new ResponseEntity<>(badge, HttpStatus.OK);
+        return ResponseEntity.ok(badgeInfo);
     }
 
     @GetMapping("/badge")
-    public ResponseEntity<Badges> allBadges(){
+    public ResponseEntity<List<BadgeInfo>> getAllBadges(){
 
-        Badges badges = new Badges(badgeRepository.findAll());
 
-        return new ResponseEntity<>(badges, HttpStatus.OK);
+        List<BadgeInfo> badgeInfoList = badgeService.findAll()
+                .stream()
+                .map(badge -> BadgeInfo.from(badge))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(badgeInfoList);
     }
 }

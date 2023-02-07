@@ -31,43 +31,42 @@ public class DummyDataInitializer implements CommandLineRunner {
     private final AchievementRepository achievementRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
         // todo member 추가하지
-        List<MemberRegisterRequest> memberRegisterRequests = new ArrayList<>();
-        memberRegisterRequests.add(MemberRegisterRequest
+
+        MemberRegisterRequest registerForm = MemberRegisterRequest
                 .builder()
                 .id("0847647")
                 .password("0847647")
                 .uid("67f18755")
                 .name("진윤태")
-                .build());
+                .build();
+        memberService.register(registerForm);
 
-        memberService.registerAll(memberRegisterRequests);
-
-        // todo badge 추가하기
-        badgeRepository.save(Badge.builder()
+        Badge badge1 = badgeRepository.save(Badge.builder()
                 .title("뱃지1")
                 .tier(1)
                 .description("이것은 뱃지1 입니다")
                 .badgeImgPath("/badge/1.png")
                 .build());
 
-        badgeRepository.save(Badge.builder()
+        Badge badge2 = badgeRepository.save(Badge.builder()
                 .title("뱃지2")
                 .tier(2)
                 .description("이것은 뱃지2 입니다")
                 .badgeImgPath("/badge/2.png")
                 .build());
 
-        badgeRepository.save(Badge.builder()
+        Badge badge3 = badgeRepository.save(Badge.builder()
                 .title("뱃지3")
                 .tier(3)
                 .description("이것은 뱃지3 입니다")
                 .badgeImgPath("/badge/3.png")
                 .build());
 
-        badgeRepository.save(Badge.builder()
+        Badge badge4 = badgeRepository.save(Badge.builder()
                 .title("뱃지4")
                 .tier(4)
                 .description("이것은 뱃지4 입니다")
@@ -75,32 +74,48 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .build());
 
         // todo achievement 추가하기
-        achievementRepository.save(Achievement.builder()
+        Achievement achievement1 = achievementRepository.save(Achievement.builder()
                 .title("업적1")
                 .tier(1)
                 .description("이것은 업적1 입니다")
                 .achievementImgPath("/achievement/1.png")
                 .build());
 
-        achievementRepository.save(Achievement.builder()
+        Achievement achievement2 = achievementRepository.save(Achievement.builder()
                 .title("업적2")
                 .tier(2)
                 .description("이것은 업적2 입니다")
                 .achievementImgPath("/achievement/2.png")
                 .build());
 
-        achievementRepository.save(Achievement.builder()
+        Achievement achievement3 = achievementRepository.save(Achievement.builder()
                 .title("업적3")
                 .tier(3)
                 .description("이것은 업적3 입니다")
                 .achievementImgPath("/achievement/3.png")
                 .build());
 
-        achievementRepository.save(Achievement.builder()
+        Achievement achievement4 = achievementRepository.save(Achievement.builder()
                 .title("업적4")
                 .tier(4)
                 .description("이것은 업적4 입니다")
                 .achievementImgPath("/achievement/4.png")
                 .build());
+
+        memberService.addBadgeAcq(registerForm.getId(), badge1.getId());
+        memberService.addBadgeAcq(registerForm.getId(), badge2.getId());
+        memberService.addBadgeAcq(registerForm.getId(), badge3.getId());
+        memberService.addBadgeAcq(registerForm.getId(), badge4.getId());
+
+        memberService.updateBadgeOnDisplay(registerForm.getId(), badge1.getId());
+        memberService.updateBadgeOnDisplay(registerForm.getId(), badge2.getId());
+
+        memberService.addAchievementAcq(registerForm.getId(), achievement1.getId());
+        memberService.addAchievementAcq(registerForm.getId(), achievement2.getId());
+        memberService.addAchievementAcq(registerForm.getId(), achievement3.getId());
+        memberService.addAchievementAcq(registerForm.getId(), achievement4.getId());
+
+        memberService.updateAchievementOnDisplay(registerForm.getId(), achievement1.getId());
+        memberService.updateAchievementOnDisplay(registerForm.getId(), achievement2.getId());
     }
 }

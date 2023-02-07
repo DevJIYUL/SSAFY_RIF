@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
+import org.springframework.web.bind.annotation.*;
+import team.a501.rif.dto.achievement.AchievementAcqInfo;
+import team.a501.rif.dto.badge.BadgeAcqInfo;
+import team.a501.rif.dto.member.BadgeGatchaResponse;
+import team.a501.rif.dto.member.MemberRegisterRequest;
+import team.a501.rif.dto.member.MemberResponse;
 import team.a501.rif.service.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin("*")
+@RequestMapping("/api")
 public class MemberController {
 
     private final MemberService memberService;
@@ -42,40 +49,60 @@ public class MemberController {
         return ResponseEntity.ok(memberResponse);
     }
 
-    @GetMapping("/api/member/badge")
-    public ResponseEntity<MemberBadgeAcqInfoResponse> getAllMemberBadgeAcq(@RequestParam String memberId) {
+    @GetMapping("/member/badge")
+    public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId){
 
-        List<BadgeAcqInfo> badgeAcqInfoList = memberService.findAllBadgeAcq(memberId);
+        List<BadgeAcqInfo> onDisplayBadge = memberService.findBadgeAcqOnDisplay(memberId);
 
-        MemberBadgeAcqInfoResponse response = MemberBadgeAcqInfoResponse.builder()
-                .badgeAcqInfoList(badgeAcqInfoList)
-                .build();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(onDisplayBadge);
     }
 
-    @PatchMapping("/api/member/badge")
-    public ResponseEntity<BadgeAcqInfo> updateDisplayingBadge(@RequestParam String memberId,
+    @GetMapping("/v/member/badge")
+    public ResponseEntity<List<BadgeAcqInfo>> getAllMemberBadgeAcq(@RequestParam String memberId) {
+
+        List<BadgeAcqInfo> totalBadge = memberService.findAllBadgeAcq(memberId);
+
+        return ResponseEntity.ok(totalBadge);
+    }
+
+    @PatchMapping("/v/member/badge")
+    public ResponseEntity<BadgeAcqInfo> updateBadgesDisplaying(@RequestParam String memberId,
                                                               @RequestParam Long badgeId) {
 
-        BadgeAcqInfo response = memberService.updateDisplayingBadge(memberId, badgeId);
+        BadgeAcqInfo badge = memberService.updateBadgeOnDisplay(memberId, badgeId);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(badge);
     }
 
-    @PostMapping("/api/gatcha")
+    @GetMapping("/member/achievement")
+    public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId){
+
+        List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqOnDisplay(memberId);
+
+        return ResponseEntity.ok(onDisplayAchievements);
+    }
+
+    @GetMapping("/v/member/achievement")
+    public ResponseEntity<List<AchievementAcqInfo>> getAllMemberAchievementAcq(@RequestParam String memberId){
+
+        List<AchievementAcqInfo> totalAchievement = memberService.findAllAchievementAcq(memberId);
+
+        return ResponseEntity.ok(totalAchievement);
+    }
+
+    @PostMapping("/v/gatcha")
     public ResponseEntity<BadgeGatchaResponse> badgeGatcha(@RequestParam String memberId) {
 
-        BadgeGatchaResponse badgeGatchaResponse = memberService.drawRandomBadge(memberId);
+        BadgeGatchaResponse result = memberService.drawRandomBadge(memberId);
 
-        return ResponseEntity.ok(badgeGatchaResponse);
+        return ResponseEntity.ok(result);
     }
-    @PostMapping(value = "/api/hello")
+    @PostMapping(value = "/v/hello")
     public String hello(){
         log.info("info ={}","hello");
         return "hello";
     }
-    @PatchMapping(value = "/api/member/password{memberId}")
+    @PatchMapping(value = "/v/member/password{memberId}")
     public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
                                  @RequestParam(name = "memberId") String memberId,
                                  @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
@@ -90,7 +117,7 @@ public class MemberController {
         log.info("MemberNameAll info = {}",getNameAll);
         return ResponseEntity.ok(getNameAll);
     }
-    @GetMapping(value = "/api/member/search{name}")
+    @GetMapping(value = "/v/member/search{name}")
     public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam(name = "name") String name){
         log.info("Search member name info = {}",name);
         List<FindMemberByName> repoResponse = memberService.findByName(name);
