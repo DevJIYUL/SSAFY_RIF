@@ -9,10 +9,11 @@ import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class AchievementServiceImpl implements AchievementService{
+public class AchievementServiceImpl implements AchievementService {
 
     private final AchievementRepository achievementRepository;
 
@@ -25,6 +26,12 @@ public class AchievementServiceImpl implements AchievementService{
                 .description(dto.getDescription())
                 .achievementImgPath(dto.getImgPath())
                 .build());
+    }
+
+    @Override
+    public List<Achievement> findAll() {
+
+        return achievementRepository.findAll();
     }
 
     @Override

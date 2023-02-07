@@ -2,6 +2,8 @@ package team.a501.rif.domain.achievement;
 
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.achievement.AchievementAcqInfo;
+import team.a501.rif.dto.achievement.AchievementInfo;
 
 import javax.persistence.*;
 
@@ -14,13 +16,9 @@ public class AchievementAcq extends BaseEntity {
 
     private Boolean onDisplay;
 
-//    @ManyToOne
-//    private Member member; // 멤버가 삭제되면 업적획득도 사라져야한다
-
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member; // todo TempMember로 테스트 후 다시 Member로 변경하기
+    private Member member;
 
-    // todo 업적이 삭제 되더라도 멤버가 삭제되지 않았다면 Null로 대체 되거나 디폴트 값으로 변경?
     @ManyToOne(fetch = FetchType.LAZY)
     private Achievement achievement;
 
@@ -66,5 +64,13 @@ public class AchievementAcq extends BaseEntity {
                 ",\n created= " + this.getCreated().toString() +
                 ",\n modified= " + this.getLastModified().toString() +
                 "\n}";
+    }
+
+    public void toggleOnDisplay() {
+        this.onDisplay = !this.onDisplay;
+    }
+
+    public AchievementAcqInfo getInfo(){
+        return AchievementAcqInfo.from(this);
     }
 }
