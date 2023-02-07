@@ -350,7 +350,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberResponse> getFirst10ByOrderByExp() {
 
         return memberRepository
-                .findFirst10ByOrderByExpDesc()
+                .findTop10ByOrderByExpDesc()
                 .stream()
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
