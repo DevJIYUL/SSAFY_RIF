@@ -19,6 +19,8 @@ import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
@@ -70,7 +72,7 @@ class MemberServiceTest {
                 .build());
 
         Member member = memberRepository.findById("12345")
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         member.setPoint(10000);
 

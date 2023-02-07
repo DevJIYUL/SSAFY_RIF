@@ -3,6 +3,7 @@ package team.a501.rif.dto.badge;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.a501.rif.domain.badge.BadgeAcq;
 
 import java.time.LocalDateTime;
 
@@ -23,5 +24,15 @@ public class BadgeAcqInfo {
         this.badgeInfo = badgeInfo;
         this.onDisplay = onDisplay;
         this.achievedAt = achievedAt;
+    }
+
+    public static BadgeAcqInfo from(BadgeAcq badgeAcq){
+
+        return BadgeAcqInfo.builder()
+                .id(badgeAcq.getId())
+                .badgeInfo(BadgeInfo.from(badgeAcq.getBadge()))
+                .onDisplay(badgeAcq.getOnDisplay())
+                .achievedAt(badgeAcq.getCreated())
+                .build();
     }
 }
