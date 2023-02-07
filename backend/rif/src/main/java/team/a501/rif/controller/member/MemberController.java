@@ -102,9 +102,9 @@ public class MemberController {
         log.info("info ={}","hello");
         return "hello";
     }
-    @PatchMapping(value = "/v/member/password{memberId}")
+    @PatchMapping(value = "/v/member/password")
     public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
-                                 @RequestParam(name = "memberId") String memberId,
+                                 @RequestParam String memberId,
                                  @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
         log.info("asd : {}",memberId);
         log.info("httpservletRequest info = {}",request);
@@ -117,8 +117,8 @@ public class MemberController {
         log.info("MemberNameAll info = {}",getNameAll);
         return ResponseEntity.ok(getNameAll);
     }
-    @GetMapping(value = "/v/member/search{name}")
-    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam(name = "name") String name){
+    @GetMapping(value = "/v/member/search")
+    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name){
         log.info("Search member name info = {}",name);
         List<FindMemberByName> repoResponse = memberService.findByName(name);
 
