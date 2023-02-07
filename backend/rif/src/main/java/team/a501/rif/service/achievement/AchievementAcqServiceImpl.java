@@ -24,7 +24,7 @@ public class AchievementAcqServiceImpl implements AchievementAcqService {
 
     @Override
     @Transactional
-    public AchievementAcq create(String memberId, Long achievementId) {
+    public AchievementAcq save(String memberId, Long achievementId) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException());
@@ -37,47 +37,4 @@ public class AchievementAcqServiceImpl implements AchievementAcqService {
 
         return achievementAcq;
     }
-
-    @Override
-    @Transactional
-    public List<AchievementAcq> findByMemberId(String memberId) {
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        return achievementAcqRepository.findByMember(member);
-    }
-
-    @Override
-    @Transactional
-    public List<AchievementAcq> findByMemberUid(String memberUid) {
-
-        Member member = memberRepository.findByUid(memberUid)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        return achievementAcqRepository.findByMember(member);
-    }
-
-    @Override
-    @Transactional
-    public List<AchievementAcqResponse> findOnDisplayedItemsOfMember(String memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        return achievementAcqRepository
-                .findByMemberAndOnDisplay(member, true)
-                .stream()
-                .map(acq ->
-                        AchievementAcqResponse
-                                .builder()
-                                .id(acq.getId())
-                                .tier(acq.getAchievement().getTier())
-                                .title(acq.getAchievement().getTitle())
-                                .description(acq.getAchievement().getDescription())
-                                .imgPath(acq.getAchievement().getImgPath())
-                                .achievedAt(acq.getCreated())
-                                .build())
-                .collect(Collectors.toList());
-    }
-
 }
