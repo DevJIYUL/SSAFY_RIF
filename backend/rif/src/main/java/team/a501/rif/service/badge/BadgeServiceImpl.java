@@ -52,6 +52,12 @@ public class BadgeServiceImpl implements BadgeService{
     }
 
     @Override
+    public List<Badge> findAll() {
+
+        return badgeRepository.findAll();
+    }
+
+    @Override
     public void deleteById(Long id) {
 
         badgeRepository.deleteById(id);

@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.dto.auth.TokenDto;
-
 import team.a501.rif.dto.auth.LoginRequest;
+import team.a501.rif.dto.auth.TokenDto;
 import team.a501.rif.service.auth.AuthService;
 
 @RestController
@@ -41,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenDto tokenDto) throws Exception {
+    public ResponseEntity<TokenDto> reissue(@RequestParam TokenDto tokenDto) throws Exception {
         log.info("reissue info= {}",tokenDto);
         return ResponseEntity.ok(authService.refreshAccessToken(tokenDto));
 //        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);

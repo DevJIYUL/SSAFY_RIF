@@ -6,7 +6,6 @@ import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @NoArgsConstructor
 @Entity
@@ -26,15 +25,15 @@ public class RifLog extends BaseEntity {
 
     private Integer recycleOk;
 
-    private Boolean adviseIgnored;
+    private Boolean adviceIgnored;
 
     @Builder
-    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviseIgnored) {
+    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviceIgnored) {
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
-        this.adviseIgnored = adviseIgnored;
+        this.adviceIgnored = adviceIgnored;
     }
 
     public Long getId() {
@@ -85,12 +84,12 @@ public class RifLog extends BaseEntity {
         this.recycleOk = recycleOk;
     }
 
-    public Boolean getAdviseIgnored() {
-        return adviseIgnored;
+    public Boolean getAdviceIgnored() {
+        return adviceIgnored;
     }
 
-    public void setAdviseIgnored(Boolean adviseIgnored) {
-        this.adviseIgnored = adviseIgnored;
+    public void setAdviceIgnored(Boolean adviseIgnored) {
+        this.adviceIgnored = adviseIgnored;
     }
 
     @Override
@@ -102,7 +101,7 @@ public class RifLog extends BaseEntity {
                 ",\n plasticOk=" + plasticOk +
                 ",\n recycleTotal=" + recycleTotal +
                 ",\n recycleOk=" + recycleOk +
-                ",\n adviseIgnored=" + adviseIgnored +
+                ",\n adviseIgnored=" + adviceIgnored +
                 ",\n createdAt= " + this.getCreated().toString() +
                 "\n}";
     }

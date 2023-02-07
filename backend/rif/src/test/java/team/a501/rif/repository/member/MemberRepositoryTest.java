@@ -20,7 +20,6 @@ import team.a501.rif.repository.member.MemberRepository;
 import java.util.UUID;
 
 @DataJpaTest(showSql = false)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
@@ -93,7 +92,7 @@ class MemberRepositoryTest {
 
     @DisplayName("임시 멤버 추가하기")
     @Test
-    void createTempMember(){
+    void createMember(){
 
         String id = UUID.randomUUID().toString(); // todo 테스트 용
         String studentId = "0847836";
