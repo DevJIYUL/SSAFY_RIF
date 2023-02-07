@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.badge.BadgeInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
@@ -28,18 +30,16 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final BadgeAcqService badgeAcqService;
-    private final BadgeRepository badgeRepository;
-
     private final BadgeService badgeService;
 
 
     @Override
-    @Transactional
     public MemberResponse register(MemberRegisterRequest memberRegister) {
         Member member = memberRepository.save(Member.builder()
                 .id(memberRegister.getId())
@@ -76,7 +76,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public MemberResponse findByUid(String uid) {
         Member member = memberRepository
                 .findByUid(uid)
@@ -91,7 +90,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public MemberResponse findById(String id) {
         Member member = memberRepository
                 .findById(id)
@@ -106,36 +104,49 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow();
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<BadgeAcqInfo> badgeAcqInfoList = member.getBadgeAcqs()
+        List<BadgeAcqInfo> badgeAcqInfoList = member
+                .getBadgeAcqs()
                 .values()
                 .stream()
-                .map(badgeAcq -> {
-
-                    Badge badge = badgeAcq.getBadge();
-
-                    BadgeInfo badgeInfo = BadgeInfo.builder()
-                            .id(badge.getId())
-                            .title(badge.getTitle())
-                            .tier(badge.getTier())
-                            .description(badge.getDescription())
-                            .imgPath(badge.getImgPath())
-                            .build();
-
-                    return BadgeAcqInfo.builder()
-                            .id(badgeAcq.getId())
-                            .onDisplay(badgeAcq.getOnDisplay())
-                            .achievedAt(badgeAcq.getCreated())
-                            .badgeInfo(badgeInfo)
-                            .build();
-                })
+                .map(badgeAcq -> BadgeAcqInfo.from(badgeAcq))
                 .collect(Collectors.toList());
 
         return badgeAcqInfoList;
+    }
+
+    @Override
+    @Transactional
+    public List<AchievementAcqInfo> findAllAchievementAcq(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        List<AchievementAcqInfo> achievementAcqInfoList = member
+                .getAchievementAcqs()
+                .values()
+                .stream()
+                .map(acq -> AchievementAcqInfo.from(acq))
+                .collect(Collectors.toList());
+
+        return achievementAcqInfoList;
+    }
+
+    @Override
+    public List<AchievementAcqInfo> findAchievementAcqDisplaying(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        List<AchievementAcqInfo> achievementAcqInfoList = member.getAchievementAcqs()
+                .values()
+                .stream()
+                .filter(acq -> acq.getOnDisplay())
+                .map(acq -> AchievementAcqInfo.from(acq))
+                .collect(Collectors.toList());
+
+        return achievementAcqInfoList;
     }
 
     private static final Integer GATCHA_COST = 100;
@@ -171,10 +182,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
-    public BadgeAcqInfo updateDisplayingBadge(String memberId, Long badgeId) {
+    public BadgeAcqInfo updateBadgeDisplaying(String memberId, Long badgeId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow();
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         BadgeAcq badgeAcq = Optional.of(member.getBadgeAcqs().get(badgeId))
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
@@ -185,7 +195,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
+    public AchievementAcqInfo updateAchievementDisplaying(String memberId, Long achievementId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        AchievementAcq achievementAcq = Optional.of(member.getAchievementAcqs().get(achievementId))
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        achievementAcq.toggleOnDisplay();
+
+        return achievementAcq.getInfo();
+    }
+
+    @Override
     public void deleteByUid(String uid) {
 
         Member member = memberRepository
@@ -206,7 +228,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public void deleteById(String id) {
 
         Member member = memberRepository
@@ -226,7 +247,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) {
 
         UserDetails userDetails = memberRepository
