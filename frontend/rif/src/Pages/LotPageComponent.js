@@ -7,13 +7,19 @@ import {
   DialogContentText,
   DialogContent,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice";
+import Firework from "../Components/Firework";
 
 const LotDialog = (props) => {
   const badgeTitle = useSelector((state) => state.lotto.badgeTitle);
   const badgeDesc = useSelector((state) => state.lotto.badgeDesc);
+  const badgeTier = useSelector((state) => state.lotto.badgeTier);
+
+  useEffect(() => {
+    console.log("badgeTier has Changed", badgeTier);
+  }, [badgeTier]);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth={"sm"}>
@@ -94,6 +100,7 @@ const LotComponent = () => {
         </Grid>
       </Grid>
       <LotDialog open={open} onClose={modelCloseHandler}></LotDialog>
+      <Firework />
     </div>
   );
 };
