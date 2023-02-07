@@ -11,6 +11,7 @@ import team.a501.rif.dto.member.MemberResponse;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -33,4 +34,10 @@ public interface MemberService extends UserDetailsService {
     void deleteByUid(String uid);
 
     void deleteById(String id);
+
+    MemberResponse passwordChange(HttpServletRequest request, String memberId, PasswordChangeRequest passwordChangeRequest);
+
+    List<GetMembersName> getMembersName();
+
+    List<FindMemberByName> findByName(String name);
 }

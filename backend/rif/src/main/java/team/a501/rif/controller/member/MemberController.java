@@ -1,8 +1,14 @@
 package team.a501.rif.controller.member;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.badge.BadgeAcqInfo;
+import team.a501.rif.dto.member.*;
 import org.springframework.web.bind.annotation.*;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
@@ -13,6 +19,7 @@ import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -104,5 +111,27 @@ public class MemberController {
     public String hello(){
         log.info("info ={}","hello");
         return "hello";
+    }
+    @PatchMapping(value = "/v/member/password")
+    public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
+                                 @RequestParam String memberId,
+                                 @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
+        log.info("asd : {}",memberId);
+        log.info("httpservletRequest info = {}",request);
+        MemberResponse member = memberService.passwordChange(request,memberId,passwordChangeRequest);
+        return ResponseEntity.ok(member);
+    }
+    @GetMapping(value = "/member/name")
+    public ResponseEntity<List<GetMembersName>> getMemberNameAll(){
+        List<GetMembersName> getNameAll = memberService.getMembersName();
+        log.info("MemberNameAll info = {}",getNameAll);
+        return ResponseEntity.ok(getNameAll);
+    }
+    @GetMapping(value = "/v/member/search")
+    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name){
+        log.info("Search member name info = {}",name);
+        List<FindMemberByName> repoResponse = memberService.findByName(name);
+
+        return ResponseEntity.ok(repoResponse);
     }
 }
