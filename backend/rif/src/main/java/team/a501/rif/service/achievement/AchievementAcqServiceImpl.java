@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.achievement.AchievementAcqResponse;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.member.MemberRepository;
@@ -24,7 +25,7 @@ public class AchievementAcqServiceImpl implements AchievementAcqService {
 
     @Override
     @Transactional
-    public AchievementAcq save(String memberId, Long achievementId) {
+    public AchievementAcqInfo save(String memberId, Long achievementId) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException());
@@ -35,6 +36,6 @@ public class AchievementAcqServiceImpl implements AchievementAcqService {
         achievement.addAchievementAcq(achievementAcq);
         member.addAchievementAcq(achievementAcq);
 
-        return achievementAcq;
+        return AchievementAcqInfo.from(achievementAcq);
     }
 }

@@ -18,8 +18,10 @@ import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
 import team.a501.rif.exception.ExceptionCode;
 import team.a501.rif.exception.RifCustomException;
+import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
 import team.a501.rif.repository.member.MemberRepository;
+import team.a501.rif.service.achievement.AchievementAcqService;
 import team.a501.rif.service.badge.BadgeAcqService;
 import team.a501.rif.service.badge.BadgeService;
 
@@ -35,8 +37,11 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final BadgeAcqService badgeAcqService;
     private final BadgeService badgeService;
+    private final BadgeRepository badgeRepository;
+    private final BadgeAcqService badgeAcqService;
+    private final AchievementRepository achievementRepository;
+    private final AchievementAcqService achievementAcqService;
 
 
     @Override
@@ -127,6 +132,7 @@ public class MemberServiceImpl implements MemberService {
                 .getBadgeAcqs()
                 .values()
                 .stream()
+                .filter(acq -> acq.getOnDisplay())
                 .map(acq -> BadgeAcqInfo.from(acq))
                 .collect(Collectors.toList());
 
@@ -222,6 +228,17 @@ public class MemberServiceImpl implements MemberService {
         achievementAcq.toggleOnDisplay();
 
         return achievementAcq.getInfo();
+    }
+
+    @Override
+    public BadgeAcqInfo addBadgeAcq(String memberId, Long badgeId) {
+
+        return badgeAcqService.save(memberId, badgeId);
+    }
+
+    @Override
+    public AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId) {
+        return achievementAcqService.save(memberId, achievementId);
     }
 
     @Override
