@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     String id;
-
     String uid;
-
     String name;
-
     String imgPath;
 
     @Builder

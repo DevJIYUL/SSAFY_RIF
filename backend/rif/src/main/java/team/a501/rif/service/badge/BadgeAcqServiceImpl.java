@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class BadgeAcqServiceImpl implements BadgeAcqService{
+public class BadgeAcqServiceImpl implements BadgeAcqService {
 
     private final BadgeAcqRepository badgeAcqRepository;
     private final BadgeRepository badgeRepository;

@@ -1,20 +1,13 @@
 package team.a501.rif.controller.member;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.*;
-import org.springframework.web.bind.annotation.*;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;

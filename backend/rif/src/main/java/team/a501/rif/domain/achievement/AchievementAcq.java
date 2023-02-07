@@ -3,7 +3,6 @@ package team.a501.rif.domain.achievement;
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
-import team.a501.rif.dto.achievement.AchievementInfo;
 
 import javax.persistence.*;
 

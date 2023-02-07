@@ -30,7 +30,7 @@ public class RifLogInfo {
         this.createdAt = createdAt;
     }
 
-    public static RifLogInfo from(RifLog rifLog){
+    public static RifLogInfo from(RifLog rifLog) {
         return RifLogInfo.builder()
                 .id(rifLog.getId())
                 .plasticTotal(rifLog.getPlasticTotal())
