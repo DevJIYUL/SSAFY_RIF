@@ -15,7 +15,7 @@ const RankingItemComponent = (props) => {
   const rank = props.rankingInfo.rank;
   const member = props.rankingInfo.member;
   const name = member.name;
-  const uid = member.uid;
+  // const uid = member.uid;
   const profileImgPath = member.profileImgPath;
   const exp = member.exp;
   const [level, caledExp] = calLevel(exp);
