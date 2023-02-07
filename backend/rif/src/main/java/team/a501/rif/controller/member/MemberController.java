@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberBadgeAcqInfoResponse;
 import team.a501.rif.dto.member.MemberRegisterRequest;
 import team.a501.rif.dto.member.MemberResponse;
 import team.a501.rif.service.member.MemberService;
@@ -43,41 +42,53 @@ public class MemberController {
         return ResponseEntity.ok(memberResponse);
     }
 
+    @GetMapping("/member/badge")
+    public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId){
+
+        List<BadgeAcqInfo> onDisplayBadge = memberService.findBadgeAcqOnDisplay(memberId);
+
+        return ResponseEntity.ok(onDisplayBadge);
+    }
+
     @GetMapping("/v/member/badge")
-    public ResponseEntity<MemberBadgeAcqInfoResponse> getAllMemberBadgeAcq(@RequestParam String memberId) {
+    public ResponseEntity<List<BadgeAcqInfo>> getAllMemberBadgeAcq(@RequestParam String memberId) {
 
-        List<BadgeAcqInfo> badgeAcqInfoList = memberService.findAllBadgeAcq(memberId);
+        List<BadgeAcqInfo> totalBadge = memberService.findAllBadgeAcq(memberId);
 
-        MemberBadgeAcqInfoResponse response = MemberBadgeAcqInfoResponse.builder()
-                .badgeAcqInfoList(badgeAcqInfoList)
-                .build();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(totalBadge);
     }
 
     @PatchMapping("/v/member/badge")
     public ResponseEntity<BadgeAcqInfo> updateBadgesDisplaying(@RequestParam String memberId,
                                                               @RequestParam Long badgeId) {
 
-        BadgeAcqInfo response = memberService.updateBadgeDisplaying(memberId, badgeId);
+        BadgeAcqInfo badge = memberService.updateBadgeOnDisplay(memberId, badgeId);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(badge);
     }
 
     @GetMapping("/member/achievement")
     public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId){
 
-        List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqDisplaying(memberId);
+        List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqOnDisplay(memberId);
 
         return ResponseEntity.ok(onDisplayAchievements);
+    }
+
+    @GetMapping("/v/member/achievement")
+    public ResponseEntity<List<AchievementAcqInfo>> getAllMemberAchievementAcq(@RequestParam String memberId){
+
+        List<AchievementAcqInfo> totalAchievement = memberService.findAllAchievementAcq(memberId);
+
+        return ResponseEntity.ok(totalAchievement);
     }
 
     @PostMapping("/v/gatcha")
     public ResponseEntity<BadgeGatchaResponse> badgeGatcha(@RequestParam String memberId) {
 
-        BadgeGatchaResponse badgeGatchaResponse = memberService.drawRandomBadge(memberId);
+        BadgeGatchaResponse result = memberService.drawRandomBadge(memberId);
 
-        return ResponseEntity.ok(badgeGatchaResponse);
+        return ResponseEntity.ok(result);
     }
     @PostMapping(value = "/v/hello")
     public String hello(){

@@ -119,6 +119,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<BadgeAcqInfo> findBadgeAcqOnDisplay(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        List<BadgeAcqInfo> badgeAcqInfoList = member
+                .getBadgeAcqs()
+                .values()
+                .stream()
+                .map(acq -> BadgeAcqInfo.from(acq))
+                .collect(Collectors.toList());
+
+        return badgeAcqInfoList;
+    }
+
+    @Override
     @Transactional
     public List<AchievementAcqInfo> findAllAchievementAcq(String memberId) {
         Member member = memberRepository.findById(memberId)
@@ -135,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<AchievementAcqInfo> findAchievementAcqDisplaying(String memberId) {
+    public List<AchievementAcqInfo> findAchievementAcqOnDisplay(String memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
@@ -182,7 +197,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public BadgeAcqInfo updateBadgeDisplaying(String memberId, Long badgeId) {
+    public BadgeAcqInfo updateBadgeOnDisplay(String memberId, Long badgeId) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
@@ -196,7 +211,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public AchievementAcqInfo updateAchievementDisplaying(String memberId, Long achievementId) {
+    public AchievementAcqInfo updateAchievementOnDisplay(String memberId, Long achievementId) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
