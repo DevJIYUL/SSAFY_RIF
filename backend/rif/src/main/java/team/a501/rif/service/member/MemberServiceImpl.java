@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import team.a501.rif.config.Jwt.JwtAuthenticationFilter;
 import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.achievement.AchievementAcq;
@@ -32,7 +31,9 @@ import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -119,17 +120,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository
+                .findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<BadgeAcqInfo> badgeAcqInfoList = member
+        return member
                 .getBadgeAcqs()
                 .values()
                 .stream()
-                .map(badgeAcq -> BadgeAcqInfo.from(badgeAcq))
+                .map(BadgeAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return badgeAcqInfoList;
     }
 
     @Override
@@ -137,15 +137,13 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<BadgeAcqInfo> badgeAcqInfoList = member
+        return member
                 .getBadgeAcqs()
                 .values()
                 .stream()
-                .filter(acq -> acq.getOnDisplay())
-                .map(acq -> BadgeAcqInfo.from(acq))
+                .filter(BadgeAcq::getOnDisplay)
+                .map(BadgeAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return badgeAcqInfoList;
     }
 
     @Override
@@ -154,14 +152,12 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<AchievementAcqInfo> achievementAcqInfoList = member
+        return member
                 .getAchievementAcqs()
                 .values()
                 .stream()
-                .map(acq -> AchievementAcqInfo.from(acq))
+                .map(AchievementAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return achievementAcqInfoList;
     }
 
     @Override
@@ -169,14 +165,12 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        List<AchievementAcqInfo> achievementAcqInfoList = member.getAchievementAcqs()
+        return member.getAchievementAcqs()
                 .values()
                 .stream()
-                .filter(acq -> acq.getOnDisplay())
-                .map(acq -> AchievementAcqInfo.from(acq))
+                .filter(AchievementAcq::getOnDisplay)
+                .map(AchievementAcqInfo::from)
                 .collect(Collectors.toList());
-
-        return achievementAcqInfoList;
     }
 
     private static final Integer GATCHA_COST = 100;
@@ -252,8 +246,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public RifLogInfo addRifLog(RifLogSaveRequest dto) {
-        RifLogInfo rifLogInfo = rifLogService.save(dto);
-        return rifLogInfo;
+        return rifLogService.save(dto);
     }
 
     @Override
@@ -299,16 +292,18 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse passwordChange(HttpServletRequest request, String memberId, PasswordChangeRequest passwordChangeRequest) {
         String accessToken = jwtAuthenticationFilter.resolveToken(request);
 
-        log.info("passwordChange info : {}",passwordChangeRequest,memberId);
-        log.info("memberid ={}",memberId);
-        log.info("accesstoken info ={}",accessToken);
+        log.info("passwordChange info : {}", passwordChangeRequest, memberId);
+        log.info("memberid ={}", memberId);
+        log.info("accesstoken info ={}", accessToken);
         Claims claims = jwtTokenProvider.parseClaims(accessToken);
-        log.info("Claims info = {}",claims);
-        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(()->new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
-        log.info("Member by token info = {}",member);
-        if(!memberId.equals(member.getId()))throw new BadCredentialsException("잘못된 유저입니다.");
-        if(!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(),member.getPassword())) throw new BadCredentialsException("다시 입력해주세요.");
-        if(!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm())) throw new BadCredentialsException("다시 입력해주세요.");
+        log.info("Claims info = {}", claims);
+        Member member = memberRepository.findById(claims.getSubject()).orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
+        log.info("Member by token info = {}", member);
+        if (!memberId.equals(member.getId())) throw new BadCredentialsException("잘못된 유저입니다.");
+        if (!passwordEncoder.matches(passwordChangeRequest.getCurrentPassword(), member.getPassword()))
+            throw new BadCredentialsException("다시 입력해주세요.");
+        if (!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getNewPasswordConfirm()))
+            throw new BadCredentialsException("다시 입력해주세요.");
         Member changeMember = memberRepository.save(Member.builder()
                 .id(member.getId())
                 .uid(member.getUid())
@@ -330,7 +325,7 @@ public class MemberServiceImpl implements MemberService {
     public List<GetMembersName> getMembersName() {
         List<Member> getNameAll = memberRepository.findAll();
         List<GetMembersName> response = new ArrayList<>();
-        for (Member b : getNameAll){
+        for (Member b : getNameAll) {
             response.add(GetMembersName.builder().name(b.getName()).build());
         }
         return response;
@@ -340,7 +335,7 @@ public class MemberServiceImpl implements MemberService {
     public List<FindMemberByName> findByName(String name) {
         List<Member> repo = memberRepository.findAllByName(name);
         List<FindMemberByName> response = new ArrayList<>();
-        for (Member b : repo){
+        for (Member b : repo) {
             response.add(FindMemberByName.builder()
                     .id(b.getId())
                     .name(b.getName())
@@ -352,13 +347,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberResponse> getFirst10ByOrderByExp() {
+
+        return memberRepository
+                .findTop10ByOrderByExpDesc()
+                .stream()
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
 
-        UserDetails userDetails = memberRepository
+        return memberRepository
                 .findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
-
-        return userDetails;
     }
 }

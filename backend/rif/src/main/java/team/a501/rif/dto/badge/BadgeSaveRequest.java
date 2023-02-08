@@ -18,11 +18,12 @@ public class BadgeSaveRequest {
     private String description;
     private String badgeImgPath;
 
-    public Badge toEntity(){
+    public Badge toEntity() {
 
-        if(tier < MIN_TIER || tier > MAX_TIER) throw new IllegalArgumentException();
-        if(title.length() < 1 || title.length() > MAX_TITLE_LENGTH) throw new IllegalArgumentException();
-        if(description.length() < 1 || description.length() > MAX_DESCRIPTION_LENGTH) throw new IllegalArgumentException();
+        if (tier < MIN_TIER || tier > MAX_TIER) throw new IllegalArgumentException();
+        if (title.length() < 1 || title.length() > MAX_TITLE_LENGTH) throw new IllegalArgumentException();
+        if (description.length() < 1 || description.length() > MAX_DESCRIPTION_LENGTH)
+            throw new IllegalArgumentException();
 
         return Badge.builder()
                 .title(this.title)

@@ -6,14 +6,11 @@ import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
-import team.a501.rif.dto.achievement.AchievementAcqResponse;
 import team.a501.rif.repository.achievement.AchievementAcqRepository;
 import team.a501.rif.repository.member.MemberRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
