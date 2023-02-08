@@ -48,9 +48,11 @@ const SectionTitleComponent = (props) => {
       >
         {props.sectionTitle}
       </span>
-      <SectionDetailComponent to={props.to}>
-        {props.sectionDetail}
-      </SectionDetailComponent>
+      {props.sectionDetail && (
+        <SectionDetailComponent to={props.to}>
+          {props.sectionDetail}
+        </SectionDetailComponent>
+      )}
     </Box>
   );
 };
