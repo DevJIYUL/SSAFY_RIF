@@ -347,13 +347,29 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberResponse> getFirst10ByOrderByExp() {
+    public List<MemberRankingResponse> getFirst10ByOrderByExp() {
 
-        return memberRepository
+        List<MemberResponse> top10 = memberRepository
                 .findTop10ByOrderByExpDesc()
                 .stream()
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
+
+        List<MemberRankingResponse> memberRankingResponses = new ArrayList<>();
+
+        for(int i = 0; i < top10.size(); ++i){
+            memberRankingResponses.add(MemberRankingResponse.builder()
+                    .rank(i + 1)
+                    .member(top10.get(i))
+                    .build());
+        }
+
+        return memberRankingResponses;
+    }
+
+    @Override
+    public List<MemberRankingResponse> getFirst10ByOrderByExpAndRankOfMember(String memberId) {
+        return null;
     }
 
     @Override
