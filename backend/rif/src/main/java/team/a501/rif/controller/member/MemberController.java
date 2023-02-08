@@ -1,6 +1,7 @@
 package team.a501.rif.controller.member;
 
 import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
+    @Operation(summary = "회원등록",description = "회원등록 하는 메서드입니다.")
     public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRegisterRequest body) {
 
         MemberResponse memberResponse = memberService.register(body);
@@ -50,7 +52,6 @@ public class MemberController {
         MemberResponse memberResponse = memberService.findById(id);
         return ResponseEntity.ok(memberResponse);
     }
-
     @GetMapping("/member/badge")
     public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId){
 
@@ -58,7 +59,6 @@ public class MemberController {
 
         return ResponseEntity.ok(onDisplayBadge);
     }
-
     @GetMapping("/v/member/badge")
     public ResponseEntity<List<BadgeAcqInfo>> getAllMemberBadgeAcq(@RequestParam String memberId) {
 
@@ -107,11 +107,13 @@ public class MemberController {
 
         return ResponseEntity.ok(rifLogInfo);
     }
+    @Operation(summary = "권한 테스트",description = "권한 테스트하는 메서드입니다. 토큰을 넣으면 hello")
     @PostMapping(value = "/v/hello")
     public String hello(){
         log.info("info ={}","hello");
         return "hello";
     }
+    @Operation(summary = "비밀번호 변경",description = "비밀번호 변경하는 메서드입니다.")
     @PatchMapping(value = "/v/member/password")
     public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
                                  @RequestParam String memberId,
@@ -121,12 +123,14 @@ public class MemberController {
         MemberResponse member = memberService.passwordChange(request,memberId,passwordChangeRequest);
         return ResponseEntity.ok(member);
     }
+    @Operation(summary = "회원이름",description = "모든 회원의 이름을 반환하는 메서드입니다.")
     @GetMapping(value = "/member/name")
     public ResponseEntity<List<GetMembersName>> getMemberNameAll(){
         List<GetMembersName> getNameAll = memberService.getMembersName();
         log.info("MemberNameAll info = {}",getNameAll);
         return ResponseEntity.ok(getNameAll);
     }
+    @Operation(summary = "회원 찾기",description = "이름으로 회원을 찾는 메서드입니다.")
     @GetMapping(value = "/v/member/search")
     public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name){
         log.info("Search member name info = {}",name);
