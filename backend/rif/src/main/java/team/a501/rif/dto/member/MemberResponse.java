@@ -12,14 +12,14 @@ public class MemberResponse {
     String id;
     String uid;
     String name;
-    String imgPath;
+    String profile_img_path;
 
     @Builder
-    public MemberResponse(String id, String uid, String name, String imgPath) {
+    public MemberResponse(String id, String uid, String name, String profileImgPath) {
         this.id = id;
         this.uid = uid;
         this.name = name;
-        this.imgPath = imgPath;
+        this.profile_img_path = profileImgPath;
     }
 
     public static MemberResponse from(Member member){
@@ -28,7 +28,7 @@ public class MemberResponse {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
-                .imgPath(member.getProfileImgPath())
+                .profileImgPath(member.getProfileImgPath())
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class MemberResponse {
                 "\n id='" + id + '\'' +
                 ",\n uid='" + uid + '\'' +
                 ",\n name='" + name + '\'' +
-                ",\n imgPath='" + imgPath + '\'' +
+                ",\n imgPath='" + profile_img_path + '\'' +
                 "\n}";
     }
 }
