@@ -4,7 +4,7 @@ import NavigationComponent from "./NavigationComponent";
 const RootLayOut = () => {
   return (
     <>
-      <main>
+      <main style={{ marginBottom: "70px" }}>
         <Outlet />
       </main>
       <NavigationComponent />

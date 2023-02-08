@@ -12,13 +12,15 @@ import BadgePageComponent from "./Pages/BadgePageComponent";
 import RankingPageComponent from "./Pages/RankingPageComponent";
 import ChangeProfilePageComponent from "./Pages/ChangeProfilePageComponent";
 import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent";
+import LogPageComponent from "./Pages/LogPageComponent";
+import AchievementPageComponent from "./Pages/AchievementPageComponent";
 import RootLayOut from "./UI/RootLayOut";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayOut />,
-    errorElement: <ErrorPageComponent />,
+    // errorElement: <ErrorPageComponent />,
     children: [
       {
         // LoginPage
@@ -75,6 +77,16 @@ const router = createBrowserRouter([
         // Change Password Page Component
         path: "/change-password",
         element: <ChangePasswordPageComponent />,
+      },
+      {
+        // Log Page Component
+        path: "/log",
+        element: <LogPageComponent />,
+      },
+      {
+        // Achievement Page Component
+        path: "/achievement",
+        element: <AchievementPageComponent />,
       },
     ],
   },

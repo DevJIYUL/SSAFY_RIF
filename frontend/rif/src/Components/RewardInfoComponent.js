@@ -7,8 +7,10 @@ import {
 } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 
-const BadgeInfoComponent = (props) => {
-  const { imageId, title, description, imgPath, achievedAt } = props.badge;
+const RewardInfoComponent = (props) => {
+  const { imageId, title, description, imgPath, achievedAt } = props.reward;
+  const imgPathColored = imgPath.slice(0, -4) + "_colored.png";
+
   return (
     <Dialog onClose={props.onClose} open={props.open}>
       <DialogContent sx={{ bgcolor: "#A6BB8D" }}>
@@ -19,7 +21,11 @@ const BadgeInfoComponent = (props) => {
             display="flex"
             alignItems="center"
           >
-            <img src={imgPath} alt={imageId} height="75px" />
+            {props.type === "badge" ? (
+              <img src={imgPathColored} alt={imageId} height="75px" />
+            ) : (
+              <img src={imgPath} alt={imageId} height="75px" />
+            )}
           </Grid>
           <Grid item className="grid-name" sx={{ ml: "2rem" }}>
             <h2 style={{ margin: "0px", textAlign: "center" }}>{title}</h2>
@@ -32,13 +38,13 @@ const BadgeInfoComponent = (props) => {
         sx={{ bgcolor: "#A6BB8D", display: "flex", justifyContent: "center" }}
       >
         {props.onDisplay ? (
-          <BtnComponent color="secondary"> 대표 뱃지 해제 </BtnComponent>
+          <BtnComponent color="secondary"> 대표 해제 </BtnComponent>
         ) : (
-          <BtnComponent color="secondary"> 대표 뱃지 설정 </BtnComponent>
+          <BtnComponent color="secondary"> 대표 설정 </BtnComponent>
         )}
       </DialogActions>
     </Dialog>
   );
 };
 
-export default BadgeInfoComponent;
+export default RewardInfoComponent;
