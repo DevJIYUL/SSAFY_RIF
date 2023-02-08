@@ -7,15 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.*;
-import org.springframework.web.bind.annotation.*;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.dto.member.BadgeGatchaResponse;
-import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.member.MemberResponse;
+import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;
@@ -41,19 +35,19 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid){
+    public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid) {
 
         MemberResponse memberResponse = memberService.findByUid(uid);
         return ResponseEntity.ok(memberResponse);
     }
 
     @GetMapping("/member/profile")
-    public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id){
+    public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id) {
         MemberResponse memberResponse = memberService.findById(id);
         return ResponseEntity.ok(memberResponse);
     }
     @GetMapping("/member/badge")
-    public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId){
+    public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId) {
 
         List<BadgeAcqInfo> onDisplayBadge = memberService.findBadgeAcqOnDisplay(memberId);
 
@@ -69,7 +63,7 @@ public class MemberController {
 
     @PatchMapping("/v/member/badge")
     public ResponseEntity<BadgeAcqInfo> updateBadgesDisplaying(@RequestParam String memberId,
-                                                              @RequestParam Long badgeId) {
+                                                               @RequestParam Long badgeId) {
 
         BadgeAcqInfo badge = memberService.updateBadgeOnDisplay(memberId, badgeId);
 
@@ -77,7 +71,7 @@ public class MemberController {
     }
 
     @GetMapping("/member/achievement")
-    public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId){
+    public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId) {
 
         List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqOnDisplay(memberId);
 
@@ -85,7 +79,7 @@ public class MemberController {
     }
 
     @GetMapping("/v/member/achievement")
-    public ResponseEntity<List<AchievementAcqInfo>> getAllMemberAchievementAcq(@RequestParam String memberId){
+    public ResponseEntity<List<AchievementAcqInfo>> getAllMemberAchievementAcq(@RequestParam String memberId) {
 
         List<AchievementAcqInfo> totalAchievement = memberService.findAllAchievementAcq(memberId);
 
@@ -101,7 +95,7 @@ public class MemberController {
     }
 
     @PostMapping("/member/riflog")
-    public ResponseEntity<RifLogInfo> addRifLog(@RequestBody RifLogSaveRequest body){
+    public ResponseEntity<RifLogInfo> addRifLog(@RequestBody RifLogSaveRequest body) {
 
         RifLogInfo rifLogInfo = memberService.addRifLog(body);
 
@@ -109,33 +103,41 @@ public class MemberController {
     }
     @Operation(summary = "권한 테스트",description = "권한 테스트하는 메서드입니다. 토큰을 넣으면 hello")
     @PostMapping(value = "/v/hello")
-    public String hello(){
-        log.info("info ={}","hello");
+    public String hello() {
+        log.info("info ={}", "hello");
         return "hello";
     }
     @Operation(summary = "비밀번호 변경",description = "비밀번호 변경하는 메서드입니다.")
     @PatchMapping(value = "/v/member/password")
     public ResponseEntity<MemberResponse> passwordChange(HttpServletRequest request,
-                                 @RequestParam String memberId,
-                                 @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception{
-        log.info("asd : {}",memberId);
-        log.info("httpservletRequest info = {}",request);
-        MemberResponse member = memberService.passwordChange(request,memberId,passwordChangeRequest);
+                                                         @RequestParam String memberId,
+                                                         @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception {
+        log.info("asd : {}", memberId);
+        log.info("httpservletRequest info = {}", request);
+        MemberResponse member = memberService.passwordChange(request, memberId, passwordChangeRequest);
         return ResponseEntity.ok(member);
     }
     @Operation(summary = "회원이름",description = "모든 회원의 이름을 반환하는 메서드입니다.")
     @GetMapping(value = "/member/name")
-    public ResponseEntity<List<GetMembersName>> getMemberNameAll(){
+    public ResponseEntity<List<GetMembersName>> getMemberNameAll() {
         List<GetMembersName> getNameAll = memberService.getMembersName();
-        log.info("MemberNameAll info = {}",getNameAll);
+        log.info("MemberNameAll info = {}", getNameAll);
         return ResponseEntity.ok(getNameAll);
     }
     @Operation(summary = "회원 찾기",description = "이름으로 회원을 찾는 메서드입니다.")
     @GetMapping(value = "/v/member/search")
-    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name){
-        log.info("Search member name info = {}",name);
+    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name) {
+        log.info("Search member name info = {}", name);
         List<FindMemberByName> repoResponse = memberService.findByName(name);
 
         return ResponseEntity.ok(repoResponse);
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<List<MemberResponse>> getExpTop10Members() {
+
+        List<MemberResponse> expTop10Members = memberService.getFirst10ByOrderByExp();
+
+        return ResponseEntity.ok(expTop10Members);
     }
 }

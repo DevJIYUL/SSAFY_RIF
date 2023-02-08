@@ -13,7 +13,7 @@ import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
-public class BadgeServiceImpl implements BadgeService{
+public class BadgeServiceImpl implements BadgeService {
 
     private final BadgeRepository badgeRepository;
 

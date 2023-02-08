@@ -1,6 +1,9 @@
 package team.a501.rif.dto.achievement;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +18,7 @@ public class AchievementAcqResponse {
     private String description;
     private String imgPath;
     private LocalDateTime achievedAt;
+
     @Builder
     public AchievementAcqResponse(Long id, Integer tier, String title, String description, String imgPath, LocalDateTime achievedAt) {
         this.id = id;

@@ -24,7 +24,7 @@ public class AchievementInfo {
         this.imgPath = imgPath;
     }
 
-    public static AchievementInfo from(Achievement achievement){
+    public static AchievementInfo from(Achievement achievement) {
         return AchievementInfo.builder()
                 .id(achievement.getId())
                 .imgPath(achievement.getImgPath())

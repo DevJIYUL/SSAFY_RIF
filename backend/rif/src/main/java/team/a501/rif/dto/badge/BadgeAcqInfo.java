@@ -18,6 +18,7 @@ public class BadgeAcqInfo {
     private Boolean onDisplay;
 
     private LocalDateTime achievedAt;
+
     @Builder
     public BadgeAcqInfo(Long id, BadgeInfo badgeInfo, Boolean onDisplay, LocalDateTime achievedAt) {
         this.id = id;
@@ -26,7 +27,7 @@ public class BadgeAcqInfo {
         this.achievedAt = achievedAt;
     }
 
-    public static BadgeAcqInfo from(BadgeAcq badgeAcq){
+    public static BadgeAcqInfo from(BadgeAcq badgeAcq) {
 
         return BadgeAcqInfo.builder()
                 .id(badgeAcq.getId())
