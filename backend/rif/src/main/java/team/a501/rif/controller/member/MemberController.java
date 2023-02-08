@@ -1,5 +1,7 @@
 package team.a501.rif.controller.member;
 
+import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -158,6 +160,13 @@ public class MemberController {
         log.info("asd : {}", memberId);
         log.info("httpservletRequest info = {}", request);
         MemberResponse member = memberService.passwordChange(request, memberId, passwordChangeRequest);
+        return ResponseEntity.ok(member);
+    }
+    @Operation(summary = "프로필 사진 변경",description = "프로필 사진을 변경하는 메서드입니다.")
+    @PatchMapping(value = "/v/member/profile")
+    public ResponseEntity<?> profileChange(@RequestBody MemberResponse changedProfile){
+        MemberResponse member = memberService.profileChange(changedProfile);
+        log.info("changed profile info = {}",member);
         return ResponseEntity.ok(member);
     }
     @Operation(summary = "회원이름",description = "모든 회원의 이름을 반환하는 메서드입니다.")
