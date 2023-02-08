@@ -3,6 +3,10 @@ spring:
     active: local
 
 --- # local
+spring-doc:
+  swagger-ui:
+    enabled: true
+  version: "v1"
 spring:
   config:
     activate:
@@ -47,7 +51,12 @@ logging:
       SQL: debug
       type.descriptor.sql: trace
 
+
 --- # dev
+spring-doc:
+  swagger-ui:
+    enabled: true
+  version: "v1"
 spring:
   config:
     activate:
