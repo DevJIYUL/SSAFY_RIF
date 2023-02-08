@@ -1,5 +1,7 @@
 package team.a501.rif.controller.member;
 
+import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,9 @@ import team.a501.rif.service.member.MemberService;
 import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "MemberController")
 @RequiredArgsConstructor
@@ -57,19 +61,21 @@ public class MemberController {
     }
     @GetMapping("/member/badge")
     @Operation(summary = "멤버의 대표 뱃지를 조회한다")
-    public ResponseEntity<List<BadgeAcqInfo>> findBadgeAcqsOnDisplay(@RequestParam String memberId) {
+    public ResponseEntity<Map<String, Object>> findBadgeAcqsOnDisplay(@RequestParam String memberId) {
 
         List<BadgeAcqInfo> onDisplayBadge = memberService.findBadgeAcqOnDisplay(memberId);
 
-        return ResponseEntity.ok(onDisplayBadge);
+        return ResponseEntity.ok(Map.of("onDisplayBadge", onDisplayBadge));
     }
     @GetMapping("/v/member/badge")
     @Operation(summary = "멤버의 전체 뱃지를 조회한다", description = "인증된 사용자가 자신의 전체 뱃지를 조회할 수 있다")
-    public ResponseEntity<List<BadgeAcqInfo>> findAllMemberBadgeAcq(@RequestParam String memberId) {
+    public ResponseEntity<Map<String, Object>> findAllMemberBadgeAcq(@RequestParam String memberId) {
 
+        // 객체 하나 만들어서 List 넣어주어야합니다
+        // badges: [ {}, {}, {} ]
         List<BadgeAcqInfo> totalBadge = memberService.findAllBadgeAcq(memberId);
 
-        return ResponseEntity.ok(totalBadge);
+        return ResponseEntity.ok(Map.of("totalBadge", totalBadge));
     }
 
     @PatchMapping("/v/member/badge")
@@ -84,18 +90,20 @@ public class MemberController {
 
     @GetMapping("/member/achievement")
     @Operation(summary = "멤버의 대표 업적을 조회한다")
-    public ResponseEntity<List<AchievementAcqInfo>> findAchievementAcqsOnDisplay(@RequestParam String memberId) {
+    public ResponseEntity<Map<String, Object>> findAchievementAcqsOnDisplay(@RequestParam String memberId) {
 
         List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqOnDisplay(memberId);
 
-        return ResponseEntity.ok(onDisplayAchievements);
+        return ResponseEntity.ok(Map.of("onDisplayAchievement", onDisplayAchievements));
     }
 
     @GetMapping("/v/member/achievement")
     @Operation(summary = "멤버의 전체 업적을 조회한다", description = "인증된 사용자가 자신의 전체 업적을 조회할 수 있다")
-    public ResponseEntity<List<AchievementAcqInfo>> findAllMemberAchievementAcq(@RequestParam String memberId) {
+    public ResponseEntity<Map<String, Object>> findAllMemberAchievementAcq(@RequestParam String memberId) {
 
-        return ResponseEntity.ok(memberService.findAllAchievementAcq(memberId));
+        List<AchievementAcqInfo> allAchievementAcq = memberService.findAllAchievementAcq(memberId);
+
+        return ResponseEntity.ok(Map.of("totalAchievement", allAchievementAcq));
     }
 
     @PatchMapping("/v/member/achievement")
@@ -154,28 +162,38 @@ public class MemberController {
         MemberResponse member = memberService.passwordChange(request, memberId, passwordChangeRequest);
         return ResponseEntity.ok(member);
     }
+    @Operation(summary = "프로필 사진 변경",description = "프로필 사진을 변경하는 메서드입니다.")
+    @PatchMapping(value = "/v/member/profile")
+    public ResponseEntity<?> profileChange(@RequestBody MemberResponse changedProfile){
+        MemberResponse member = memberService.profileChange(changedProfile);
+        log.info("changed profile info = {}",member);
+        return ResponseEntity.ok(member);
+    }
     @Operation(summary = "회원이름",description = "모든 회원의 이름을 반환하는 메서드입니다.")
     @GetMapping(value = "/member/name")
-    public ResponseEntity<List<GetMembersName>> getMemberNameAll() {
+    public ResponseEntity<Map<String, Object>> getMemberNameAll() {
         List<GetMembersName> getNameAll = memberService.getMembersName();
         log.info("MemberNameAll info = {}", getNameAll);
-        return ResponseEntity.ok(getNameAll);
+
+        return ResponseEntity.ok(Map.of("members", getNameAll));
     }
     @Operation(summary = "회원 찾기",description = "이름으로 회원을 찾는 메서드입니다.")
     @GetMapping(value = "/v/member/search")
-    public ResponseEntity<List<FindMemberByName>> findMembers(@RequestParam String name) {
+    public ResponseEntity<Map<String, Object>> findMembers(@RequestParam String name) {
+
         log.info("Search member name info = {}", name);
+
         List<FindMemberByName> repoResponse = memberService.findByName(name);
 
-        return ResponseEntity.ok(repoResponse);
+        return ResponseEntity.ok(Map.of("members", repoResponse));
     }
 
     @GetMapping("/ranking")
     @Operation(summary = "누적 경험치 Top 10 랭킹을 조회한다")
-    public ResponseEntity<List<MemberResponse>> findExpTop10Members() {
+    public ResponseEntity<Map<String, Object>> findExpTop10Members() {
 
-        List<MemberResponse> expTop10Members = memberService.getFirst10ByOrderByExp();
+        List<MemberRankingResponse> expTop10Members = memberService.getFirst10ByOrderByExp();
 
-        return ResponseEntity.ok(expTop10Members);
+        return ResponseEntity.ok(Map.of("members", expTop10Members));
     }
 }
