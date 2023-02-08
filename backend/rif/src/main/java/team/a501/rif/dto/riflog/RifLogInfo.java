@@ -16,17 +16,15 @@ public class RifLogInfo {
     private Integer plasticOk;
     private Integer recycleTotal;
     private Integer recycleOk;
-    private Boolean adviceIgnored;
     private LocalDateTime createdAt;
 
     @Builder
-    public RifLogInfo(Long id, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviceIgnored, LocalDateTime createdAt) {
+    public RifLogInfo(Long id, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, LocalDateTime createdAt) {
         this.id = id;
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
-        this.adviceIgnored = adviceIgnored;
         this.createdAt = createdAt;
     }
 
@@ -37,9 +35,20 @@ public class RifLogInfo {
                 .plasticOk(rifLog.getPlasticOk())
                 .recycleTotal(rifLog.getRecycleTotal())
                 .recycleOk(rifLog.getRecycleOk())
-                .adviceIgnored(rifLog.getAdviceIgnored())
                 .createdAt(rifLog.getCreated())
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "RifLogInfo{" +
+                "\n id=" + id +
+                ",\n plasticTotal=" + plasticTotal +
+                ",\n plasticOk=" + plasticOk +
+                ",\n recycleTotal=" + recycleTotal +
+                ",\n recycleOk=" + recycleOk +
+                ",\n createdAt=" + createdAt +
+                "\n}";
     }
 }
 

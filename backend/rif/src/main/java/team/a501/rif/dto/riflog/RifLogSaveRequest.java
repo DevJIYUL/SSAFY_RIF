@@ -12,15 +12,13 @@ public class RifLogSaveRequest {
     private Integer plasticOk;
     private Integer recycleTotal;
     private Integer recycleOk;
-    private Boolean adviceIgnored;
 
     @Builder
-    public RifLogSaveRequest(String uid, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviceIgnored) {
+    public RifLogSaveRequest(String uid, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk) {
         this.uid = uid;
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
-        this.adviceIgnored = adviceIgnored;
     }
 }
