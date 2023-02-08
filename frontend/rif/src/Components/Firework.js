@@ -5,10 +5,18 @@ import { fireworkCloseHandler } from "../store/lottoSlice";
 let ctx;
 let canvas;
 
-const Firework = () => {
-  let badgeTier = useSelector((state) => state.lotto.badgeTier);
+const colors = {
+  1: ["#C9D8EC", "#6685BB", "#D8E0EE"],
+  2: ["#F5E763", "#FBED9C", "#E7D85A"],
+  3: ["#636363", "#D2D2D2", "#969696"],
+  4: ["#E4A07A", "#97674B", "#E8D8CF"],
+};
 
-  const dispatch = useDispatch()
+const Firework = () => {
+  let shells = [];
+  let pass = [];
+  let badgeTier = useSelector((state) => state.lotto.badgeTier);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!canvas) {
@@ -19,21 +27,11 @@ const Firework = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (canvas && badgeTier) {
-      run(badgeTier);
-    }
-  }, [badgeTier]);
-
-  let shells = [];
-  let pass = [];
-
-  const colors = {
-    1: ["#C9D8EC", "#6685BB", "#D8E0EE"],
-    2: ["#F5E763", "#FBED9C", "#E7D85A"],
-    3: ["#636363", "#D2D2D2", "#969696"],
-    4: ["#E4A07A", "#97674B", "#E8D8CF"],
-  };
+  // useEffect(() => {
+  //   if (canvas && badgeTier) {
+  //     run(badgeTier);
+  //   }
+  // }, [badgeTier]);
 
   // make new shell (big chunk of firework entity)
   const newShell = (tier) => {
@@ -52,7 +50,7 @@ const Firework = () => {
   // make new pass (small chunk of firework entity)
   const newPass = (shell) => {
     //   var pasCount = Math.ceil(Math.pow(shell.size, 3) * Math.PI);
-    var pasCount = 40;
+    var pasCount = 100;
 
     for (let i = 0; i < pasCount; i++) {
       var pas = {};
@@ -111,7 +109,7 @@ const Firework = () => {
       shell.x -= shell.xoff;
       shell.y -= shell.yoff;
       shell.xoff -= shell.xoff * dt * 0.001;
-      shell.yoff -= (shell.yoff + 0.2) * dt * 0.00005;
+      shell.yoff -= (shell.yoff + 0.2) * dt * 0.0001;
 
       if (shell.yoff < 0) {
         newPass(shell);
@@ -141,7 +139,7 @@ const Firework = () => {
         cancelAnimationFrame(() => {
           run(tier);
         });
-        dispatch(fireworkCloseHandler())
+        dispatch(fireworkCloseHandler());
         runAgain = 1;
         return;
       }
@@ -151,27 +149,21 @@ const Firework = () => {
     });
   }
 
+  if (canvas && badgeTier) {
+    run(badgeTier);
+  }
+
   return (
     <div>
-      {badgeTier ?
-        <canvas
-          id="firework"
-          style={{
-            position: "absolute",
-            top: "0px",
-            bottom: "0px",
-            zIndex: "2000",
-          }}
-        ></canvas> : <canvas
-          id="firework"
-          style={{
-            position: "absolute",
-            top: "0px",
-            bottom: "0px",
-            zIndex: "-1",
-          }}
-        ></canvas>
-      }
+      <canvas
+        id="firework"
+        style={{
+          position: "absolute",
+          top: "0px",
+          bottom: "0px",
+          zIndex: "-1",
+        }}
+      ></canvas>
     </div>
   );
 };

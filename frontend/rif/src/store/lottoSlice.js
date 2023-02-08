@@ -7,6 +7,8 @@ const lottoSlice = createSlice({
     badgeTitle: "",
     badgeDesc: "",
     badgeTier: "",
+    badgeImgPath: "",
+    showResult: false,
   },
   reducers: {
     drawLotteryPending(state, action) {
@@ -18,14 +20,18 @@ const lottoSlice = createSlice({
       state.badgeDesc = "Connection Failed";
     },
     drawLotterySuccess(state, action) {
+      state.showResult = true;
       state.badgeTitle = action.payload.badgeTitle;
       state.badgeDesc = action.payload.badgeDesc;
       state.badgeTier = action.payload.badgeTier;
+      state.badgeImgPath = action.payload.badgeImgPath;
     },
     drawLotteryReset(state, action) {
+      state.showResult = false;
       state.badgeTitle = "";
       state.badgeDesc = "";
       state.badgeTier = "";
+      state.badgeImgPath = "";
     },
     drawTierReset(state, action) {
       state.badgeTier = "";
@@ -39,24 +45,20 @@ export const lotteryOpenHandler = () => {
   return async (dispatch) => {
     // show loading status at first
     dispatch(lottoSlice.actions.drawLotteryPending());
-    console.log("pending");
 
     // get response
     const response = await lottoAPI("accessToken", "0847647");
-    console.log("got response");
-    console.log(response);
 
     if (response.status !== 200) {
       dispatch(lottoSlice.actions.drawLotteryFailed());
-      console.log("failed");
     } else {
       const payload = {
         badgeTitle: response.data.badge.title,
         badgeDesc: response.data.badge.description,
         badgeTier: response.data.badge.tier,
+        badgeImgPath: response.data.badge.imgPath,
       };
       dispatch(lottoSlice.actions.drawLotterySuccess(payload));
-      console.log("sucess");
     }
   };
 };
