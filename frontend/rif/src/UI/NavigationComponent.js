@@ -43,7 +43,8 @@ const NavigationComponent = () => {
             value={value}
             key={`mui-nav-${index}`}
             icon={navigationMUIIconList[index]}
-          ></BottomNavigationAction>
+            style={{ width: "10vw", padding: "0px", minWidth: "56px" }}
+          />
         ))}
       </BottomNavigation>
     </Paper>

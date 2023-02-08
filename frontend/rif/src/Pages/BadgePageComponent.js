@@ -1,8 +1,7 @@
-import PageChangerComponent from "../UI/PageChangerComponent"
-import SectionTitleComponent from "../UI/SectionTitleComponent"
-import { Grid } from "@mui/material"
-// import RewardItemComponent from "../Components/RewardItemComponent";
-import RewardComponent from "../Components/RewardComponent"
+import PageChangerComponent from "../UI/PageChangerComponent";
+import SectionTitleComponent from "../UI/SectionTitleComponent";
+import { Grid } from "@mui/material";
+import RewardComponent from "../Components/RewardComponent";
 
 const BadgePageComponent = () => {
   return (
@@ -20,10 +19,10 @@ const BadgePageComponent = () => {
           sectionDetail="정렬"
         ></SectionTitleComponent>
 
-        <RewardComponent></RewardComponent>
+        <RewardComponent type="badge"></RewardComponent>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default BadgePageComponent
+export default BadgePageComponent;

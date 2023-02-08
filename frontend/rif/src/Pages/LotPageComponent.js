@@ -1,54 +1,90 @@
-import PageChangerComponent from "../UI/PageChangerComponent"
-import BtnComponent from "../UI/BtnComponent"
+import PageChangerComponent from "../UI/PageChangerComponent";
+import BtnComponent from "../UI/BtnComponent";
 import {
   Grid,
   Dialog,
   DialogTitle,
   DialogContentText,
   DialogContent,
-} from "@mui/material"
-import React from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice"
+} from "@mui/material";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice";
+import Firework from "../Components/Firework";
+import Zoom from "@mui/material/Zoom";
 
 const LotDialog = (props) => {
-  const badgeTitle = useSelector((state) => state.lotto.badgeTitle)
-  const badgeDesc = useSelector((state) => state.lotto.badgeDesc)
+  const colors = ["#4C70B0", "#A48D25", "#434343", "#865A42"];
+  const badgeTitle = useSelector((state) => state.lotto.badgeTitle);
+  const badgeDesc = useSelector((state) => state.lotto.badgeDesc);
+  const badgeTier = useSelector((state) => state.lotto.badgeTier);
+  const badgeImgPath = useSelector((state) => state.lotto.badgeImgPath);
+  const showResult = useSelector((state) => state.lotto.showResult);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth={"sm"}>
-      <DialogTitle sx={{ textAlign: "center" }}> 뽑기 결과 </DialogTitle>
+      {showResult ? (
+        <DialogTitle sx={{ textAlign: "center" }}> 뽑기 결과 </DialogTitle>
+      ) : (
+        <DialogTitle sx={{ textAlign: "center" }}> 로 딩 중 </DialogTitle>
+      )}
       <DialogContent>
-        <h1 style={{ textAlign: "center" }}> {badgeTitle} </h1>
+        <Zoom in={showResult}>
+          <h1
+            style={{ textAlign: "center", color: `${colors[badgeTier - 1]}` }}
+            id="badgeTitle"
+          >
+            {badgeTitle}
+          </h1>
+        </Zoom>
+        <Zoom in={showResult}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "1rem",
+            }}
+          >
+            {badgeImgPath && (
+              <img
+                src={badgeImgPath}
+                alt={badgeTier}
+                width={"150"}
+                height={"150"}
+              ></img>
+            )}
+          </div>
+        </Zoom>
         <DialogContentText>
-          <span style={{ textAlign: "center" }}> {badgeDesc} </span>
+          <Zoom in={showResult}>
+            <span style={{ textAlign: "center" }}>{badgeDesc}</span>
+          </Zoom>
         </DialogContentText>
       </DialogContent>
+
       <BtnComponent onClick={props.onClose} color="secondary">
         확인
       </BtnComponent>
     </Dialog>
-  )
-}
+  );
+};
 
 const LotComponent = () => {
   // state to control modal dialog
-  const [open, setOpen] = React.useState(false)
-  const dispatch = useDispatch()
+  const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
-  let userPoint = useSelector((state) => state.user.userInfo.point)
+  let userPoint = useSelector((state) => state.user.userInfo.point);
 
   const modelOpenHandler = () => {
-    setOpen(true)
-    console.log("modal opened")
-    dispatch(lotteryOpenHandler())
-  }
+    setOpen(true);
+    dispatch(lotteryOpenHandler());
+  };
 
   const modelCloseHandler = () => {
-    setOpen(false)
-    console.log("modal closed")
-    dispatch(lotteryCloseHandler())
-  }
+    setOpen(false);
+    dispatch(lotteryCloseHandler());
+  };
 
   return (
     <div>
@@ -67,7 +103,22 @@ const LotComponent = () => {
             <h2 style={{ color: "#5D5E58" }}>잔여 포인트 : {userPoint} pt</h2>
           </div>
         </Grid>
-        <Grid item className="grid-body"></Grid>
+        <Grid item className="grid-body">
+          <img
+            src="/badge/question_box.png"
+            alt="question box"
+            style={{
+              width: "100px",
+              height: "100px",
+              border: "5px solid white",
+              overflow: "hidden",
+              borderRadius: "50%",
+              objectFit: "cover",
+              objectPosition: "0 0",
+              boxShadow: "0px 5px 15px 0px rgba(0, 0, 0, 0.6)",
+            }}
+          ></img>
+        </Grid>
         <Grid item className="grid-buttons">
           <BtnComponent
             color="secondary"
@@ -79,8 +130,9 @@ const LotComponent = () => {
         </Grid>
       </Grid>
       <LotDialog open={open} onClose={modelCloseHandler}></LotDialog>
+      <Firework />
     </div>
-  )
-}
+  );
+};
 
-export default LotComponent
+export default LotComponent;
