@@ -37,10 +37,13 @@ public class AuthServiceImpl implements AuthService {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(studentId, password);
         log.info("AuthenticationToken info = {}", authenticationToken);
+
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         log.info("Authentication info={}", authentication);
+
         TokenDto accessToken = jwtTokenProvider.issueToken(authentication);
         log.info("AccessToken info={}", accessToken);
+
         TokenDto token = TokenDto.builder()
                 .grantType(accessToken.getGrantType())
                 .accessToken(accessToken.getAccessToken())
@@ -63,7 +66,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public RefreshToken validRefreshToken(String studentId, String refreshToken) throws Exception {
+
         RefreshToken token = refreshtokenRepository.findById(studentId).orElseThrow(() -> new Exception("로그인을 해주세요"));
+
         log.info("ValidRefreshtoken info={}", token);
         if (token.getRefreshToken() == null) {
             return null;
@@ -82,11 +87,14 @@ public class AuthServiceImpl implements AuthService {
 
     public TokenDto refreshAccessToken(TokenDto token) throws Exception {
         Claims claims = jwtTokenProvider.parseClaims(token.getAccessToken());
+
         log.info("Claims info= {}", claims);
         Member member = memberRepository.findById(claims.getSubject()).orElseThrow(() ->
                 new BadCredentialsException("잘못된 계정입니다."));
+
         log.info("Member info= {}", member);
         RefreshToken refreshToken = validRefreshToken(member.getId(), token.getRefreshToken());
+
         log.info("RefreshToken info= {}", refreshToken);
 
         if (refreshToken != null) {
