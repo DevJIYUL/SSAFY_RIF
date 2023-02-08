@@ -50,7 +50,7 @@ public class AuthController {
             "리프레쉬토큰이 있을 경우에는 리프래쉬 토큰 만료기간에 따라 새로운 리프래쉬나 기존 리프래쉬 토큰을 사용합니다." +
             "리프래쉬 토큰이 없으면 로그인을 요청합니다.")
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestParam TokenDto tokenDto) throws Exception {
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenDto tokenDto) throws Exception {
         log.info("reissue info= {}",tokenDto);
         return ResponseEntity.ok(authService.refreshAccessToken(tokenDto));
 //        return new ResponseEntity<TokenDto>(authService.refreshAccessToken(tokenDto), HttpStatus.OK);

@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
-                .imgPath(member.getProfileImgPath())
+                .profileImgPath(member.getProfileImgPath())
                 .build();
     }
 
@@ -100,7 +100,7 @@ public class MemberServiceImpl implements MemberService {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
-                .imgPath(member.getProfileImgPath())
+                .profileImgPath(member.getProfileImgPath())
                 .build();
     }
 
@@ -114,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
-                .imgPath(member.getProfileImgPath())
+                .profileImgPath(member.getProfileImgPath())
                 .build();
     }
 
@@ -317,7 +317,7 @@ public class MemberServiceImpl implements MemberService {
                 .id(changeMember.getId())
                 .uid(changeMember.getUid())
                 .name(changeMember.getName())
-                .imgPath(changeMember.getProfileImgPath())
+                .profileImgPath(changeMember.getProfileImgPath())
                 .build();
     }
 
@@ -340,7 +340,7 @@ public class MemberServiceImpl implements MemberService {
                     .id(b.getId())
                     .name(b.getName())
                     .exp(b.getExp())
-                    .profileImgPath(b.getProfileImgPath())
+                    .profile_img_path(b.getProfileImgPath())
                     .build());
         }
         return response;
@@ -354,6 +354,19 @@ public class MemberServiceImpl implements MemberService {
                 .stream()
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MemberResponse profileChange(MemberResponse changedProfile) {
+        Member reporesponse = memberRepository.findById(changedProfile.getId()).orElseThrow(()->
+                new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
+        reporesponse.setProfileImgPath(changedProfile.getProfile_img_path());
+        return MemberResponse.builder()
+                .id(reporesponse.getId())
+                .uid(reporesponse.getUid())
+                .name(reporesponse.getName())
+                .profileImgPath(reporesponse.getProfileImgPath())
+                .build();
     }
 
     @Override

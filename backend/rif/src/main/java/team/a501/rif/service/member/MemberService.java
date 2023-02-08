@@ -52,4 +52,6 @@ public interface MemberService extends UserDetailsService {
     List<FindMemberByName> findByName(String name);
 
     List<MemberResponse> getFirst10ByOrderByExp();
+
+    MemberResponse profileChange(MemberResponse changedProfile);
 }

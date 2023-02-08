@@ -38,9 +38,8 @@ public class Member implements UserDetails {
     private Integer exp;
 
     @Column(length = 40)
-    private String profileImgPath; // 기본값 /profile/default.png
+    private String profile_img_path; // 기본값 /profile/default.png
 
-    private String refreshToken;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, BadgeAcq> badgeAcqs;
@@ -63,7 +62,7 @@ public class Member implements UserDetails {
         this.name = name;
         this.point = point;
         this.exp = exp;
-        this.profileImgPath = profileImgPath;
+        this.profile_img_path = profileImgPath;
 
         this.badgeAcqs = new HashMap<>();
         this.achievementAcqs = new HashMap<>();
@@ -156,7 +155,7 @@ public class Member implements UserDetails {
     }
 
     public String getProfileImgPath() {
-        return profileImgPath;
+        return profile_img_path;
     }
 
     public Map<Long, BadgeAcq> getBadgeAcqs() {
@@ -168,7 +167,7 @@ public class Member implements UserDetails {
     }
 
     public void setProfileImgPath(String profileImgPath) {
-        this.profileImgPath = profileImgPath;
+        this.profile_img_path = profileImgPath;
     }
 
 
@@ -238,7 +237,7 @@ public class Member implements UserDetails {
                 ", name='" + name + '\'' +
                 ", point=" + point +
                 ", exp=" + exp +
-                ", profileImgPath='" + profileImgPath + '\'' +
+                ", profileImgPath='" + profile_img_path + '\'' +
                 '}';
     }
 }
