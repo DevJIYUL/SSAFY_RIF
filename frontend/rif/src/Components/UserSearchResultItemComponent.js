@@ -1,4 +1,12 @@
-import { Grid, Paper, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  createTheme,
+  ThemeProvider,
+  CircularProgress,
+  Box,
+  Typography,
+} from "@mui/material";
 import calLevel from "../API/calLevel";
 
 const userSearchItemTheme = createTheme({
@@ -9,8 +17,35 @@ const userSearchItemTheme = createTheme({
   },
 });
 
+function CircularProgressWithLabel(props) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          style={{ color: "#5D5E58", fontSize: "16px" }}
+        >
+          {`${Math.round(props.value)}%`}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const UserSearchResultItemComponent = (props) => {
-  console.log(props);
   // id,name,exp,profileImgPath
   const id = props.recentSearchResult.id;
   const name = props.recentSearchResult.name;
@@ -19,6 +54,7 @@ const UserSearchResultItemComponent = (props) => {
   if (level === 6) {
     level = 10;
   }
+  console.log(caledExp);
   const profileImgPath = props.recentSearchResult.profileImgPath;
   return (
     <ThemeProvider theme={userSearchItemTheme}>
@@ -33,7 +69,7 @@ const UserSearchResultItemComponent = (props) => {
             display: "flex",
             direction: "row",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "space-evenly",
             width: "100%",
             minHeight: "40px",
             marginTop: "10px",
@@ -54,7 +90,7 @@ const UserSearchResultItemComponent = (props) => {
               alt="profile-img"
             />
           </Grid>
-          <Grid style={{ margin: "10px" }}>
+          <Grid style={{ margin: "10px 0px 10px 5px" }}>
             <div style={{ fontFamily: "NanumSquareEB", fontSize: "24px" }}>
               {name}
             </div>
@@ -65,7 +101,7 @@ const UserSearchResultItemComponent = (props) => {
               style={{
                 width: "45px",
                 height: "45px",
-                marginRight: "0px",
+                margin: "0px",
                 position: "relative",
                 backgroundRepeat: "no-repeat",
                 backgroundImage: `url("/profile/sprout.png")`,
@@ -76,16 +112,13 @@ const UserSearchResultItemComponent = (props) => {
               }}
               alt=""
             >
-              <div
+              <img
                 style={{
-                  width: "20px",
-                  height: "20px",
+                  width: "35px",
+                  height: "35px",
                   position: "absolute",
-                  right: "0px",
-                  bottom: "0px",
-                  backgroundRepeat: "no-repeat",
-                  backgroundImage: `url("/profile/level.png")`,
-                  backgroundSize: "contain",
+                  right: "-10px",
+                  bottom: "-10px",
                   color: "white",
                   fontSize: "13px",
                   display: "flex",
@@ -95,10 +128,20 @@ const UserSearchResultItemComponent = (props) => {
                 }}
                 src={`/profile/level${level}.png`}
                 alt=""
-              >
-                {/* {level} */}
-              </div>
+              />
             </div>
+          </Grid>
+          <Grid>
+            <CircularProgressWithLabel
+              variant="determinate"
+              color="success"
+              value={caledExp}
+              style={{
+                width: "70px",
+                height: "70px",
+                margin: "10px 0px",
+              }}
+            ></CircularProgressWithLabel>
           </Grid>
         </Paper>
       </Grid>
