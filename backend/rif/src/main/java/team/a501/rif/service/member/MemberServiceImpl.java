@@ -366,22 +366,18 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRankingResponses;
     }
-
-    @Override
-    public List<MemberRankingResponse> getFirst10ByOrderByExpAndRankOfMember(String memberId) {
-        return null;
-    }
-
     @Override
     public MemberResponse profileChange(MemberResponse changedProfile) {
-        Member reporesponse = memberRepository.findById(changedProfile.getId()).orElseThrow(()->
+        Member response = memberRepository.findById(changedProfile.getId()).orElseThrow(()->
                 new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
-        reporesponse.setProfileImgPath(changedProfile.getProfile_img_path());
+
+        response.setProfileImgPath(changedProfile.getProfile_img_path());
+
         return MemberResponse.builder()
-                .id(reporesponse.getId())
-                .uid(reporesponse.getUid())
-                .name(reporesponse.getName())
-                .profileImgPath(reporesponse.getProfileImgPath())
+                .id(response.getId())
+                .uid(response.getUid())
+                .name(response.getName())
+                .profileImgPath(response.getProfileImgPath())
                 .build();
     }
 

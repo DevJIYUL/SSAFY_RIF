@@ -53,5 +53,5 @@ public interface MemberService extends UserDetailsService {
 
     List<MemberRankingResponse> getFirst10ByOrderByExp();
 
-    List<MemberRankingResponse> getFirst10ByOrderByExpAndRankOfMember(String memberId);
+    MemberResponse profileChange(MemberResponse changedProfile);
 }
