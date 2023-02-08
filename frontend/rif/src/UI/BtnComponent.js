@@ -30,6 +30,7 @@ const BtnComponent = (props) => {
         }
         sx={props.sx || { m: "1rem" }}
         disabled={props.disabled}
+        style={props.style}
       >
         {props.children}
       </Button>
