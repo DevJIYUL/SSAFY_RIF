@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit"
-import getUserInfoAPI from "../API/getUserInfoAPI"
-import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI"
-import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI"
-import { UIActions } from "./UISlice"
+import { createSlice } from "@reduxjs/toolkit";
+import getUserInfoAPI from "../API/getUserInfoAPI";
+import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
+import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI";
+import { UIActions } from "./UISlice";
 
 const userInfoSlice = createSlice({
   name: "userInfo",
@@ -15,18 +15,18 @@ const userInfoSlice = createSlice({
         name: action.payload.name,
         point: action.payload.point,
         profileImgPath: action.payload.profileImgPath,
-      }
+      };
     },
     setUserRefBadges(state, action) {
-      state.userRefBadges = [...action.payload]
-      console.log(state.userRefBadges, typeof state.userRefBadges)
+      state.userRefBadges = [...action.payload];
+      console.log(state.userRefBadges, typeof state.userRefBadges);
     },
     setUserRefAchievements(state, action) {
-      state.userRefAchievements = [...action.payload]
-      console.log(state.userRefAchievements, typeof state.userRefAchievements)
+      state.userRefAchievements = [...action.payload];
+      console.log(state.userRefAchievements, typeof state.userRefAchievements);
     },
   },
-})
+});
 
 export const mainPageRequestHandler = (id) => {
   return async (dispatch) => {
@@ -34,47 +34,49 @@ export const mainPageRequestHandler = (id) => {
       UIActions.changeNofication({
         status: "pending",
       })
-    )
+    );
     try {
-      const response = await getUserInfoAPI(id)
+      const response = await getUserInfoAPI(id);
       if (response.status !== 200) {
-        throw new Error("Error is raiesd!")
+        throw new Error("Error is raiesd!");
       }
-      dispatch(userInfoActions.setUserInfo(response.data))
+      dispatch(userInfoActions.setUserInfo(response.data));
 
-      const badgeResponse = await getUserRefBadgeAPI(id)
+      const badgeResponse = await getUserRefBadgeAPI(id);
       if (badgeResponse.status !== 200) {
-        throw new Error("Error is raiesd!")
+        throw new Error("Error is raiesd!");
       }
-      console.log(badgeResponse.data, typeof badgeResponse)
-      dispatch(
-        userInfoActions.setUserRefBadges(badgeResponse.data.onDisplayBadge)
-      )
+      console.log(badgeResponse.data, typeof badgeResponse);
+      const reformBadgeResponse = badgeResponse.data.onDisplayBadge.map(
+        (value) => ({ badge: { ...value }, hasReward: true, onDisplay: true })
+      );
+      console.log(reformBadgeResponse);
+      dispatch(userInfoActions.setUserRefBadges(reformBadgeResponse));
 
-      const achievementResponse = await getUserRefAchievementAPI(id)
+      const achievementResponse = await getUserRefAchievementAPI(id);
       if (achievementResponse.status !== 200) {
-        throw new Error("Error is raiesd!")
+        throw new Error("Error is raiesd!");
       }
-      console.log(achievementResponse.data, typeof achievementResponse)
+      console.log(achievementResponse.data, typeof achievementResponse);
       dispatch(
         userInfoActions.setUserRefAchievements(
           achievementResponse.data.onDisplayAchievement
         )
-      )
+      );
 
       dispatch(
         UIActions.changeNofication({
           status: "success",
         })
-      )
+      );
 
-      dispatch(UIActions.resetNofication())
+      dispatch(UIActions.resetNofication());
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}
+  };
+};
 
-export const userInfoActions = userInfoSlice.actions
+export const userInfoActions = userInfoSlice.actions;
 
-export default userInfoSlice
+export default userInfoSlice;
