@@ -2,8 +2,13 @@ package team.a501.rif.controller.member;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +18,25 @@ import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;
+import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@RestController
+@Tag(name = "MemberController")
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin("*")
 @RequestMapping("/api")
+@RestController
 public class MemberController {
 
     private final MemberService memberService;
 
+    private final RifLogService rifLogService;
+
     @PostMapping("/member")
-    @Operation(summary = "회원등록",description = "회원등록 하는 메서드입니다.")
+    @Operation(summary = "멤버를 등록한다")
     public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRegisterRequest body) {
 
         MemberResponse memberResponse = memberService.register(body);
@@ -35,6 +44,7 @@ public class MemberController {
     }
 
     @GetMapping("/member")
+    @Operation(summary = "UID로 멤버를 조회한다")
     public ResponseEntity<MemberResponse> findMemberByUid(@RequestParam String uid) {
 
         MemberResponse memberResponse = memberService.findByUid(uid);
@@ -42,19 +52,22 @@ public class MemberController {
     }
 
     @GetMapping("/member/profile")
+    @Operation(summary = "ID로 멤버를 조회한다")
     public ResponseEntity<MemberResponse> findMemberById(@RequestParam String id) {
         MemberResponse memberResponse = memberService.findById(id);
         return ResponseEntity.ok(memberResponse);
     }
     @GetMapping("/member/badge")
-    public ResponseEntity<List<BadgeAcqInfo>> getBadgeAcqOnDisplay(@RequestParam String memberId) {
+    @Operation(summary = "멤버의 대표 뱃지를 조회한다")
+    public ResponseEntity<List<BadgeAcqInfo>> findBadgeAcqsOnDisplay(@RequestParam String memberId) {
 
         List<BadgeAcqInfo> onDisplayBadge = memberService.findBadgeAcqOnDisplay(memberId);
 
         return ResponseEntity.ok(onDisplayBadge);
     }
     @GetMapping("/v/member/badge")
-    public ResponseEntity<List<BadgeAcqInfo>> getAllMemberBadgeAcq(@RequestParam String memberId) {
+    @Operation(summary = "멤버의 전체 뱃지를 조회한다", description = "인증된 사용자가 자신의 전체 뱃지를 조회할 수 있다")
+    public ResponseEntity<List<BadgeAcqInfo>> findAllMemberBadgeAcq(@RequestParam String memberId) {
 
         List<BadgeAcqInfo> totalBadge = memberService.findAllBadgeAcq(memberId);
 
@@ -62,8 +75,9 @@ public class MemberController {
     }
 
     @PatchMapping("/v/member/badge")
-    public ResponseEntity<BadgeAcqInfo> updateBadgesDisplaying(@RequestParam String memberId,
-                                                               @RequestParam Long badgeId) {
+    @Operation(summary = "멤버의 대표 뱃지를 설정한다", description = "해당 뱃지의 OnDisplay 속성을 토글한다")
+    public ResponseEntity<BadgeAcqInfo> updateBadgeOnDisplay(@RequestParam String memberId,
+                                                             @RequestParam Long badgeId) {
 
         BadgeAcqInfo badge = memberService.updateBadgeOnDisplay(memberId, badgeId);
 
@@ -71,7 +85,8 @@ public class MemberController {
     }
 
     @GetMapping("/member/achievement")
-    public ResponseEntity<List<AchievementAcqInfo>> getAchievementDisplaying(@RequestParam String memberId) {
+    @Operation(summary = "멤버의 대표 업적을 조회한다")
+    public ResponseEntity<List<AchievementAcqInfo>> findAchievementAcqsOnDisplay(@RequestParam String memberId) {
 
         List<AchievementAcqInfo> onDisplayAchievements = memberService.findAchievementAcqOnDisplay(memberId);
 
@@ -79,14 +94,24 @@ public class MemberController {
     }
 
     @GetMapping("/v/member/achievement")
-    public ResponseEntity<List<AchievementAcqInfo>> getAllMemberAchievementAcq(@RequestParam String memberId) {
+    @Operation(summary = "멤버의 전체 업적을 조회한다", description = "인증된 사용자가 자신의 전체 업적을 조회할 수 있다")
+    public ResponseEntity<List<AchievementAcqInfo>> findAllMemberAchievementAcq(@RequestParam String memberId) {
 
-        List<AchievementAcqInfo> totalAchievement = memberService.findAllAchievementAcq(memberId);
+        return ResponseEntity.ok(memberService.findAllAchievementAcq(memberId));
+    }
 
-        return ResponseEntity.ok(totalAchievement);
+    @PatchMapping("/v/member/achievement")
+    @Operation(summary = "멤버의 대표 업적을 설정한다", description = "해당 업적의 OnDisplay 속성을 토글한다")
+    public ResponseEntity<AchievementAcqInfo> updateAchievementOnDisplay(@RequestParam String memberId,
+                                                                         @RequestParam Long achievementId){
+
+        AchievementAcqInfo achievementAcqInfo = memberService.updateAchievementOnDisplay(memberId, achievementId);
+
+        return ResponseEntity.ok(achievementAcqInfo);
     }
 
     @PostMapping("/v/gatcha")
+    @Operation(summary = "뱃지 뽑기를 진행한다", description = "인증된 사용자가 100포인트를 사용하여 랜덤한 뱃지를 뽑는다. 이미 획득한 뱃지라면 reduplicated키의 값이 true가 된다")
     public ResponseEntity<BadgeGatchaResponse> badgeGatcha(@RequestParam String memberId) {
 
         BadgeGatchaResponse result = memberService.drawRandomBadge(memberId);
@@ -94,8 +119,22 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/v/member/riflog")
+    @Operation(summary = "멤버의 전체 RIF 사용 이력을 조회한다")
+    public ResponseEntity<Slice<RifLogInfo>> findMemberRifLogs(@RequestParam String memberId,
+                                                               @RequestParam Integer page,
+                                                               @RequestParam Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Slice<RifLogInfo> rifLogInfoSlice = rifLogService.findByMember(memberId, pageable);
+
+        return ResponseEntity.ok(rifLogInfoSlice);
+    }
+
     @PostMapping("/member/riflog")
-    public ResponseEntity<RifLogInfo> addRifLog(@RequestBody RifLogSaveRequest body) {
+    @Operation(summary = "멤버의 RIF 사용 이력을 추가한다")
+    public ResponseEntity<RifLogInfo> saveRifLog(@RequestBody RifLogSaveRequest body) {
 
         RifLogInfo rifLogInfo = memberService.addRifLog(body);
 
@@ -126,7 +165,7 @@ public class MemberController {
     }
     @Operation(summary = "회원 찾기",description = "이름으로 회원을 찾는 메서드입니다.")
     @GetMapping(value = "/v/member/search")
-    public ResponseEntity<List<FindMemberByName>> finaMembers(@RequestParam String name) {
+    public ResponseEntity<List<FindMemberByName>> findMembers(@RequestParam String name) {
         log.info("Search member name info = {}", name);
         List<FindMemberByName> repoResponse = memberService.findByName(name);
 
@@ -134,7 +173,8 @@ public class MemberController {
     }
 
     @GetMapping("/ranking")
-    public ResponseEntity<List<MemberResponse>> getExpTop10Members() {
+    @Operation(summary = "누적 경험치 Top 10 랭킹을 조회한다")
+    public ResponseEntity<List<MemberResponse>> findExpTop10Members() {
 
         List<MemberResponse> expTop10Members = memberService.getFirst10ByOrderByExp();
 
