@@ -26,7 +26,7 @@ public class AchievementAcqInfo {
         this.achievedAt = achievedAt;
     }
 
-    public static AchievementAcqInfo from(AchievementAcq achievementAcq){
+    public static AchievementAcqInfo from(AchievementAcq achievementAcq) {
         return AchievementAcqInfo.builder()
                 .id(achievementAcq.getId())
                 .achievementInfo(AchievementInfo.from(achievementAcq.getAchievement()))

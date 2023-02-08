@@ -2,6 +2,7 @@ package team.a501.rif.domain.riflog;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
 
@@ -15,6 +16,7 @@ public class RifLog extends BaseEntity {
     @GeneratedValue
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
     private Integer plasticTotal;
@@ -25,15 +27,12 @@ public class RifLog extends BaseEntity {
 
     private Integer recycleOk;
 
-    private Boolean adviceIgnored;
-
     @Builder
-    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Boolean adviceIgnored) {
+    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk) {
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
-        this.adviceIgnored = adviceIgnored;
     }
 
     public Long getId() {
@@ -84,24 +83,15 @@ public class RifLog extends BaseEntity {
         this.recycleOk = recycleOk;
     }
 
-    public Boolean getAdviceIgnored() {
-        return adviceIgnored;
-    }
-
-    public void setAdviceIgnored(Boolean adviseIgnored) {
-        this.adviceIgnored = adviseIgnored;
-    }
-
     @Override
     public String toString() {
         return "RifLog{" +
                 "\n id=" + id +
-                ",\n member=" + member +
+                ",\n member=" + member.getId() +
                 ",\n plasticTotal=" + plasticTotal +
                 ",\n plasticOk=" + plasticOk +
                 ",\n recycleTotal=" + recycleTotal +
                 ",\n recycleOk=" + recycleOk +
-                ",\n adviseIgnored=" + adviceIgnored +
                 ",\n createdAt= " + this.getCreated().toString() +
                 "\n}";
     }

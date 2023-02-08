@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class RifCustomException extends RuntimeException{
+public class RifCustomException extends RuntimeException {
     private final ExceptionCode exceptionCode;
 
 }

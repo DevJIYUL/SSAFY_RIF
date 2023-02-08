@@ -1,6 +1,9 @@
 package team.a501.rif.service.riflog;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.domain.riflog.RifLog;
@@ -14,6 +17,7 @@ import team.a501.rif.repository.riflog.RifLogRepository;
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class RifLogServiceImpl implements RifLogService {
 
@@ -22,7 +26,6 @@ public class RifLogServiceImpl implements RifLogService {
     private final RifLogRepository rifLogRepository;
 
     @Override
-    @Transactional
     public RifLogInfo save(RifLogSaveRequest dto) {
         Member member = memberRepository.findByUid(dto.getUid())
                 .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
@@ -32,10 +35,21 @@ public class RifLogServiceImpl implements RifLogService {
                 .plasticOk(dto.getPlasticOk())
                 .recycleTotal(dto.getRecycleTotal())
                 .recycleOk(dto.getRecycleOk())
-                .adviceIgnored(dto.getAdviceIgnored())
                 .build());
         member.addRifLog(rifLog);
 
         return RifLogInfo.from(rifLog);
+    }
+
+    @Override
+    public Slice<RifLogInfo> findByMember(String memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        Slice<RifLog> rifLogSlice = rifLogRepository.findByMember(member, pageable);
+
+        Slice<RifLogInfo> rifLogInfoSlice = rifLogSlice.map(RifLogInfo::from);
+
+        return rifLogInfoSlice;
     }
 }
