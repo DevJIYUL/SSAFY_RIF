@@ -1,5 +1,7 @@
 package team.a501.rif.controller.achievement;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import team.a501.rif.service.achievement.AchievementService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "AchievementController")
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @CrossOrigin("*")
@@ -19,7 +22,8 @@ public class AchievementController {
     private final AchievementService achievementService;
 
     @PostMapping("/achievement")
-    public ResponseEntity<AchievementInfo> createAchievement(@RequestBody AchievementSaveRequest request) {
+    @Operation(summary = "업적 추가")
+    public ResponseEntity<AchievementInfo> saveAchievement(@RequestBody AchievementSaveRequest request) {
 
         AchievementInfo achievementInfo =
                 AchievementInfo.from(achievementService.save(request));
@@ -28,7 +32,8 @@ public class AchievementController {
     }
 
     @GetMapping("/achievement")
-    public ResponseEntity<List<AchievementInfo>> getAllAchievement() {
+    @Operation(summary = "모든 종류의 업적을 반환")
+    public ResponseEntity<List<AchievementInfo>> findAllAchievement() {
 
         List<AchievementInfo> achievementInfoList = achievementService.findAll()
                 .stream()

@@ -8,6 +8,8 @@ import java.util.List;
 public interface AchievementService {
 
     Achievement save(AchievementSaveRequest achievementSaveRequest);
+
     List<Achievement> findAll();
+
     Achievement findById(Long id);
 }

@@ -15,7 +15,7 @@ public class BadgeInfo {
     private String description;
     private String imgPath;
 
-    public static BadgeInfo from(Badge badge){
+    public static BadgeInfo from(Badge badge) {
 
         return BadgeInfo.builder()
                 .id(badge.getId())
