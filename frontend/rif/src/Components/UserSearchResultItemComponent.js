@@ -78,8 +78,8 @@ const UserSearchResultItemComponent = (props) => {
             >
               <div
                 style={{
-                  width: "30px",
-                  height: "30px",
+                  width: "20px",
+                  height: "20px",
                   position: "absolute",
                   right: "0px",
                   bottom: "0px",
@@ -93,7 +93,7 @@ const UserSearchResultItemComponent = (props) => {
                   justifyContent: "center",
                   lineHeight: "25px",
                 }}
-                src="/profile/level.png"
+                src={`/profile/level${level}.png`}
                 alt=""
               >
                 {/* {level} */}
