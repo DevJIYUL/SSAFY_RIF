@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.member.MemberService;
+import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +29,8 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final RifLogService rifLogService;
 
     @PostMapping("/member")
     @Operation(summary = "회원등록",description = "회원등록 하는 메서드입니다.")
@@ -92,6 +98,13 @@ public class MemberController {
         BadgeGatchaResponse result = memberService.drawRandomBadge(memberId);
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/v/member/riflog")
+    public ResponseEntity<Slice<RifLogInfo>> getRifLogs(@RequestParam String memberId, @RequestParam Integer page, @RequestParam Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.ok(rifLogService.findByMember(memberId, pageable));
     }
 
     @PostMapping("/member/riflog")
