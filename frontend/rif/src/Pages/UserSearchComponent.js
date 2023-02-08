@@ -112,6 +112,8 @@ const UserSearchComponent = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            minWidth: "256px",
+            width: "90%",
           }}
         >
           {recentSearchResults && (
