@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const notification = {
   status: "",
   title: "",
   message: "",
-}
+};
 
 const UISlice = createSlice({
   name: "UI",
@@ -15,18 +15,18 @@ const UISlice = createSlice({
         status: action.payload.status,
         title: action.payload.title,
         message: action.payload.message,
-      }
+      };
     },
     resetNofication(state) {
       state.notification = {
         status: "",
         title: "",
         message: "",
-      }
+      };
     },
   },
-})
+});
 
-export const UIActions = UISlice.actions
+export const UIActions = UISlice.actions;
 
-export default UISlice
+export default UISlice;

@@ -19,7 +19,7 @@ const AchievementPageComponent = () => {
           sectionDetail="정렬"
         ></SectionTitleComponent>
 
-        <RewardComponent type="achievement"></RewardComponent>
+        <RewardComponent type="achievement" isRef={false}></RewardComponent>
       </Grid>
     </div>
   );
