@@ -36,12 +36,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     // Request Header 에서 토큰 정보 추출
     public String resolveToken(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-<<<<<<< HEAD
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-=======
+
         log.info("access info = {}",bearerToken);
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")){
->>>>>>> c89f827a97affa60f625d1be003543eb6cc2e001
             return bearerToken.substring(7);
         }
         return null;

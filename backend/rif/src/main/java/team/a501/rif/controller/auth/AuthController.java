@@ -32,7 +32,6 @@ public class AuthController {
                         loginRequest.getId(),
                         loginRequest.getPassword()
                 );
-        token.setId(loginRequest.getId());
         if (token.getAccessToken() != null) {
             LOGGER.info("[Auth] 정상적인 로그인. id :{}, token : {}"
                     , loginRequest.getId()

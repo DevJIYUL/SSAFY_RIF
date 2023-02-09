@@ -12,13 +12,17 @@ public class MemberResponse {
     String id;
     String uid;
     String name;
+    Integer exp;
+    Integer point;
     String profile_img_path;
 
     @Builder
-    public MemberResponse(String id, String uid, String name, String profileImgPath) {
+    public MemberResponse(String id, String uid, String name, String profileImgPath,Integer exp,Integer point) {
         this.id = id;
+        this.point = point;
         this.uid = uid;
         this.name = name;
+        this.exp = exp;
         this.profile_img_path = profileImgPath;
     }
 
@@ -28,6 +32,8 @@ public class MemberResponse {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
+                .exp(member.getExp())
+                .point(member.getPoint())
                 .profileImgPath(member.getProfileImgPath())
                 .build();
     }
@@ -38,6 +44,8 @@ public class MemberResponse {
                 "\n id='" + id + '\'' +
                 ",\n uid='" + uid + '\'' +
                 ",\n name='" + name + '\'' +
+                ",\n point='" + point + '\'' +
+                ",\n exp='" + exp + '\'' +
                 ",\n imgPath='" + profile_img_path + '\'' +
                 "\n}";
     }

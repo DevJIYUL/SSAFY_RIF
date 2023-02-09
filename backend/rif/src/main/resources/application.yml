@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
 
 --- # local
 spring-doc:
@@ -44,7 +44,7 @@ security:
   jwt:
     token:
       secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
-      expire: 180000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+      expire: 18000000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
 
 logging:
   level:
