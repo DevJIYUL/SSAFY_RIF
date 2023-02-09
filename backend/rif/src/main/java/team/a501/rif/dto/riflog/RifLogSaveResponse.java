@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 public class RifLogSaveResponse {
 
+    private String name;
     private Integer point;
     private Integer exp;
     private LocalDateTime createdAt;
 
     @Builder
-    public RifLogSaveResponse(Integer point, Integer exp, LocalDateTime createdAt) {
+    public RifLogSaveResponse(String name, Integer point, Integer exp, LocalDateTime createdAt) {
+        this.name = name;
         this.point = point;
         this.exp = exp;
         this.createdAt = createdAt;
