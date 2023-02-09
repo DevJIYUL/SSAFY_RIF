@@ -72,13 +72,16 @@ const LotDialog = (props) => {
 const LotComponent = () => {
   // state to control modal dialog
   const [open, setOpen] = React.useState(false);
+  const token = useSelector((state) => state.auth.authentication.token);
+  const id = useSelector((state) => state.auth.authentication.id);
+
   const dispatch = useDispatch();
 
   let userPoint = useSelector((state) => state.user.userInfo.point);
 
   const modelOpenHandler = () => {
     setOpen(true);
-    dispatch(lotteryOpenHandler());
+    dispatch(lotteryOpenHandler(token, id));
   };
 
   const modelCloseHandler = () => {

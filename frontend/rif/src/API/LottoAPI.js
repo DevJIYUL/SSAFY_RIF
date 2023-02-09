@@ -10,7 +10,7 @@ async function lottoAPI(accessToken, memberId) {
     "api/v/gatcha",
     {},
     {
-      Authorization: `Baerer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     {
       memberId: memberId,

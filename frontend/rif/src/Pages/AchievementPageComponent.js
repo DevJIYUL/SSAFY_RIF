@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 const AchievementPageComponent = () => {
   return (
     <div>
-      <PageChangerComponent to="/home"> 마이 페이지 </PageChangerComponent>
+      <PageChangerComponent to="/main"> 마이 페이지 </PageChangerComponent>
 
       <Grid
         container

@@ -1,7 +1,7 @@
 import RewardItemComponent from "./RewardItemComponent";
 import getBadgesAPI from "../API/getBadgesAPI";
 import getAchievementsAPI from "../API/getAchievementsAPI";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 
@@ -44,6 +44,8 @@ const RewardComponent = (props) => {
     }
 
     async function getBadges() {
+      console.log(token);
+      console.log(id, typeof id);
       const response = await getBadgesAPI(token, id);
 
       let totalReward = response.data.totalBadge;
