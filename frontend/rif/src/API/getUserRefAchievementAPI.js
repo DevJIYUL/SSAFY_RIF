@@ -1,4 +1,4 @@
-import axiosInterface from "./axiosInterface"
+import axiosInterface from "./axiosInterface";
 
 /**
  * Get infomations about a User representative achievement from the user's primary key(id).
@@ -7,17 +7,17 @@ import axiosInterface from "./axiosInterface"
 async function getUserRefAchievementAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "user/achievement",
+    "api/member/achievement",
     {},
     {},
-    { id }
-  )
+    { memberId: id }
+  );
 
   if (response.status === 200) {
-    return response
+    return response;
   }
 
-  return response.response
+  return response.response;
 }
 
-export default getUserRefAchievementAPI
+export default getUserRefAchievementAPI;
