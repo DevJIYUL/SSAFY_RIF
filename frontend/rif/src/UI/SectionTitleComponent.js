@@ -36,6 +36,7 @@ const SectionTitleComponent = (props) => {
         component: "span",
         display: "flex",
         justifyContent: "space-between",
+        minHeight: "38.500px",
       }}
     >
       <span
