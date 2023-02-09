@@ -10,20 +10,58 @@ import {
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice";
+import Firework from "../Components/Firework";
+import Zoom from "@mui/material/Zoom";
 
 const LotDialog = (props) => {
+  const colors = ["#4C70B0", "#A48D25", "#434343", "#865A42"];
   const badgeTitle = useSelector((state) => state.lotto.badgeTitle);
   const badgeDesc = useSelector((state) => state.lotto.badgeDesc);
+  const badgeTier = useSelector((state) => state.lotto.badgeTier);
+  const badgeImgPath = useSelector((state) => state.lotto.badgeImgPath);
+  const showResult = useSelector((state) => state.lotto.showResult);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth={"sm"}>
-      <DialogTitle sx={{ textAlign: "center" }}> 뽑기 결과 </DialogTitle>
+      {showResult ? (
+        <DialogTitle sx={{ textAlign: "center" }}> 뽑기 결과 </DialogTitle>
+      ) : (
+        <DialogTitle sx={{ textAlign: "center" }}> 로 딩 중 </DialogTitle>
+      )}
       <DialogContent>
-        <h1 style={{ textAlign: "center" }}> {badgeTitle} </h1>
+        <Zoom in={showResult}>
+          <h1
+            style={{ textAlign: "center", color: `${colors[badgeTier - 1]}` }}
+            id="badgeTitle"
+          >
+            {badgeTitle}
+          </h1>
+        </Zoom>
+        <Zoom in={showResult}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "1rem",
+            }}
+          >
+            {badgeImgPath && (
+              <img
+                src={badgeImgPath}
+                alt={badgeTier}
+                width={"150"}
+                height={"150"}
+              ></img>
+            )}
+          </div>
+        </Zoom>
         <DialogContentText>
-          <span style={{ textAlign: "center" }}> {badgeDesc} </span>
+          <Zoom in={showResult}>
+            <span style={{ textAlign: "center" }}>{badgeDesc}</span>
+          </Zoom>
         </DialogContentText>
       </DialogContent>
+
       <BtnComponent onClick={props.onClose} color="secondary">
         확인
       </BtnComponent>
@@ -40,13 +78,11 @@ const LotComponent = () => {
 
   const modelOpenHandler = () => {
     setOpen(true);
-    console.log("modal opened");
     dispatch(lotteryOpenHandler());
   };
 
   const modelCloseHandler = () => {
     setOpen(false);
-    console.log("modal closed");
     dispatch(lotteryCloseHandler());
   };
 
@@ -94,6 +130,7 @@ const LotComponent = () => {
         </Grid>
       </Grid>
       <LotDialog open={open} onClose={modelCloseHandler}></LotDialog>
+      <Firework />
     </div>
   );
 };
