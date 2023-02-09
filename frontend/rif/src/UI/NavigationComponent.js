@@ -1,5 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 import {
   Equalizer,
   Search,
@@ -8,6 +14,14 @@ import {
   LocalActivity,
 } from "@mui/icons-material";
 import { useState } from "react";
+
+const outerTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#7DBC2F",
+    },
+  },
+});
 
 const NavigationComponent = () => {
   const [navigateTarget, setNavigateTarget] = useState("");
@@ -24,30 +38,34 @@ const NavigationComponent = () => {
   ];
 
   return (
-    <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-      elevation={3}
-    >
-      <BottomNavigation
-        showLabels
-        value={navigateTarget}
-        onChange={(event, newValue) => {
-          console.log(newValue);
-          navigate(`/${newValue}`);
-          setNavigateTarget(newValue);
-        }}
+    <ThemeProvider theme={outerTheme}>
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
       >
-        {navigationURLList.map((value, index) => (
-          <BottomNavigationAction
-            label={navigationName[index]}
-            value={value}
-            key={`mui-nav-${index}`}
-            icon={navigationMUIIconList[index]}
-            style={{ width: "10vw", padding: "0px", minWidth: "56px" }}
-          />
-        ))}
-      </BottomNavigation>
-    </Paper>
+        <BottomNavigation
+          showLabels
+          value={navigateTarget}
+          onChange={(event, newValue) => {
+            console.log(newValue);
+            navigate(`/${newValue}`);
+            setNavigateTarget(newValue);
+          }}
+          // sx={{ color: "#000000" }}
+        >
+          {navigationURLList.map((value, index) => (
+            <BottomNavigationAction
+              // sx={{ color: "#000000" }}
+              label={navigationName[index]}
+              value={value}
+              key={`mui-nav-${index}`}
+              icon={navigationMUIIconList[index]}
+              style={{ width: "10vw", padding: "0px", minWidth: "56px" }}
+            />
+          ))}
+        </BottomNavigation>
+      </Paper>
+    </ThemeProvider>
   );
 };
 
