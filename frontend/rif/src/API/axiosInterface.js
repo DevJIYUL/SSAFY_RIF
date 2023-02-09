@@ -23,6 +23,7 @@ export default async function axiosInterface(
     data: data,
     headers: headers,
     params: params,
+    // withCredentials: true,
   })
     .then((res) => res)
     .catch((err) => err);

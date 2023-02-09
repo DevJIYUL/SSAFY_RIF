@@ -9,7 +9,7 @@ async function getAchievementsAPI(accessToken, memberId) {
     "api/v/member/achievement",
     {},
     {
-      Authorization: `Baerer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     { memberId: memberId }
   );

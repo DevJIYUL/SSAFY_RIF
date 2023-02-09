@@ -40,7 +40,16 @@ export const mainPageRequestHandler = (id) => {
       if (response.status !== 200) {
         throw new Error("Error is raiesd!");
       }
-      dispatch(userInfoActions.setUserInfo(response.data));
+
+      const parsedUserInfoAPI = {
+        id: response.data.id,
+        uid: response.data.uid,
+        name: response.data.name,
+        profileImgPath: response.data.profile_img_path,
+        point: response.data.point ? response.data.point : 10000,
+      };
+
+      dispatch(userInfoActions.setUserInfo(parsedUserInfoAPI));
 
       const badgeResponse = await getUserRefBadgeAPI(id);
       if (badgeResponse.status !== 200) {
