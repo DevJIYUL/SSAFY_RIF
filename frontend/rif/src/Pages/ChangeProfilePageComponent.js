@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { mainPageRequestHandler } from "../store/getUserInfo";
 import changeProfileInfoAPI from "../API/changeProfileInfoAPI";
 import { useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { Grid, Button, Box } from "@mui/material";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
 import PageChangerComponent from "../UI/PageChangerComponent";
 
@@ -48,7 +48,7 @@ const ChangeProfilePageComponent = () => {
   return (
     <>
       <PageChangerComponent to="/main">메인 화면</PageChangerComponent>
-      <Grid container>
+      <Grid container justifyContent="center" stlye={{ width: "90%" }}>
         <SectionTitleComponent sectionTitle="프로필 사진 수정"></SectionTitleComponent>
         <form
           action=""
@@ -87,6 +87,58 @@ const ChangeProfilePageComponent = () => {
             ))}
           </Grid>
         </form>
+        <Box
+          sx={{
+            width: window.innerWidth * 0.75 + 32,
+            backgroundColor: "#EAE7B1",
+            borderRadius: 2,
+            boxShadow: 2,
+            component: "span",
+            display: "flex",
+            justifyContent: "space-between",
+            minHeight: "46.500px",
+            marginTop: "20px",
+            height: "15vw",
+          }}
+        >
+          <Button
+            style={{
+              width: "100%",
+              height: "100%",
+              color: "#5D5E58",
+              fontSize: "6vw",
+              fontFamily: "NanumSquareB",
+            }}
+          >
+            변경
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            width: window.innerWidth * 0.75 + 32,
+            backgroundColor: "#3C6255",
+            borderRadius: 2,
+            boxShadow: 2,
+            component: "span",
+            display: "flex",
+            justifyContent: "space-between",
+            minHeight: "46.500px",
+            marginTop: "40px",
+            height: "15vw",
+          }}
+        >
+          <Button
+            style={{
+              width: "100%",
+              height: "100%",
+              color: "#F0F0F0",
+              fontSize: "6vw",
+              fontFamily: "NanumSquareB",
+            }}
+          >
+            비밀번호 변경
+          </Button>
+        </Box>
       </Grid>
     </>
   );
