@@ -1,6 +1,7 @@
 package team.a501.rif.service.member;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import team.a501.rif.domain.achievement.AchievementType;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
@@ -40,6 +41,8 @@ public interface MemberService extends UserDetailsService {
     AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId);
 
     RifLogInfo addRifLog(RifLogSaveRequest dto);
+
+    List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId);
 
     void deleteByUid(String uid);
 

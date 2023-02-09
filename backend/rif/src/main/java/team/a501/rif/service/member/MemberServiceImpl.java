@@ -10,16 +10,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.a501.rif.config.Jwt.JwtAuthenticationFilter;
 import team.a501.rif.config.Jwt.JwtTokenProvider;
+import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
+import team.a501.rif.domain.achievement.AchievementCompleteChecker;
+import team.a501.rif.domain.achievement.AchievementType;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.domain.riflog.RifLog;
+import team.a501.rif.domain.riflog.RifScore;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
-import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.ErrorCode;
 import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
@@ -31,9 +36,7 @@ import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -94,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse findByUid(String uid) {
         Member member = memberRepository
                 .findByUid(uid)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return MemberResponse.builder()
                 .id(member.getId())
@@ -108,7 +111,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse findById(String id) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return MemberResponse.builder()
                 .id(member.getId())
@@ -122,20 +125,31 @@ public class MemberServiceImpl implements MemberService {
     public List<BadgeAcqInfo> findAllBadgeAcq(String memberId) {
         Member member = memberRepository
                 .findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        return member
-                .getBadgeAcqs()
-                .values()
-                .stream()
-                .map(BadgeAcqInfo::from)
-                .collect(Collectors.toList());
+        Map<Long, BadgeAcq> memberBadgeAcqs = member.getBadgeAcqs();
+        List<Badge> allBadges = badgeRepository.findAll();
+
+        List<BadgeAcqInfo> badgeAcqInfoList = new ArrayList<>();
+
+        for(var e: allBadges){
+
+            if(memberBadgeAcqs.containsKey(e.getId())){
+
+                badgeAcqInfoList.add(BadgeAcqInfo.from(memberBadgeAcqs.get(e.getId())));
+                continue;
+            }
+
+            badgeAcqInfoList.add(BadgeAcqInfo.from(e));
+        }
+
+        return badgeAcqInfoList;
     }
 
     @Override
     public List<BadgeAcqInfo> findBadgeAcqOnDisplay(String memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return member
                 .getBadgeAcqs()
@@ -150,20 +164,31 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public List<AchievementAcqInfo> findAllAchievementAcq(String memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
-        return member
-                .getAchievementAcqs()
-                .values()
-                .stream()
-                .map(AchievementAcqInfo::from)
-                .collect(Collectors.toList());
+        Map<Long, AchievementAcq> memberAchievementAcqs = member.getAchievementAcqs();
+        List<Achievement> allAchievements = achievementRepository.findAll();
+
+        List<AchievementAcqInfo> achievementAcqInfoList = new ArrayList<>();
+
+        for(var e: allAchievements){
+
+            if(memberAchievementAcqs.containsKey(e.getId())){
+
+                achievementAcqInfoList.add(AchievementAcqInfo.from(memberAchievementAcqs.get(e.getId())));
+                continue;
+            }
+
+            achievementAcqInfoList.add(AchievementAcqInfo.from(e));
+        }
+
+        return achievementAcqInfoList;
     }
 
     @Override
     public List<AchievementAcqInfo> findAchievementAcqOnDisplay(String memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         return member.getAchievementAcqs()
                 .values()
@@ -183,7 +208,7 @@ public class MemberServiceImpl implements MemberService {
 
         Integer balance = member.getPoint();
         if (balance < GATCHA_COST)
-            throw new RifCustomException(ExceptionCode.NOT_ENOUGH_POINTS);
+            throw new RifCustomException(ErrorCode.NOT_ENOUGH_POINTS);
 
         member.setPoint(balance - GATCHA_COST);
 
@@ -209,10 +234,10 @@ public class MemberServiceImpl implements MemberService {
     public BadgeAcqInfo updateBadgeOnDisplay(String memberId, Long badgeId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         BadgeAcq badgeAcq = Optional.of(member.getBadgeAcqs().get(badgeId))
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         badgeAcq.toggleOnDisplay();
 
@@ -223,10 +248,10 @@ public class MemberServiceImpl implements MemberService {
     public AchievementAcqInfo updateAchievementOnDisplay(String memberId, Long achievementId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         AchievementAcq achievementAcq = Optional.of(member.getAchievementAcqs().get(achievementId))
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         achievementAcq.toggleOnDisplay();
 
@@ -243,18 +268,84 @@ public class MemberServiceImpl implements MemberService {
     public AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId) {
         return achievementAcqService.save(memberId, achievementId);
     }
-
     @Override
-    public RifLogInfo addRifLog(RifLogSaveRequest dto) {
-        return rifLogService.save(dto);
+    public RifLogInfo addRifLog(RifLogSaveRequest request) {
+
+        Member member = memberRepository.findByUid(request.getUid())
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        Integer score = RifScore.getScoreOf(request.getPlasticTotal(), request.getPlasticOk(),
+                                            request.getRecycleTotal(), request.getRecycleOk());
+
+        Integer gainedExp = score;
+        Integer gainedPoint = 10 * ((score + 5) / 10);
+
+        member.setExp(member.getExp() + gainedExp);
+        member.setPoint(member.getPoint() + gainedPoint);
+
+        RifLogInfo rifLogInfo = rifLogService.save(request);
+
+        checkRifLogsAndAddAchievements(member.getId());
+
+        return rifLogInfo;
     }
 
-    @Override
+    public List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        List<RifLogInfo> rifLogInfoList = member.getRifLogs()
+                .stream()
+                .map(RifLogInfo::from)
+                .collect(Collectors.toList());
+
+        AchievementCompleteChecker checker = AchievementCompleteChecker.of(rifLogInfoList);
+
+        Set<Long> alreadyAchieved = member.getAchievementAcqs().keySet();
+
+        List<Achievement> achievementsToCheck = achievementRepository.findAll()
+                .stream()
+                .filter(a -> !alreadyAchieved.contains(a.getId()))
+                .collect(Collectors.toList());
+
+        List<AchievementAcqInfo> newlyAdded = new ArrayList<>();
+
+        for(var e: achievementsToCheck){
+
+            if(checker.isCompleted(e.getAchievementType())) {
+                AchievementAcqInfo info
+                        = this.addAchievementAcq(member.getId(), e.getId());
+                newlyAdded.add(info);
+            }
+        }
+
+        return newlyAdded;
+    }
+
+    private List<Long> getCompletedAchievements (String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        Set<Long> alreadyCompletedAchievementIds = member
+                .getAchievementAcqs()
+                .keySet();
+
+        List<Long> achievementIdsForCheck = achievementRepository.findAll()
+                .stream()
+                .filter(a -> !alreadyCompletedAchievementIds.contains(a.getId()))
+                .map(a -> a.getId())
+                .collect(Collectors.toList());
+
+        List<RifLog> rifLogs = member.getRifLogs();
+
+        return null;
+    }
+
     public void deleteByUid(String uid) {
 
         Member member = memberRepository
                 .findByUid(uid)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         // Badge.badgeAcqs에서 삭제
         for (var acq : member.getBadgeAcqs().values()) {
@@ -274,7 +365,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         for (var acq : member.getBadgeAcqs().values()) {
             acq.getBadge().removeBadgeAcq(acq);
@@ -350,14 +441,15 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberRankingResponse> getFirst10ByOrderByExp() {
 
         List<MemberResponse> top10 = memberRepository
-                .findTop10ByOrderByExpDesc()
+                .findFirst1010ByOrderByExpDesc()
                 .stream()
+                .filter(member -> member.getExp() > 0)
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
 
         List<MemberRankingResponse> memberRankingResponses = new ArrayList<>();
 
-        for(int i = 0; i < top10.size(); ++i){
+        for (int i = 0; i < top10.size(); ++i) {
             memberRankingResponses.add(MemberRankingResponse.builder()
                     .rank(i + 1)
                     .member(top10.get(i))
@@ -366,9 +458,10 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRankingResponses;
     }
+
     @Override
     public MemberResponse profileChange(MemberResponse changedProfile) {
-        Member response = memberRepository.findById(changedProfile.getId()).orElseThrow(()->
+        Member response = memberRepository.findById(changedProfile.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
 
         response.setProfileImgPath(changedProfile.getProfile_img_path());
