@@ -36,6 +36,7 @@ const SectionTitleComponent = (props) => {
         component: "span",
         display: "flex",
         justifyContent: "space-between",
+        minHeight: "38.500px",
       }}
     >
       <span
@@ -48,9 +49,11 @@ const SectionTitleComponent = (props) => {
       >
         {props.sectionTitle}
       </span>
-      <SectionDetailComponent to={props.to}>
-        {props.sectionDetail}
-      </SectionDetailComponent>
+      {props.sectionDetail && (
+        <SectionDetailComponent to={props.to}>
+          {props.sectionDetail}
+        </SectionDetailComponent>
+      )}
     </Box>
   );
 };
