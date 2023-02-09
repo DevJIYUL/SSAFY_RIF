@@ -289,6 +289,7 @@ public class MemberServiceImpl implements MemberService {
         checkRifLogsAndAddAchievements(member.getId());
 
         return RifLogSaveResponse.builder()
+                .name(member.getName())
                 .point(gainedPoint)
                 .exp(gainedExp)
                 .createdAt(rifLogInfo.getCreatedAt())
