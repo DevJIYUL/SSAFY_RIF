@@ -2,6 +2,8 @@ package team.a501.rif.domain.riflog;
 
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.NoArgsConstructor;
+import team.a501.rif.exception.ErrorCode;
+import team.a501.rif.exception.RifCustomException;
 
 @NoArgsConstructor
 public class RifScore {
@@ -11,6 +13,9 @@ public class RifScore {
 
         Integer numerator = plasticOk + recycleOk;
         Integer denominator = plasticTotal + recycleTotal;
+
+        if(denominator.equals(0))
+            throw new RifCustomException(ErrorCode.DIV_BY_ZERO);
 
         Double successRatio = numerator.doubleValue() / denominator;
 

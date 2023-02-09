@@ -139,6 +139,7 @@ public class MemberController {
     @PostMapping("/member/riflog")
     @Operation(summary = "멤버의 RIF 사용 이력을 추가한다")
     public ResponseEntity<RifLogSaveResponse> saveRifLog(@RequestBody RifLogSaveRequest body) {
+        log.info("saveRifLog: {}", body);
 
         RifLogSaveResponse rifLogSaveResponse = memberService.addRifLog(body);
 
@@ -202,5 +203,13 @@ public class MemberController {
         List<MemberRankingResponse> expTop10Members = memberService.getFirst10ByOrderByExp();
 
         return ResponseEntity.ok(Map.of("members", expTop10Members));
+    }
+    @GetMapping(value = "/v/ranking")
+    @Operation(summary = "누적 경험치 Top 10 그리고 나의 랭킹을 조회한다")
+    public ResponseEntity<Map<String ,Object>> findExpTop10MeMembers(@RequestParam String memberId){
+
+        List<MemberRankingResponse> expTop10MeMembers = memberService.getFirstAllByOrderByExp(memberId);
+        log.info("ranking info = {}",expTop10MeMembers);
+        return ResponseEntity.ok(Map.of("members",expTop10MeMembers));
     }
 }
