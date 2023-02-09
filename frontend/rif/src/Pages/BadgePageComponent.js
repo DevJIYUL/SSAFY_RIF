@@ -19,7 +19,7 @@ const BadgePageComponent = () => {
           sectionDetail="정렬"
         ></SectionTitleComponent>
 
-        <RewardComponent type="badge"></RewardComponent>
+        <RewardComponent type="badge" isRef={false}></RewardComponent>
       </Grid>
     </div>
   );

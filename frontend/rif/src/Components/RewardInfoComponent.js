@@ -7,8 +7,11 @@ import {
 } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 
+// show the specific information about the badge
+// props : onClose, open, reward
 const RewardInfoComponent = (props) => {
-  const { imageId, title, description, imgPath, achievedAt } = props.reward;
+  const { rewardInfo, onDisplay, achievedAt } = props.reward;
+  const { title, description, imgPath } = rewardInfo;
   const imgPathColored = imgPath.slice(0, -4) + "_colored.png";
 
   return (
@@ -22,14 +25,16 @@ const RewardInfoComponent = (props) => {
             alignItems="center"
           >
             {props.type === "badge" ? (
-              <img src={imgPathColored} alt={imageId} height="75px" />
+              <img src={imgPathColored} alt={title} height="75px" />
             ) : (
-              <img src={imgPath} alt={imageId} height="75px" />
+              <img src={imgPath} alt={title} height="75px" />
             )}
           </Grid>
           <Grid item className="grid-name" sx={{ ml: "2rem" }}>
             <h2 style={{ margin: "0px", textAlign: "center" }}>{title}</h2>
-            <h4 style={{ margin: "0px" }}>{achievedAt.slice(0, 10)}</h4>
+            <h4 style={{ margin: "0px" }}>
+              {achievedAt && achievedAt.slice(0, 10)}
+            </h4>
           </Grid>
         </Grid>
         <DialogContentText sx={{ mt: "2rem" }}>{description}</DialogContentText>
@@ -37,7 +42,7 @@ const RewardInfoComponent = (props) => {
       <DialogActions
         sx={{ bgcolor: "#A6BB8D", display: "flex", justifyContent: "center" }}
       >
-        {props.onDisplay ? (
+        {onDisplay ? (
           <BtnComponent color="secondary"> 대표 해제 </BtnComponent>
         ) : (
           <BtnComponent color="secondary"> 대표 설정 </BtnComponent>

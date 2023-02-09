@@ -19,11 +19,11 @@ const userInfoSlice = createSlice({
     },
     setUserRefBadges(state, action) {
       state.userRefBadges = [...action.payload];
-      console.log(state.userRefBadges, typeof state.userRefBadges);
+      // console.log(state.userRefBadges, typeof state.userRefBadges);
     },
     setUserRefAchievements(state, action) {
       state.userRefAchievements = [...action.payload];
-      console.log(state.userRefAchievements, typeof state.userRefAchievements);
+      // console.log(state.userRefAchievements, typeof state.userRefAchievements);
     },
   },
 });
@@ -46,22 +46,45 @@ export const mainPageRequestHandler = (id) => {
       if (badgeResponse.status !== 200) {
         throw new Error("Error is raiesd!");
       }
-      console.log(badgeResponse.data, typeof badgeResponse);
-      const reformBadgeResponse = badgeResponse.data.onDisplayBadge.map(
-        (value) => ({ badge: { ...value }, hasReward: true, onDisplay: true })
+
+      // console.log(badgeResponse, "badge");
+
+      // remove id and change the Key
+      const parsedDisplayBadge = badgeResponse.data.onDisplayBadge.map(
+        (obj) => {
+          const temp = {
+            rewardInfo: obj["badgeInfo"],
+            onDisplay: obj["onDisplay"],
+            achievedAt: obj["achievedAt"],
+            hasReward: obj["hasBadge"],
+          };
+          return temp;
+        }
       );
-      console.log(reformBadgeResponse);
-      dispatch(userInfoActions.setUserRefBadges(reformBadgeResponse));
+
+      dispatch(userInfoActions.setUserRefBadges(parsedDisplayBadge));
 
       const achievementResponse = await getUserRefAchievementAPI(id);
       if (achievementResponse.status !== 200) {
         throw new Error("Error is raiesd!");
       }
-      console.log(achievementResponse.data, typeof achievementResponse);
+
+      // console.log(achievementResponse, "achievementResponse");
+
+      // remove id and change the Key
+      const parsedDisplayAchievement =
+        achievementResponse.data.onDisplayAchievement.map((obj) => {
+          const temp = {
+            rewardInfo: obj["achievementInfo"],
+            onDisplay: obj["onDisplay"],
+            achievedAt: obj["achievedAt"],
+            hasReward: obj["hasAchievement"],
+          };
+          return temp;
+        });
+
       dispatch(
-        userInfoActions.setUserRefAchievements(
-          achievementResponse.data.onDisplayAchievement
-        )
+        userInfoActions.setUserRefAchievements(parsedDisplayAchievement)
       );
 
       dispatch(
