@@ -1,6 +1,6 @@
 package team.a501.rif.domain.achievement;
 
-public enum AchievementType {
+public enum AchievementTag {
     RIF_FIRST_USE,
     PLASTIC_SUCCESS_FIRST,
     PLASTIC_SUCCESS_FIVE_TIMES,

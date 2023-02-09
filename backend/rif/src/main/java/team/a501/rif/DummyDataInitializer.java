@@ -77,7 +77,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .tier(4)
                 .description("반갑습니다 :)")
                 .achievementImgPath("/achievement/1.png")
-                .achievementTypeOrdinal(0)
+                .tagOrdinal(0)
                 .build());
 
         Achievement achievement2 = achievementRepository.save(Achievement.builder()
@@ -85,7 +85,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .tier(3)
                 .description("첫번째 플라스틱 분류를 성공하였습니다")
                 .achievementImgPath("/achievement/2.png")
-                .achievementTypeOrdinal(1)
+                .tagOrdinal(1)
                 .build());
 
         Achievement achievement3 = achievementRepository.save(Achievement.builder()
@@ -93,7 +93,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .tier(2)
                 .description("첫번째 재활용 분류를 성공하였습니다")
                 .achievementImgPath("/achievement/3.png")
-                .achievementTypeOrdinal(4)
+                .tagOrdinal(4)
                 .build());
 
         Achievement achievement4 = achievementRepository.save(Achievement.builder()
@@ -101,7 +101,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .tier(1)
                 .description("완벽히 분류를 해내셨습니다!")
                 .achievementImgPath("/achievement/4.png")
-                .achievementTypeOrdinal(7)
+                .tagOrdinal(7)
                 .build());
 
         memberService.addBadgeAcq(registerForm.getId(), badge1.getId());

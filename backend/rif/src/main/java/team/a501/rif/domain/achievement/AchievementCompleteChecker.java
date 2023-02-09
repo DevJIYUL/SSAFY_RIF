@@ -66,9 +66,9 @@ public class AchievementCompleteChecker {
         return instance;
     }
 
-    public Boolean isCompleted(AchievementType achievementType){
+    public Boolean isCompleted(AchievementTag achievementTag){
 
-        switch (achievementType){
+        switch (achievementTag){
 
             case RIF_FIRST_USE:
                 if(rifUseCount > 0) return true;

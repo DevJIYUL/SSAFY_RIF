@@ -63,8 +63,8 @@ public class MemberServiceImpl implements MemberService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .uid(dto.getUid())
                 .name(dto.getName())
-                .point(1000)
-                .exp(0)
+                .point(dto.getPoint())
+                .exp(dto.getExp())
                 .profileImgPath(Member.DEFAULT_PROFILE_IMG)
                 .build());
 
@@ -72,6 +72,8 @@ public class MemberServiceImpl implements MemberService {
                 .id(member.getId())
                 .uid(member.getUid())
                 .name(member.getName())
+                .point(member.getPoint())
+                .exp(member.getExp())
                 .profileImgPath(member.getProfileImgPath())
                 .build();
     }
@@ -322,7 +324,7 @@ public class MemberServiceImpl implements MemberService {
 
         for(var e: achievementsToCheck){
 
-            if(checker.isCompleted(e.getAchievementType())) {
+            if(checker.isCompleted(e.getAchievementTag())) {
                 AchievementAcqInfo info
                         = this.addAchievementAcq(member.getId(), e.getId());
                 newlyAdded.add(info);
@@ -518,7 +520,7 @@ public class MemberServiceImpl implements MemberService {
         Member response = memberRepository.findById(changedProfile.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당하는 username 으로 멤버를 조회할 수 없습니다"));
 
-        response.setProfileImgPath(changedProfile.getProfile_img_path());
+        response.setProfileImgPath(changedProfile.getProfileImgPath());
 
         return MemberResponse.builder()
                 .id(response.getId())
