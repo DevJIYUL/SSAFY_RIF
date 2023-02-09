@@ -3,12 +3,22 @@ import {} from "@reduxjs/toolkit";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { mainPageRequestHandler } from "../store/getUserInfo";
+import calLevel from "../API/calLevel";
+import SectionTitleComponent from "../UI/SectionTitleComponent";
 
-// Temporary import
-import { Link } from "react-router-dom"
-import BtnComponent from "../UI/BtnComponent"
+import { Grid, createTheme, ThemeProvider } from "@mui/material";
+import MainProfileComopnent from "../Components/MainProfileComponent";
+import RewardComponent from "../Components/RewardComponent";
 
-let isInitial = true
+let isInitial = true;
+
+const profileTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#9CB59D",
+    },
+  },
+});
 
 const MainPageComponent = () => {
   const navigate = useNavigate();
@@ -33,37 +43,41 @@ const MainPageComponent = () => {
     }
   }, [token, id, navigate, dispatch]);
 
+  const [exp, caledExp] = calLevel(userInfo.exp);
+
+  //exp, id, name, point, profileImgPath
   return (
-    <div>
-      <Link to="/lot" style={{ textDecoration: "none" }}>
-        <BtnComponent> 로또 컴포넌트 </BtnComponent>
-      </Link>
-      {userInfo
-        ? Object.entries(userInfo).map(([key, value]) => (
-            <p key={key}>
-              {key} : {value}
-            </p>
-          ))
-        : null}
-      {userRefBadges
-        ? userRefBadges.map((userRefBadge) =>
-            Object.entries(userRefBadge).map(([key, value]) => (
-              <p key={key + "Badge"}>
-                {key}:{value}
-              </p>
-            ))
-          )
-        : null}
-      {userRefAchievements
-        ? userRefAchievements.map((userRefAchievement) =>
-            Object.entries(userRefAchievement).map(([key, value]) => (
-              <p key={key + "Achievement"}>
-                {key}:{value}
-              </p>
-            ))
-          )
-        : null}
-    </div>
+    <ThemeProvider theme={profileTheme}>
+      <MainProfileComopnent />
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <SectionTitleComponent
+          sectionTitle="내 대표 뱃지"
+          to="/badge"
+          sectionDetail="뱃지 관리"
+        />
+        {userRefBadges && (
+          <RewardComponent type="badge" rewards={userRefBadges} isRef={true} />
+          // userRefBadges [badgeInfo, onDisplay, acheievedAt]
+        )}
+        <SectionTitleComponent
+          sectionTitle="내 대표 업적"
+          to="/achievement"
+          sectionDetail="업적 관리"
+        />
+        {userRefAchievements && (
+          <RewardComponent
+            type="achievement"
+            rewards={userRefAchievements}
+            isRef={true}
+          />
+        )}
+      </Grid>
+    </ThemeProvider>
   );
 };
 
