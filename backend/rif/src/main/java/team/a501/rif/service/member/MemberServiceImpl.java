@@ -272,6 +272,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public RifLogSaveResponse addRifLog(RifLogSaveRequest request) {
 
+        log.info("MemberService.addRifLog: {}", request);
+
         Member member = memberRepository.findByUid(request.getUid())
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
@@ -287,6 +289,8 @@ public class MemberServiceImpl implements MemberService {
         RifLogInfo rifLogInfo = rifLogService.save(request);
 
         checkRifLogsAndAddAchievements(member.getId());
+
+        log.info("checkRifLogAndAddAchievements successfully worked");
 
         return RifLogSaveResponse.builder()
                 .name(member.getName())

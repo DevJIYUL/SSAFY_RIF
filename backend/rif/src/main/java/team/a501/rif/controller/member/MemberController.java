@@ -139,6 +139,7 @@ public class MemberController {
     @PostMapping("/member/riflog")
     @Operation(summary = "멤버의 RIF 사용 이력을 추가한다")
     public ResponseEntity<RifLogSaveResponse> saveRifLog(@RequestBody RifLogSaveRequest body) {
+        log.info("saveRifLog: {}", body);
 
         RifLogSaveResponse rifLogSaveResponse = memberService.addRifLog(body);
 
