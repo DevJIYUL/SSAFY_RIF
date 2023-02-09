@@ -9,12 +9,12 @@ public class ExceptionResponse {
 
     private ExceptionResponse() {}
 
-    public static ExceptionResponse from(ExceptionCode exceptionCode) {
+    public static ExceptionResponse from(ErrorCode errorCode) {
 
         ExceptionResponse response = new ExceptionResponse();
 
-        response.status = exceptionCode.getHttpStatus().value();
-        response.message = exceptionCode.getMessage();
+        response.status = errorCode.getHttpStatus().value();
+        response.message = errorCode.getMessage();
 
         return response;
     }

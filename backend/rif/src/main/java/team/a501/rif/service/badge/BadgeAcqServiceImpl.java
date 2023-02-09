@@ -6,7 +6,7 @@ import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
-import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.ErrorCode;
 import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
@@ -28,11 +28,11 @@ public class BadgeAcqServiceImpl implements BadgeAcqService {
 
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         Badge badge = badgeRepository
                 .findById(badgeId)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
         badge.addBadgeAcq(badgeAcq);

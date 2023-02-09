@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.ErrorCode;
 import team.a501.rif.exception.ExceptionResponse;
 import team.a501.rif.exception.RifCustomException;
 
@@ -18,7 +18,7 @@ public class RifGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RifCustomException.class)
     public ResponseEntity<ExceptionResponse> handleRifCustomException(RifCustomException e) {
 
-        ExceptionCode code = e.getExceptionCode();
+        ErrorCode code = e.getErrorCode();
 
         return ResponseEntity.status(code.getHttpStatus()).body(ExceptionResponse.from(code));
     }
