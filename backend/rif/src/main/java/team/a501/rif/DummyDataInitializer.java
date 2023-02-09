@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
         matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
-@Profile("dev")
+@Profile("local")
 public class DummyDataInitializer implements CommandLineRunner {
 
     private final MemberService memberService;
@@ -73,31 +73,35 @@ public class DummyDataInitializer implements CommandLineRunner {
 
         // todo achievement 추가하기
         Achievement achievement1 = achievementRepository.save(Achievement.builder()
-                .title("업적1")
-                .tier(1)
-                .description("이것은 업적1 입니다")
+                .title("Welcome!")
+                .tier(4)
+                .description("반갑습니다 :)")
                 .achievementImgPath("/achievement/1.png")
+                .achievementTypeOrdinal(0)
                 .build());
 
         Achievement achievement2 = achievementRepository.save(Achievement.builder()
-                .title("업적2")
-                .tier(2)
-                .description("이것은 업적2 입니다")
+                .title("First Plastic Success")
+                .tier(3)
+                .description("첫번째 플라스틱 분류를 성공하였습니다")
                 .achievementImgPath("/achievement/2.png")
+                .achievementTypeOrdinal(1)
                 .build());
 
         Achievement achievement3 = achievementRepository.save(Achievement.builder()
-                .title("업적3")
-                .tier(3)
-                .description("이것은 업적3 입니다")
+                .title("First Recycle Success")
+                .tier(2)
+                .description("첫번째 재활용 분류를 성공하였습니다")
                 .achievementImgPath("/achievement/3.png")
+                .achievementTypeOrdinal(4)
                 .build());
 
         Achievement achievement4 = achievementRepository.save(Achievement.builder()
-                .title("업적4")
-                .tier(4)
-                .description("이것은 업적4 입니다")
+                .title("First RIF Perfect")
+                .tier(1)
+                .description("완벽히 분류를 해내셨습니다!")
                 .achievementImgPath("/achievement/4.png")
+                .achievementTypeOrdinal(7)
                 .build());
 
         memberService.addBadgeAcq(registerForm.getId(), badge1.getId());
@@ -107,13 +111,5 @@ public class DummyDataInitializer implements CommandLineRunner {
 
         memberService.updateBadgeOnDisplay(registerForm.getId(), badge1.getId());
         memberService.updateBadgeOnDisplay(registerForm.getId(), badge2.getId());
-
-        memberService.addAchievementAcq(registerForm.getId(), achievement1.getId());
-        memberService.addAchievementAcq(registerForm.getId(), achievement2.getId());
-        memberService.addAchievementAcq(registerForm.getId(), achievement3.getId());
-        memberService.addAchievementAcq(registerForm.getId(), achievement4.getId());
-
-        memberService.updateAchievementOnDisplay(registerForm.getId(), achievement1.getId());
-        memberService.updateAchievementOnDisplay(registerForm.getId(), achievement2.getId());
     }
 }
