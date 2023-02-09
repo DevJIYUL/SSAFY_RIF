@@ -15,6 +15,7 @@ import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
+import team.a501.rif.dto.riflog.RifLogSaveResponse;
 import team.a501.rif.service.member.MemberService;
 import team.a501.rif.service.riflog.RifLogService;
 
@@ -137,11 +138,11 @@ public class MemberController {
 
     @PostMapping("/member/riflog")
     @Operation(summary = "멤버의 RIF 사용 이력을 추가한다")
-    public ResponseEntity<RifLogInfo> saveRifLog(@RequestBody RifLogSaveRequest body) {
+    public ResponseEntity<RifLogSaveResponse> saveRifLog(@RequestBody RifLogSaveRequest body) {
 
-        RifLogInfo rifLogInfo = memberService.addRifLog(body);
+        RifLogSaveResponse rifLogSaveResponse = memberService.addRifLog(body);
 
-        return ResponseEntity.ok(rifLogInfo);
+        return ResponseEntity.ok(rifLogSaveResponse);
     }
     @Operation(summary = "권한 테스트",description = "권한 테스트하는 메서드입니다. 토큰을 넣으면 hello")
     @PostMapping(value = "/v/hello")

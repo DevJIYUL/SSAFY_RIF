@@ -23,6 +23,7 @@ import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
+import team.a501.rif.dto.riflog.RifLogSaveResponse;
 import team.a501.rif.exception.ErrorCode;
 import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementRepository;
@@ -269,7 +270,7 @@ public class MemberServiceImpl implements MemberService {
         return achievementAcqService.save(memberId, achievementId);
     }
     @Override
-    public RifLogInfo addRifLog(RifLogSaveRequest request) {
+    public RifLogSaveResponse addRifLog(RifLogSaveRequest request) {
 
         Member member = memberRepository.findByUid(request.getUid())
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
@@ -287,7 +288,12 @@ public class MemberServiceImpl implements MemberService {
 
         checkRifLogsAndAddAchievements(member.getId());
 
-        return rifLogInfo;
+        return RifLogSaveResponse.builder()
+                .name(member.getName())
+                .point(gainedPoint)
+                .exp(gainedExp)
+                .createdAt(rifLogInfo.getCreatedAt())
+                .build();
     }
 
     public List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId){

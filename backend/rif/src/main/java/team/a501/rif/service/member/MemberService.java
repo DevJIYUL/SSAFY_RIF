@@ -7,6 +7,7 @@ import team.a501.rif.dto.badge.BadgeAcqInfo;
 import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
+import team.a501.rif.dto.riflog.RifLogSaveResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -40,7 +41,7 @@ public interface MemberService extends UserDetailsService {
 
     AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId);
 
-    RifLogInfo addRifLog(RifLogSaveRequest dto);
+    RifLogSaveResponse addRifLog(RifLogSaveRequest dto);
 
     List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId);
 
