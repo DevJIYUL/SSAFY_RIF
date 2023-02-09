@@ -18,7 +18,7 @@ public class Achievement {
 
     private Integer tier;
 
-    @Column(length = 20)
+    @Column(length = 40)
     private String title;
 
     @Column(length = 100)
@@ -27,15 +27,19 @@ public class Achievement {
     @Column(length = 40)
     private String imgPath;
 
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private AchievementType achievementType;
     @OneToMany(mappedBy = "achievement")
     private List<AchievementAcq> achievementAcqs;
 
     @Builder
-    public Achievement(Integer tier, String title, String description, String achievementImgPath) {
+    public Achievement(Integer tier, String title, String description, String achievementImgPath, Integer achievementTypeOrdinal) {
         this.tier = tier;
         this.title = title;
         this.description = description;
         this.imgPath = achievementImgPath;
+        this.achievementType = AchievementType.values()[achievementTypeOrdinal];
         this.achievementAcqs = new ArrayList<>();
     }
 
@@ -75,6 +79,14 @@ public class Achievement {
         this.imgPath = imgPath;
     }
 
+    public AchievementType getAchievementType() {
+        return achievementType;
+    }
+
+    public void setAchievementType(AchievementType achievementType) {
+        this.achievementType = achievementType;
+    }
+
     public List<AchievementAcq> getAchievementAcqs() {
         return achievementAcqs;
     }
@@ -91,6 +103,13 @@ public class Achievement {
 
     @Override
     public String toString() {
-        return "Achievement{" + "\n id=" + id + ",\n title='" + title + '\'' + ",\n description='" + description + '\'' + ",\n achievementImgPath='" + imgPath + '\'' + "\n}";
+        return "Achievement{" +
+                "\nid=" + id +
+                ",\n tier=" + tier +
+                ",\n title='" + title + '\'' +
+                ",\n description='" + description + '\'' +
+                ",\n imgPath='" + imgPath + '\'' +
+                ",\n achievementType=" + achievementType +
+                "\n}";
     }
 }

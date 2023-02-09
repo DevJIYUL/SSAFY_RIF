@@ -38,49 +38,23 @@ public class RifLog extends BaseEntity {
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Member getMember() {
         return member;
     }
-
     public void setMember(Member member) {
         this.member = member;
     }
-
     public Integer getPlasticTotal() {
         return plasticTotal;
     }
-
-    public void setPlasticTotal(Integer plasticTotal) {
-        this.plasticTotal = plasticTotal;
-    }
-
     public Integer getPlasticOk() {
         return plasticOk;
     }
-
-    public void setPlasticOk(Integer plasticOk) {
-        this.plasticOk = plasticOk;
-    }
-
     public Integer getRecycleTotal() {
         return recycleTotal;
     }
-
-    public void setRecycleTotal(Integer recycleTotal) {
-        this.recycleTotal = recycleTotal;
-    }
-
     public Integer getRecycleOk() {
         return recycleOk;
-    }
-
-    public void setRecycleOk(Integer recycleOk) {
-        this.recycleOk = recycleOk;
     }
 
     @Override
