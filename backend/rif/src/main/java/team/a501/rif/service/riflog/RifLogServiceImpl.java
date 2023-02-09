@@ -35,6 +35,7 @@ public class RifLogServiceImpl implements RifLogService {
                 .recycleTotal(dto.getRecycleTotal())
                 .recycleOk(dto.getRecycleOk())
                 .build());
+
         member.addRifLog(rifLog);
 
         return RifLogInfo.from(rifLog);

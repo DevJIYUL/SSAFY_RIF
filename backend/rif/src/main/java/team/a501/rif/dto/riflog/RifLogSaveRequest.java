@@ -2,6 +2,7 @@ package team.a501.rif.dto.riflog;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -21,4 +22,6 @@ public class RifLogSaveRequest {
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
     }
+
+
 }
