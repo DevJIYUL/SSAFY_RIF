@@ -1,16 +1,17 @@
-import UserSearchResultItemComponent from "./UserSearchResultItemComponent"
+import UserSearchResultItemComponent from "./UserSearchResultItemComponent";
+import { Grid } from "@mui/material";
 
 const UserSearchResultBoxComponent = (props) => {
   return (
-    <div>
+    <Grid style={{ width: "90%", minWidth: "256px" }}>
       {props.recentSearchResults.map((recentSearchResult) => (
         <UserSearchResultItemComponent
           key={recentSearchResult.id}
           recentSearchResult={recentSearchResult}
         ></UserSearchResultItemComponent>
       ))}
-    </div>
-  )
-}
+    </Grid>
+  );
+};
 
-export default UserSearchResultBoxComponent
+export default UserSearchResultBoxComponent;
