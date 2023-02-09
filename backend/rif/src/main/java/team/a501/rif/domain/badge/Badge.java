@@ -20,7 +20,7 @@ public class Badge {
 
     private Integer tier;
 
-    @Column(length = 20)
+    @Column(length = 40)
     private String title;
 
     @Column(length = 100)

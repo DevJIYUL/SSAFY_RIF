@@ -1,7 +1,5 @@
 package team.a501.rif.controller.member;
 
-import io.jsonwebtoken.Claims;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import team.a501.rif.service.member.MemberService;
 import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,7 +146,9 @@ public class MemberController {
     @Operation(summary = "권한 테스트",description = "권한 테스트하는 메서드입니다. 토큰을 넣으면 hello")
     @PostMapping(value = "/v/hello")
     public String hello() {
+
         log.info("info ={}", "hello");
+
         return "hello";
     }
     @Operation(summary = "비밀번호 변경",description = "비밀번호 변경하는 메서드입니다.")
@@ -159,14 +158,21 @@ public class MemberController {
                                                          @Validated @RequestBody PasswordChangeRequest passwordChangeRequest) throws Exception {
         log.info("asd : {}", memberId);
         log.info("httpservletRequest info = {}", request);
+
         MemberResponse member = memberService.passwordChange(request, memberId, passwordChangeRequest);
+
         return ResponseEntity.ok(member);
     }
     @Operation(summary = "프로필 사진 변경",description = "프로필 사진을 변경하는 메서드입니다.")
     @PatchMapping(value = "/v/member/profile")
     public ResponseEntity<?> profileChange(@RequestBody MemberResponse changedProfile){
+
+        // todo MemberResponse와 같은 필드를 갖는 Dto 클래스를 따로 만드는건 어떤가요?
+
         MemberResponse member = memberService.profileChange(changedProfile);
+
         log.info("changed profile info = {}",member);
+
         return ResponseEntity.ok(member);
     }
     @Operation(summary = "회원이름",description = "모든 회원의 이름을 반환하는 메서드입니다.")

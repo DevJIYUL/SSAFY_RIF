@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.dto.achievement.AchievementSaveRequest;
-import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.ErrorCode;
 import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.achievement.AchievementRepository;
 
@@ -38,6 +38,6 @@ public class AchievementServiceImpl implements AchievementService {
     @Transactional
     public Achievement findById(Long id) {
         return achievementRepository.findById(id)
-                .orElseThrow(() -> new RifCustomException(ExceptionCode.NOT_ENOUGH_POINTS));
+                .orElseThrow(() -> new RifCustomException(ErrorCode.NOT_ENOUGH_POINTS));
     }
 }
