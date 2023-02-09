@@ -24,22 +24,22 @@ public class Achievement {
     @Column(length = 100)
     private String description;
 
-    @Column(length = 40)
+    @Column(length = 50)
     private String imgPath;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private AchievementType achievementType;
+    private AchievementTag achievementTag;
     @OneToMany(mappedBy = "achievement")
     private List<AchievementAcq> achievementAcqs;
 
     @Builder
-    public Achievement(Integer tier, String title, String description, String achievementImgPath, Integer achievementTypeOrdinal) {
+    public Achievement(Integer tier, String title, String description, String achievementImgPath, Integer tagOrdinal) {
         this.tier = tier;
         this.title = title;
         this.description = description;
         this.imgPath = achievementImgPath;
-        this.achievementType = AchievementType.values()[achievementTypeOrdinal];
+        this.achievementTag = AchievementTag.values()[tagOrdinal];
         this.achievementAcqs = new ArrayList<>();
     }
 
@@ -79,12 +79,12 @@ public class Achievement {
         this.imgPath = imgPath;
     }
 
-    public AchievementType getAchievementType() {
-        return achievementType;
+    public AchievementTag getAchievementTag() {
+        return achievementTag;
     }
 
-    public void setAchievementType(AchievementType achievementType) {
-        this.achievementType = achievementType;
+    public void setAchievementTag(AchievementTag achievementTag) {
+        this.achievementTag = achievementTag;
     }
 
     public List<AchievementAcq> getAchievementAcqs() {
@@ -109,7 +109,7 @@ public class Achievement {
                 ",\n title='" + title + '\'' +
                 ",\n description='" + description + '\'' +
                 ",\n imgPath='" + imgPath + '\'' +
-                ",\n achievementType=" + achievementType +
+                ",\n achievementType=" + achievementTag +
                 "\n}";
     }
 }
