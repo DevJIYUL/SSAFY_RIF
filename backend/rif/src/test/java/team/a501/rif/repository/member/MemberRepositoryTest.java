@@ -40,7 +40,7 @@ class MemberRepositoryTest {
                 .profileImgPath("/profile.default")
                 .build());
 
-        List<Member> top10 = memberRepository.findTop10ByOrderByExpDesc();
+        List<Member> top10 = memberRepository.findFirst1010ByOrderByExpDesc();
 
         for(var e: top10){
             System.out.println(e);
