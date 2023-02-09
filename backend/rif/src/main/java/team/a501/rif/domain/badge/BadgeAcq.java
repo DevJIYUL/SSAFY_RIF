@@ -2,6 +2,7 @@ package team.a501.rif.domain.badge;
 
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
+import team.a501.rif.dto.badge.BadgeAcqInfo;
 
 import javax.persistence.*;
 
@@ -14,17 +15,13 @@ public class BadgeAcq extends BaseEntity {
 
     private Boolean onDisplay;
 
-//    @ManyToOne
-//    private Member member; // 멤버가 삭제되면 뱃지획득 역시 삭제되어야한다
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member; // todo 테스트용
 
-    // todo 뱃지가 삭제되어도 멤버가 남아있다면 뱃지획득이 삭제되어선 안된다. 뱃지가 삭제되면 기본 뱃지로 대체되는 것도 고려해보자
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
 
-    public BadgeAcq(){
+    public BadgeAcq() {
 
         this.onDisplay = false;
     }
@@ -45,6 +42,10 @@ public class BadgeAcq extends BaseEntity {
         this.onDisplay = onDisplay;
     }
 
+    public void toggleOnDisplay() {
+        this.onDisplay = !this.onDisplay;
+    }
+
     public Member getMember() {
         return member;
     }
@@ -59,6 +60,10 @@ public class BadgeAcq extends BaseEntity {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
+    }
+
+    public BadgeAcqInfo getInfo() {
+        return BadgeAcqInfo.from(this);
     }
 
     @Override

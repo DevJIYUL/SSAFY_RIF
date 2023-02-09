@@ -12,9 +12,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import team.a501.rif.domain.auth.Token;
+import team.a501.rif.dto.auth.TokenDto;
+import team.a501.rif.repository.auth.RefreshtokenRepository;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -27,20 +29,21 @@ public class JwtTokenProvider {
     private final long expire;
 
     public JwtTokenProvider(@Value("${security.jwt.token.secret}") String secretKey,
-                            @Value("${security.jwt.token.expire}") long expire) {
+                            @Value("${security.jwt.token.expire}") long expire, RefreshtokenRepository refreshtokenRepository) {
         this.expire = expire;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // accesstoken 발행하는 메서드
-    public Token issueToken(Authentication authentication) {
+    public TokenDto issueToken(Authentication authentication) {
         final long now = new Date().getTime();
         final Date accessExpire = new Date(now + expire);
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
@@ -48,11 +51,12 @@ public class JwtTokenProvider {
                 .setExpiration(accessExpire)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        return Token.builder()
-                .grantType("Bearer")
+        return TokenDto.builder()
+                .grantType("Bearer ")
                 .accessToken(accessToken)
                 .build();
     }
+
 
     // JWT 토큰 복호화 하여 토큰 정보 꺼내기
     public Authentication getAuthentication(String accessToken) {
@@ -61,9 +65,10 @@ public class JwtTokenProvider {
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰");
         }
-        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+//        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+        Collection<? extends GrantedAuthority> authorities = new ArrayList<>(Arrays.asList(new SimpleGrantedAuthority("MEMBER")));
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
@@ -85,7 +90,7 @@ public class JwtTokenProvider {
 
     }
 
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {

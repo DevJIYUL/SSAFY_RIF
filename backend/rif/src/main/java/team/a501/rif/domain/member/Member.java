@@ -7,10 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import team.a501.rif.domain.achievement.Achievement;
 import team.a501.rif.domain.achievement.AchievementAcq;
-import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
+import team.a501.rif.domain.riflog.RifLog;
 import team.a501.rif.domain.role.Role;
 
 import javax.persistence.*;
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 public class Member implements UserDetails {
     @JsonIgnore
     public static final String DEFAULT_PROFILE_IMG = "/profile/default.png";
-
-
     @Id
     private String id; // 학번
 
@@ -41,13 +38,16 @@ public class Member implements UserDetails {
     private Integer exp;
 
     @Column(length = 40)
-    private String profileImgPath; // 기본값 /profile/default.png
+    private String profile_img_path; // 기본값 /profile/default.png
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, BadgeAcq> badgeAcqs;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, AchievementAcq> achievementAcqs;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<RifLog> rifLogs;
 
     @OneToMany(mappedBy = "member")
     private Set<Role> roles;
@@ -61,16 +61,16 @@ public class Member implements UserDetails {
         this.name = name;
         this.point = point;
         this.exp = exp;
-        this.profileImgPath = profileImgPath;
+        this.profile_img_path = profileImgPath;
 
         this.badgeAcqs = new HashMap<>();
         this.achievementAcqs = new HashMap<>();
+        this.rifLogs = new ArrayList<>();
         this.roles = new HashSet<>();
     }
 
     // implement UserDetails
 
-    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
@@ -79,36 +79,32 @@ public class Member implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    @JsonIgnore
     @Override
     public String getPassword() {
         return this.password;
     }
 
 
-    @JsonIgnore
     @Override
     public String getUsername() {
         return id;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    @JsonIgnore
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    @JsonIgnore
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
@@ -158,30 +154,28 @@ public class Member implements UserDetails {
     }
 
     public String getProfileImgPath() {
-        return profileImgPath;
+        return profile_img_path;
     }
 
-    @JsonIgnore
     public Map<Long, BadgeAcq> getBadgeAcqs() {
         return badgeAcqs;
     }
 
-    @JsonIgnore
     public Map<Long, AchievementAcq> getAchievementAcqs() {
         return achievementAcqs;
     }
 
     public void setProfileImgPath(String profileImgPath) {
-        this.profileImgPath = profileImgPath;
+        this.profile_img_path = profileImgPath;
     }
 
 
-    public Boolean hasBadge(@NotNull Badge badge) {
-        return badgeAcqs.containsKey(badge.getId());
+    public Boolean hasBadge(@NotNull Long badgeId) {
+        return badgeAcqs.containsKey(badgeId);
     }
 
-    public Boolean hasAchievement(@NotNull Achievement achievement) {
-        return achievementAcqs.containsKey(achievement.getId());
+    public Boolean hasAchievement(@NotNull Long achievementId) {
+        return achievementAcqs.containsKey(achievementId);
     }
 
     public void addBadgeAcq(@NotNull BadgeAcq acq) {
@@ -208,6 +202,31 @@ public class Member implements UserDetails {
         achievementAcqs.remove(acq.getAchievement().getId());
     }
 
+    public void setBadgeAcqs(Map<Long, BadgeAcq> badgeAcqs) {
+        this.badgeAcqs = badgeAcqs;
+    }
+
+    public void setAchievementAcqs(Map<Long, AchievementAcq> achievementAcqs) {
+        this.achievementAcqs = achievementAcqs;
+    }
+
+    public List<RifLog> getRifLogs() {
+        return rifLogs;
+    }
+
+    public void addRifLog(RifLog rifLog) {
+        rifLog.setMember(this);
+        this.rifLogs.add(rifLog);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -217,7 +236,7 @@ public class Member implements UserDetails {
                 ", name='" + name + '\'' +
                 ", point=" + point +
                 ", exp=" + exp +
-                ", profileImgPath='" + profileImgPath + '\'' +
+                ", profileImgPath='" + profile_img_path + '\'' +
                 '}';
     }
 }

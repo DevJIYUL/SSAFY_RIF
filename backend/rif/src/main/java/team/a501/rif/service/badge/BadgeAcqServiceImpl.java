@@ -5,58 +5,46 @@ import org.springframework.stereotype.Service;
 import team.a501.rif.domain.badge.Badge;
 import team.a501.rif.domain.badge.BadgeAcq;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.exception.NoSuchEntityException;
+import team.a501.rif.dto.badge.BadgeAcqInfo;
+import team.a501.rif.exception.ExceptionCode;
+import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.badge.BadgeAcqRepository;
 import team.a501.rif.repository.badge.BadgeRepository;
-import team.a501.rif.service.member.MemberService;
+import team.a501.rif.repository.member.MemberRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
-public class BadgeAcqServiceImpl implements BadgeAcqService{
+public class BadgeAcqServiceImpl implements BadgeAcqService {
 
     private final BadgeAcqRepository badgeAcqRepository;
     private final BadgeRepository badgeRepository;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @Override
-    @Transactional
-    public BadgeAcq save(String memberId, Long badgeId) {
+    public BadgeAcqInfo save(String memberId, Long badgeId) {
 
 
-        Member member = memberService.findById(memberId);
-
-//        tempMember.getBadgeAcqs().containsKey(badgeId) 중복되는 뱃지를 가지고 있다
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         Badge badge = badgeRepository
                 .findById(badgeId)
-                .orElseThrow(() -> new NoSuchEntityException(Badge.class.getName()));
+                .orElseThrow(() -> new RifCustomException(ExceptionCode.ENTITY_INSTANCE_NOT_FOUND));
 
         BadgeAcq badgeAcq = badgeAcqRepository.save(new BadgeAcq());
-
         badge.addBadgeAcq(badgeAcq);
         member.addBadgeAcq(badgeAcq);
 
-        return badgeAcq;
+        return BadgeAcqInfo.from(badgeAcq);
     }
 
     @Override
-    @Transactional
-    public List<BadgeAcq> findByMemberId(String memberId) {
-
-        Member member = memberService.findById(memberId);
-
-        return badgeAcqRepository.findByMember(member);
+    public void delete(BadgeAcq badgeAcq) {
+        badgeAcqRepository.delete(badgeAcq);
     }
 
-    @Override
-    @Transactional
-    public List<BadgeAcq> findByMemberUid(String memberUid){
 
-        Member member = memberService.findByUid(memberUid);
-
-        return badgeAcqRepository.findByMember(member);
-    }
 }

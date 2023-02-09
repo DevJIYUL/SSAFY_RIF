@@ -23,4 +23,6 @@ public class MemberRegisterRequest {
         this.uid = uid;
         this.name = name;
     }
+
+
 }

@@ -1,34 +1,45 @@
 package team.a501.rif.controller.badge;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.a501.rif.dto.badge.BadgeSave;
-import team.a501.rif.domain.badge.Badge;
-import team.a501.rif.domain.badge.Badges;
-import team.a501.rif.repository.badge.BadgeRepository;
+import team.a501.rif.dto.badge.BadgeInfo;
+import team.a501.rif.dto.badge.BadgeSaveRequest;
+import team.a501.rif.service.badge.BadgeService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Tag(name = "BadgeController")
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/api")
 public class BadgeController {
 
-    private final BadgeRepository badgeRepository;
+    private final BadgeService badgeService;
 
     @PostMapping("/badge")
-    public ResponseEntity<Badge> createBadge(@RequestBody BadgeSave badgeSaveRequest){
+    @Operation(summary = "뱃지 추가")
+    public ResponseEntity<BadgeInfo> saveBadge(@RequestBody BadgeSaveRequest request){
 
-        Badge badge = badgeRepository.save(badgeSaveRequest.toEntity());
+        BadgeInfo badgeInfo = BadgeInfo.from(badgeService.save(request));
 
-        return new ResponseEntity<>(badge, HttpStatus.OK);
+        return ResponseEntity.ok(badgeInfo);
     }
 
     @GetMapping("/badge")
-    public ResponseEntity<Badges> allBadges(){
+    @Operation(summary = "모든 종류의 뱃지 반환")
+    public ResponseEntity<List<BadgeInfo>> findAllBadges(){
 
-        Badges badges = new Badges(badgeRepository.findAll());
 
-        return new ResponseEntity<>(badges, HttpStatus.OK);
+        List<BadgeInfo> badgeInfoList = badgeService.findAll()
+                .stream()
+                .map(badge -> BadgeInfo.from(badge))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(badgeInfoList);
     }
 }
