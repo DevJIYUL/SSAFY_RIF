@@ -1,14 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
-import {} from "@reduxjs/toolkit";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { mainPageRequestHandler } from "../store/getUserInfo";
 import calLevel from "../API/calLevel";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
 
-import { Grid, createTheme, ThemeProvider } from "@mui/material";
+import { Grid, createTheme, ThemeProvider, Button } from "@mui/material";
 import MainProfileComopnent from "../Components/MainProfileComponent";
 import RewardComponent from "../Components/RewardComponent";
+import { authActions } from "../store/auth";
 
 let isInitial = true;
 
@@ -24,6 +24,7 @@ const MainPageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [logoutFlag, setLogoutFlag] = useState("");
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -33,49 +34,102 @@ const MainPageComponent = () => {
   );
 
   useEffect(() => {
-    if (isInitial) {
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-      isInitial = false;
-      dispatch(mainPageRequestHandler(id));
+    if (logoutFlag) {
+      navigate("/home");
+      return;
     }
-  }, [token, id, navigate, dispatch]);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    isInitial = false;
+    dispatch(mainPageRequestHandler(id));
+  }, [token, id, logoutFlag, navigate, dispatch]);
 
   const [exp, caledExp] = calLevel(userInfo.exp);
+
+  const logoutBtnHandler = () => {
+    dispatch(authActions.logout());
+    setLogoutFlag("logout");
+  };
+  const logBtnHandler = () => {
+    navigate("/log");
+  };
 
   //exp, id, name, point, profileImgPath
   return (
     <ThemeProvider theme={profileTheme}>
-      <MainProfileComopnent />
       <Grid
         container
         direction="column"
         justifyContent="center"
         alignItems="center"
       >
-        <SectionTitleComponent
-          sectionTitle="내 대표 뱃지"
-          to="/badge"
-          sectionDetail="뱃지 관리"
-        />
-        {userRefBadges && (
-          <RewardComponent type="badge" rewards={userRefBadges} isRef={true} />
-          // userRefBadges [badgeInfo, onDisplay, acheievedAt]
-        )}
-        <SectionTitleComponent
-          sectionTitle="내 대표 업적"
-          to="/achievement"
-          sectionDetail="업적 관리"
-        />
-        {userRefAchievements && (
-          <RewardComponent
-            type="achievement"
-            rewards={userRefAchievements}
-            isRef={true}
+        <MainProfileComopnent />
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <SectionTitleComponent
+            sectionTitle="내 대표 뱃지"
+            to="/badge"
+            sectionDetail="뱃지 관리"
           />
-        )}
+          {userRefBadges && (
+            <RewardComponent
+              type="badge"
+              rewards={userRefBadges}
+              isRef={true}
+            />
+            // userRefBadges [badgeInfo, onDisplay, acheievedAt]
+          )}
+          <SectionTitleComponent
+            sectionTitle="내 대표 업적"
+            to="/achievement"
+            sectionDetail="업적 관리"
+          />
+          {userRefAchievements && (
+            <RewardComponent
+              type="achievement"
+              rewards={userRefAchievements}
+              isRef={true}
+            />
+          )}
+        </Grid>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ width: window.innerWidth * 0.75 + 32 }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              margin: "auto",
+              color: "#FFFFFF",
+              width: "40%",
+              paddingX: "0px",
+            }}
+            onClick={logoutBtnHandler}
+          >
+            로그아웃
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              margin: "auto",
+              color: "#FFFFFF",
+              width: "40%",
+              paddingX: "0px",
+            }}
+            onClick={logBtnHandler}
+          >
+            로그 보러 가기
+          </Button>
+        </Grid>
       </Grid>
     </ThemeProvider>
   );
