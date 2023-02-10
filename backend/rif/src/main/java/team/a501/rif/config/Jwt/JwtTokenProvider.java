@@ -79,15 +79,17 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Info Invalid JWT Token = {}", e);
+            return false;
         } catch (ExpiredJwtException e) {
             log.info("Info Expired JWT Token = {}", e);
+            return false;
         } catch (UnsupportedJwtException e) {
             log.info("Info Unsupported JWT Token = {}", e);
+            return false;
         } catch (IllegalArgumentException e) {
             log.info("Info JWT claims string is empty.={}", e);
+            return false;
         }
-        return false;
-
     }
 
     public Claims parseClaims(String accessToken) {
