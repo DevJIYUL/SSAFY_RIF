@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
         matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
-@Profile("local")
+@Profile("dev")
 public class DummyDataInitializer implements CommandLineRunner {
 
     private final MemberService memberService;
