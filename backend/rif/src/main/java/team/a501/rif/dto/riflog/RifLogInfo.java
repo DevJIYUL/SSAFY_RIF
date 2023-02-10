@@ -16,16 +16,20 @@ public class RifLogInfo {
     private Integer plasticOk;
     private Integer recycleTotal;
     private Integer recycleOk;
+    private Integer exp;
+    private Integer point;
     private LocalDateTime createdAt;
 
     @Builder
-    public RifLogInfo(Long id, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, LocalDateTime createdAt) {
+    public RifLogInfo(Long id, Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, LocalDateTime createdAt, Integer exp, Integer point) {
         this.id = id;
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
         this.createdAt = createdAt;
+        this.exp = exp;
+        this.point = point;
     }
 
     public static RifLogInfo from(RifLog rifLog) {
@@ -36,6 +40,8 @@ public class RifLogInfo {
                 .recycleTotal(rifLog.getRecycleTotal())
                 .recycleOk(rifLog.getRecycleOk())
                 .createdAt(rifLog.getCreated())
+                .exp(rifLog.getExp())
+                .point(rifLog.getPoint())
                 .build();
     }
 

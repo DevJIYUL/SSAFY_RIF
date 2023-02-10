@@ -9,6 +9,7 @@ import team.a501.rif.dto.riflog.RifLogSaveRequest;
 public interface RifLogService {
 
     RifLogInfo save(RifLogSaveRequest dto);
+    RifLogInfo save(RifLogSaveRequest dto, Integer exp, Integer point);
 
     Slice<RifLogInfo> findByMember(String memberId, Pageable pageable);
 }

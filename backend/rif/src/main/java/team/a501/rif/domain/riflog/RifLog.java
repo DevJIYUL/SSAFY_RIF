@@ -27,34 +27,54 @@ public class RifLog extends BaseEntity {
 
     private Integer recycleOk;
 
+    private Integer exp;
+
+    private Integer point;
+
     @Builder
-    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk) {
+    public RifLog(Integer plasticTotal, Integer plasticOk, Integer recycleTotal, Integer recycleOk, Integer exp, Integer point) {
         this.plasticTotal = plasticTotal;
         this.plasticOk = plasticOk;
         this.recycleTotal = recycleTotal;
         this.recycleOk = recycleOk;
+        this.exp = exp;
+        this.point = point;
     }
 
     public Long getId() {
         return id;
     }
+
     public Member getMember() {
         return member;
     }
+
     public void setMember(Member member) {
         this.member = member;
     }
+
     public Integer getPlasticTotal() {
         return plasticTotal;
     }
+
     public Integer getPlasticOk() {
         return plasticOk;
     }
+
     public Integer getRecycleTotal() {
         return recycleTotal;
     }
+
     public Integer getRecycleOk() {
         return recycleOk;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public Integer getPoint() {
+        return point;
     }
 
     @Override

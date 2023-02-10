@@ -42,6 +42,25 @@ public class RifLogServiceImpl implements RifLogService {
     }
 
     @Override
+    public RifLogInfo save(RifLogSaveRequest dto, Integer exp, Integer point) {
+        Member member = memberRepository.findByUid(dto.getUid())
+                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
+
+        RifLog rifLog = rifLogRepository.save(RifLog.builder()
+                .plasticTotal(dto.getPlasticTotal())
+                .plasticOk(dto.getPlasticOk())
+                .recycleTotal(dto.getRecycleTotal())
+                .recycleOk(dto.getRecycleOk())
+                .exp(exp)
+                .point(point)
+                .build());
+
+        member.addRifLog(rifLog);
+
+        return RifLogInfo.from(rifLog);
+    }
+
+    @Override
     public Slice<RifLogInfo> findByMember(String memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
