@@ -3,14 +3,15 @@ import axiosInterface from "./axiosInterface";
 /**
  * Get infos about badges
  */
-async function getAchievementsAPI(accessToken) {
+async function getAchievementsAPI(accessToken, memberId) {
   const response = await axiosInterface(
     "GET",
-    "api/member/achievement",
+    "api/v/member/achievement",
     {},
     {
-      Authorization: `Baerer ${accessToken}`,
-    }
+      Authorization: `Bearer ${accessToken}`,
+    },
+    { memberId: memberId }
   );
 
   if (response.status === 200) {

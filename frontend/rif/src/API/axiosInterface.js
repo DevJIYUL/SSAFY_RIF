@@ -18,10 +18,12 @@ export default async function axiosInterface(
   let response = await axios({
     method: method,
     url: url,
-    baseURL: "https://b2c3c2d1-f354-474e-9dde-b77aa00f4dfc.mock.pstmn.io/",
+    // baseURL: "https://5324c034-b46a-4387-a193-7865dc3869b2.mock.pstmn.io",
+    baseURL: "http://i8a501.p.ssafy.io:8080/",
     data: data,
     headers: headers,
     params: params,
+    // withCredentials: true,
   })
     .then((res) => res)
     .catch((err) => err);
