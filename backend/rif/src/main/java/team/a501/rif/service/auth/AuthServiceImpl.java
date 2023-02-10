@@ -12,6 +12,8 @@ import team.a501.rif.config.Jwt.JwtTokenProvider;
 import team.a501.rif.domain.auth.RefreshToken;
 import team.a501.rif.domain.member.Member;
 import team.a501.rif.dto.auth.TokenDto;
+import team.a501.rif.exception.ErrorCode;
+import team.a501.rif.exception.RifCustomException;
 import team.a501.rif.repository.auth.RefreshtokenRepository;
 import team.a501.rif.repository.member.MemberRepository;
 
@@ -65,9 +67,9 @@ public class AuthServiceImpl implements AuthService {
         return token.getRefreshToken();
     }
 
-    public RefreshToken validRefreshToken(String studentId, String refreshToken) throws Exception {
+    public RefreshToken validRefreshToken(String studentId, String refreshToken) {
 
-        RefreshToken token = refreshtokenRepository.findById(studentId).orElseThrow(() -> new Exception("로그인을 해주세요"));
+        RefreshToken token = refreshtokenRepository.findById(studentId).orElseThrow(() -> new RifCustomException(ErrorCode.REFRESHTOKEN_EXPIRED));
 
         log.info("ValidRefreshtoken info={}", token);
         if (token.getRefreshToken() == null) {
@@ -90,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Claims info= {}", claims);
         Member member = memberRepository.findById(claims.getSubject()).orElseThrow(() ->
-                new BadCredentialsException("잘못된 계정입니다."));
+                new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
         log.info("Member info= {}", member);
         RefreshToken refreshToken = validRefreshToken(member.getId(), token.getRefreshToken());
@@ -104,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
         } else {
-            throw new Exception("로그인을 해주세요"); // RuntimeException으로
+            throw new RifCustomException(ErrorCode.REFRESHTOKEN_EXPIRED);
         }
     }
 }
