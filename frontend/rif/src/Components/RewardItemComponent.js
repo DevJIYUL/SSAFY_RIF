@@ -1,21 +1,11 @@
 import { useState } from "react";
 import RewardInfoComponent from "./RewardInfoComponent";
 
-const renameKeys = (oldObj) => {
-  const newKeys = ["reward", "hasReward", "onDisplay"];
-  const oldKeys = Object.keys(oldObj);
-
-  const returnObj = {};
-
-  newKeys.forEach((key, keyIndex) => {
-    returnObj[key] = oldObj[oldKeys[keyIndex]];
-  });
-
-  return returnObj;
-};
-
+// show rounded reward Icon
+// props : type, reward
 const RewardItemComponent = (props) => {
-  const { reward, hasReward, onDisplay } = renameKeys(props.reward);
+  const { rewardInfo, onDisplay, hasReward } = props.reward;
+  const { title, imgPath } = rewardInfo;
 
   const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" };
   const displayStyle = {
@@ -36,6 +26,7 @@ const RewardItemComponent = (props) => {
 
   let style = {};
   if (!hasReward) {
+    // if the user has no badge
     style = NotHasStyle;
   } else if (onDisplay) {
     style = displayStyle;
@@ -46,13 +37,12 @@ const RewardItemComponent = (props) => {
       <RewardInfoComponent
         open={modalOpen}
         onClose={handleModalClose}
-        reward={reward}
-        onDisplay={onDisplay}
+        reward={props.reward}
         type={props.type}
       ></RewardInfoComponent>
       <img
-        src={reward.imgPath}
-        alt={reward.id}
+        src={imgPath}
+        alt={title}
         style={style}
         onClick={handleModalOpen}
         height="75px"
