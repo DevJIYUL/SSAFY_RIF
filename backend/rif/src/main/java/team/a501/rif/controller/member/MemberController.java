@@ -204,9 +204,9 @@ public class MemberController {
 
         return ResponseEntity.ok(Map.of("members", expTop10Members));
     }
-    @GetMapping(value = "/v/ranking")
+    @GetMapping(value = "/v/ranking{memberId}")
     @Operation(summary = "누적 경험치 Top 10 그리고 나의 랭킹을 조회한다")
-    public ResponseEntity<Map<String ,Object>> findExpTop10MeMembers(@RequestParam String memberId){
+    public ResponseEntity<Map<String ,Object>> findExpTop10MeMembers(@RequestParam(value = "memberId") String memberId){
 
         List<MemberRankingResponse> expTop10MeMembers = memberService.getFirstAllByOrderByExp(memberId);
         log.info("ranking info = {}",expTop10MeMembers);
