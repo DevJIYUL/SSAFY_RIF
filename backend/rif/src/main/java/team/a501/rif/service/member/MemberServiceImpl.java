@@ -288,7 +288,7 @@ public class MemberServiceImpl implements MemberService {
         member.setExp(member.getExp() + gainedExp);
         member.setPoint(member.getPoint() + gainedPoint);
 
-        RifLogInfo rifLogInfo = rifLogService.save(request);
+        RifLogInfo rifLogInfo = rifLogService.save(request, gainedExp, gainedPoint);
 
         checkRifLogsAndAddAchievements(member.getId());
 
@@ -299,6 +299,10 @@ public class MemberServiceImpl implements MemberService {
                 .point(gainedPoint)
                 .exp(gainedExp)
                 .createdAt(rifLogInfo.getCreatedAt())
+                .plasticTotal(rifLogInfo.getPlasticTotal())
+                .plasticOk(rifLogInfo.getPlasticOk())
+                .recycleTotal(rifLogInfo.getRecycleTotal())
+                .recycleOk(rifLogInfo.getRecycleOk())
                 .build();
     }
 
