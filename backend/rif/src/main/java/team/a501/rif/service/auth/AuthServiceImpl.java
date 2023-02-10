@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final MemberRepository memberRepository;
     private final RefreshtokenRepository refreshtokenRepository;
 
-    private final Integer REISSUE_LIMIT_TIME = 3;
+    private final Integer REISSUE_LIMIT_TIME = 1;
 
     @Transactional
     @Override
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
                 RefreshToken.builder()
                         .id(studentId)
                         .refreshToken(UUID.randomUUID().toString())
-                        .expiration(5)
+                        .expiration(3)
                         .build()
         );
         log.info("RefreshToken info={}", token);
@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
             // refreshtoken 1일 미만 남았을 때 요청하면 2일으로 초기화
             if (token.getExpiration() <= REISSUE_LIMIT_TIME) {
                 log.info("RefreshToken re-issue info={}", REISSUE_LIMIT_TIME);
-                token.setExpiration(5);
+                token.setExpiration(3);
                 refreshtokenRepository.save(token);
             }
             //  Req토큰이 DB토큰과 같은지 비교
