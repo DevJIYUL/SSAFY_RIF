@@ -40,6 +40,8 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .password("0847647")
                 .uid("67f18755")
                 .name("진윤태")
+                .exp(0)
+                .point(1000)
                 .build();
         memberService.register(registerForm);
 
