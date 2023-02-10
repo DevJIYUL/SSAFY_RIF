@@ -126,7 +126,7 @@ const LotComponent = () => {
           <BtnComponent
             color="secondary"
             onClick={modelOpenHandler}
-            disabled={userPoint < 100 ? true : false}
+            disabled={userPoint < 100 || !userPoint ? true : false}
           >
             뽑기
           </BtnComponent>
