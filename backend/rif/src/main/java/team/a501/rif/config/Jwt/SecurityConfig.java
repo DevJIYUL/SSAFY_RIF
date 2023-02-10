@@ -33,21 +33,22 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+
         return ((request, response, accessDeniedException) -> {
             String fail = "Login Require";
             ObjectMapper ob = new ObjectMapper();
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             String json = ob.writeValueAsString(fail);
-            response.getWriter().write("ACCESS DENIED");
+            response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
         });
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
+    public AccessDeniedHandler accessDeniedHandler() {
         return ((request, response, authException) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("text/plain;charset=UTF-8");
@@ -72,8 +73,10 @@ public class SecurityConfig {
                 .antMatchers("/api/v/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-//                .httpBasic().disable()
-//                .formLogin().disable()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
