@@ -278,10 +278,10 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository.findByUid(request.getUid())
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
-
+        log.info("Member info ={}",member);
         Integer score = RifScore.getScoreOf(request.getPlasticTotal(), request.getPlasticOk(),
                                             request.getRecycleTotal(), request.getRecycleOk());
-
+        log.info("score info ={}",score);
         Integer gainedExp = score;
         Integer gainedPoint = 10 * ((score + 5) / 10);
 
