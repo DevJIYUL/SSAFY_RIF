@@ -16,13 +16,17 @@ public class MemberRegisterRequest {
 
     private String name;
 
+    private Integer point;
+
+    private Integer exp;
+
     @Builder
-    public MemberRegisterRequest(String id, String password, String uid, String name) {
+    public MemberRegisterRequest(String id, String password, String uid, String name, Integer point, Integer exp) {
         this.id = id;
         this.password = password;
         this.uid = uid;
         this.name = name;
+        this.point = point;
+        this.exp = exp;
     }
-
-
 }
