@@ -1,4 +1,4 @@
-import axiosInterface from "./axiosInterface"
+import axiosInterface from "./axiosInterface";
 
 /**
  * It's important that you have to do not send request with token, it return top 10 user infos without client user info.
@@ -7,13 +7,13 @@ import axiosInterface from "./axiosInterface"
  * Each element is an object with two keys that returns a rank and a member object whose string is the value.
  */
 async function getRankingInfoWithoutMeAPI() {
-  const response = await axiosInterface("GET", "ranking")
+  const response = await axiosInterface("GET", "api/ranking");
 
   if (response.status === 200) {
-    return response
+    return response;
   }
 
-  return response.response
+  return response.response;
 }
 
-export default getRankingInfoWithoutMeAPI
+export default getRankingInfoWithoutMeAPI;
