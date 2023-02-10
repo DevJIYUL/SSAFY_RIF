@@ -1,0 +1,224 @@
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "1",
+  "password": "1",
+  "uid": "1",
+  "name": "a",
+  "point": 500,
+  "exp": 1
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "2",
+  "password": "2",
+  "uid": "2",
+  "name": "b",
+  "point": 500,
+  "exp": 2
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "3",
+  "password": "3",
+  "uid": "3",
+  "name": "c",
+  "point": 500,
+  "exp": 3
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "4",
+  "password": "4",
+  "uid": "4",
+  "name": "d",
+  "point": 500,
+  "exp": 4
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "5",
+  "password": "5",
+  "uid": "5",
+  "name": "e",
+  "point": 500,
+  "exp": 5
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "6",
+  "password": "6",
+  "uid": "6",
+  "name": "f",
+  "point": 500,
+  "exp": 6
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "7",
+  "password": "7",
+  "uid": "7",
+  "name": "g",
+  "point": 500,
+  "exp": 7
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "8",
+  "password": "8",
+  "uid": "8",
+  "name": "h",
+  "point": 500,
+  "exp": 8
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "9",
+  "password": "9",
+  "uid": "9",
+  "name": "i",
+  "point": 500,
+  "exp": 9
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "10",
+  "password": "10",
+  "uid": "10",
+  "name": "j",
+  "point": 500,
+  "exp": 10
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "11",
+  "password": "11",
+  "uid": "11",
+  "name": "k",
+  "point": 500,
+  "exp": 11
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "12",
+  "password": "12",
+  "uid": "12",
+  "name": "l",
+  "point": 500,
+  "exp": 12
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "13",
+  "password": "13",
+  "uid": "13",
+  "name": "m",
+  "point": 500,
+  "exp": 13
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "14",
+  "password": "14",
+  "uid": "14",
+  "name": "n",
+  "point": 500,
+  "exp": 14
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "15",
+  "password": "15",
+  "uid": "15",
+  "name": "o",
+  "point": 500,
+  "exp": 15
+}
+
+###
+
+POST https://i8a501.p.ssafy.io/api/member
+Content-Type: application/json
+
+{
+  "id": "16",
+  "password": "16",
+  "uid": "16",
+  "name": "p",
+  "point": 500,
+  "exp": 16
+}
+
+###
+

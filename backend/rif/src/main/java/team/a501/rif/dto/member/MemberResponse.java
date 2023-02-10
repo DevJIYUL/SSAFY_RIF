@@ -14,7 +14,7 @@ public class MemberResponse {
     String name;
     Integer exp;
     Integer point;
-    String profile_img_path;
+    String profileImgPath;
 
     @Builder
     public MemberResponse(String id, String uid, String name, String profileImgPath,Integer exp,Integer point) {
@@ -23,7 +23,7 @@ public class MemberResponse {
         this.uid = uid;
         this.name = name;
         this.exp = exp;
-        this.profile_img_path = profileImgPath;
+        this.profileImgPath = profileImgPath;
     }
 
     public static MemberResponse from(Member member){
@@ -46,7 +46,7 @@ public class MemberResponse {
                 ",\n name='" + name + '\'' +
                 ",\n point='" + point + '\'' +
                 ",\n exp='" + exp + '\'' +
-                ",\n imgPath='" + profile_img_path + '\'' +
+                ",\n imgPath='" + profileImgPath + '\'' +
                 "\n}";
     }
 }
