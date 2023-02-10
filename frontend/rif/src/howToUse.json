@@ -1,0 +1,82 @@
+[
+  {
+    "pageId": 1, 
+    "detail" :
+    { 
+      "title":"카드 태깅", 
+      "totalSections" : 2, 
+      "section" : 
+      [{ 
+        "sectionId" : 1, 
+        "description": "카드를 정해진 위치에 태깅합니다.", 
+        "imagePath": "img1_1.png"
+      },
+      { 
+        "sectionId" : 2, 
+        "description": "카드 인식에 성공하면, 사용자를 환영하는 문구가 출력됩니다.", 
+        "imagePath": "img1_2.png"
+      }]
+    }
+  },
+  {
+    "pageId": 2, 
+    "detail" :
+    { 
+      "title":"쓰레기 올리기", 
+      "totalSections" : 4, 
+      "section" : 
+      [{ 
+        "sectionId" : 1, 
+        "description": "쓰레기를 올바른 위치에 올려줍니다. 이후, '촬영' 버튼을 누르면, 기계가 분류된 쓰레기의 종류를 인식합니다.", 
+        "imagePath": "img2_1.png"
+      },
+      { 
+        "sectionId" : 2, 
+        "description": "플라스틱 쓰레기에는 위와 같은 쓰레기를 버립니다.", 
+        "imagePath": "img2_2.png"
+      },
+      { 
+        "sectionId" : 3, 
+        "description": "재활용 쓰레기에는 위와 같은 쓰레기를 버립니다.", 
+        "imagePath": "img2_3.png"
+      },{ 
+        "sectionId" : 4, 
+        "description": "일반 쓰레기에는 위와 같은 쓰레기를 버립니다.", 
+        "imagePath": "img2_4.png"
+      }]
+    }
+  },  
+  {
+    "pageId": 3, 
+    "detail" :
+    { 
+      "title":"쓰레기 분류", 
+      "totalSections" : 2, 
+      "section" : 
+      [{ 
+        "sectionId" : 1, 
+        "description": "만약 올바르게 쓰레기를 버리지 않았다면, 재분류 단계로 넘어갑니다. 재분류 단계에서도 제대로 분류가 되지 않으면 포인트를 획득할 수 없습니다.", 
+        "imagePath": "img3_1.png"
+      },
+      { 
+        "sectionId" : 2, 
+        "description": "만약 올바르게 쓰레기를 버렸다면, 수거 단계로 넘어갑니다.", 
+        "imagePath": "img3_2.png"
+      }]
+    }
+  },
+  {
+    "pageId": 4, 
+    "detail" :
+    { 
+      "title":"결과 확인", 
+      "totalSections" : 1, 
+      "section" : 
+      [{ 
+        "sectionId" : 1, 
+        "description": "쓰레기를 모두 버리고 나서는 결과를 확인하실 수 있습니다. 100 pt를 모아, 뱃지를 획득할 수 있습니다.", 
+        "imagePath": "img4_1.png"
+      }]
+    }
+  }
+]
