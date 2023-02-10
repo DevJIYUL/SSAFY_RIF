@@ -23,7 +23,6 @@ public class Badge {
     @Column(length = 40)
     private String title;
 
-    @Column(length = 100)
     private String description;
 
     @Column(length = 40)
@@ -34,12 +33,12 @@ public class Badge {
     private List<BadgeAcq> badgeAcqs;
 
     @Builder
-    public Badge(Integer tier, String title, String description, String badgeImgPath) {
+    public Badge(Integer tier, String title, String description, String imgPath) {
 
         this.title = title;
         this.tier = tier;
         this.description = description;
-        this.imgPath = badgeImgPath;
+        this.imgPath = imgPath;
 
         this.badgeAcqs = new ArrayList<>();
     }

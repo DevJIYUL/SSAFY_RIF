@@ -1,0 +1,9 @@
+POST https://i8a501.p.ssafy.io/api/login
+Content-Type: application/json
+
+{
+  "id": "0847647",
+  "password": "0847647"
+}
+
+###

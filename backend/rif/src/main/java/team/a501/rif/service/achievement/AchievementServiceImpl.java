@@ -24,7 +24,7 @@ public class AchievementServiceImpl implements AchievementService {
                 .tier(dto.getTier())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
-                .achievementImgPath(dto.getImgPath())
+                .imgPath(dto.getImgPath())
                 .build());
     }
 

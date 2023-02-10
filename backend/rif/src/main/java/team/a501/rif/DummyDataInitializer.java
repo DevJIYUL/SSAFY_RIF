@@ -49,28 +49,28 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .title("뱃지1")
                 .tier(1)
                 .description("이것은 뱃지1 입니다")
-                .badgeImgPath("/badge/1.png")
+                .imgPath("/badge/1.png")
                 .build());
 
         Badge badge2 = badgeRepository.save(Badge.builder()
                 .title("뱃지2")
                 .tier(2)
                 .description("이것은 뱃지2 입니다")
-                .badgeImgPath("/badge/2.png")
+                .imgPath("/badge/2.png")
                 .build());
 
         Badge badge3 = badgeRepository.save(Badge.builder()
                 .title("뱃지3")
                 .tier(3)
                 .description("이것은 뱃지3 입니다")
-                .badgeImgPath("/badge/3.png")
+                .imgPath("/badge/3.png")
                 .build());
 
         Badge badge4 = badgeRepository.save(Badge.builder()
                 .title("뱃지4")
                 .tier(4)
                 .description("이것은 뱃지4 입니다")
-                .badgeImgPath("/badge/4.png")
+                .imgPath("/badge/4.png")
                 .build());
 
         // todo achievement 추가하기
@@ -78,7 +78,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .title("Welcome!")
                 .tier(4)
                 .description("반갑습니다 :)")
-                .achievementImgPath("/achievement/1.png")
+                .imgPath("/achievement/1.png")
                 .tagOrdinal(0)
                 .build());
 
@@ -86,7 +86,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .title("First Plastic Success")
                 .tier(3)
                 .description("첫번째 플라스틱 분류를 성공하였습니다")
-                .achievementImgPath("/achievement/2.png")
+                .imgPath("/achievement/2.png")
                 .tagOrdinal(1)
                 .build());
 
@@ -94,7 +94,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .title("First Recycle Success")
                 .tier(2)
                 .description("첫번째 재활용 분류를 성공하였습니다")
-                .achievementImgPath("/achievement/3.png")
+                .imgPath("/achievement/3.png")
                 .tagOrdinal(4)
                 .build());
 
@@ -102,7 +102,7 @@ public class DummyDataInitializer implements CommandLineRunner {
                 .title("First RIF Perfect")
                 .tier(1)
                 .description("완벽히 분류를 해내셨습니다!")
-                .achievementImgPath("/achievement/4.png")
+                .imgPath("/achievement/4.png")
                 .tagOrdinal(7)
                 .build());
 

@@ -31,7 +31,7 @@ class AchievementRepositoryTest {
                 .tier(0)
                 .title("업적 1")
                 .description("Lorem ipsum dolor sit amet")
-                .achievementImgPath("/achievement/1.png")
+                .imgPath("/achievement/1.png")
                 .build();
 
         achievementRepository.save(achievement);
@@ -50,7 +50,7 @@ class AchievementRepositoryTest {
                 .tier(0)
                 .title("업적 2")
                 .description("consectetur adipiscing elit")
-                .achievementImgPath("/achievement/2.png")
+                .imgPath("/achievement/2.png")
                 .build();
 
         achievementRepository.save(achievement);

@@ -9,10 +9,8 @@ import javax.persistence.Column;
 @Data
 public class BadgeSaveRequest {
     private Integer tier;
-    @Column(length = 40)
     private String title;
-    @Column(length = 100)
+    @Column
     private String description;
-    @Column(length = 50)
-    private String badgeImgPath;
+    private String imgPath;
 }
