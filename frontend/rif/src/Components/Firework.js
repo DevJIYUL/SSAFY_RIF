@@ -19,19 +19,11 @@ const Firework = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!canvas) {
-      canvas = document.getElementById("firework");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      ctx = canvas.getContext("2d");
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   if (canvas && badgeTier) {
-  //     run(badgeTier);
-  //   }
-  // }, [badgeTier]);
+    canvas = document.getElementById("firework");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx = canvas.getContext("2d");
+  });
 
   // make new shell (big chunk of firework entity)
   const newShell = (tier) => {
@@ -49,7 +41,6 @@ const Firework = () => {
 
   // make new pass (small chunk of firework entity)
   const newPass = (shell) => {
-    //   var pasCount = Math.ceil(Math.pow(shell.size, 3) * Math.PI);
     var pasCount = 100;
 
     for (let i = 0; i < pasCount; i++) {
@@ -81,8 +72,6 @@ const Firework = () => {
     lastRun = performance.now();
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = "rgba(0,0,0,0.25)";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // 폭죽 shell을 n개로 제한한다
     if (shells.length < 10 && runAgain) {
@@ -152,13 +141,12 @@ const Firework = () => {
   if (canvas && badgeTier) {
     run(badgeTier);
   }
-
   return (
     <div>
       <canvas
         id="firework"
         style={{
-          position: "absolute",
+          position: "fixed",
           top: "0px",
           bottom: "0px",
           zIndex: "-1",
