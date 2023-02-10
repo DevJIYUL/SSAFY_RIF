@@ -16,7 +16,7 @@ public class BadgeAcq extends BaseEntity {
     private Boolean onDisplay;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member; // todo 테스트용
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;

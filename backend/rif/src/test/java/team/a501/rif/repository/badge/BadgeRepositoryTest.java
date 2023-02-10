@@ -4,12 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import team.a501.rif.domain.badge.Badge;
 
 import java.util.List;
@@ -27,17 +23,17 @@ class BadgeRepositoryTest {
 
         Badge badge1 = Badge.builder().tier(1)
                 .description("뱃지 1")
-                .badgeImgPath("badge/1.png")
+                .imgPath("badge/1.png")
                 .build();
 
         Badge badge2 = Badge.builder().tier(2)
                 .description("뱃지 2")
-                .badgeImgPath("badge/2.png")
+                .imgPath("badge/2.png")
                 .build();
 
         Badge badge3 = Badge.builder().tier(3)
                 .description("뱃지 3")
-                .badgeImgPath("badge/3.png")
+                .imgPath("badge/3.png")
                 .build();
 
         badgeRepository.save(badge1);
@@ -57,7 +53,7 @@ class BadgeRepositoryTest {
         Badge badge = Badge.builder()
                 .tier(1)
                 .description("뱃지를 추가합니다")
-                .badgeImgPath("badge/badge.png")
+                .imgPath("badge/badge.png")
                 .build();
 
         badgeRepository.save(badge); // DataJpaTest는 실제로 해당 엔티티를 DB에 저장하지는 않는다. 테스트가 종료될 때 트랜잭션을 모두 롤백한다

@@ -45,17 +45,17 @@ class BadgeAcqRepositoryTest {
         // Badge 추가
         Badge badge1 = Badge.builder().tier(1)
                 .description("뱃지 1")
-                .badgeImgPath("badge/1.png")
+                .imgPath("badge/1.png")
                 .build();
 
         Badge badge2 = Badge.builder().tier(2)
                 .description("뱃지 2")
-                .badgeImgPath("badge/2.png")
+                .imgPath("badge/2.png")
                 .build();
 
         Badge badge3 = Badge.builder().tier(3)
                 .description("뱃지 3")
-                .badgeImgPath("badge/3.png")
+                .imgPath("badge/3.png")
                 .build();
 
         badgeRepository.save(badge1);
