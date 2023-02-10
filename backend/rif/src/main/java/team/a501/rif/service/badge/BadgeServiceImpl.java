@@ -25,7 +25,7 @@ public class BadgeServiceImpl implements BadgeService {
                 .tier(dto.getTier())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
-                .badgeImgPath(dto.getBadgeImgPath())
+                .imgPath(dto.getImgPath())
                 .build());
 
         return badge;

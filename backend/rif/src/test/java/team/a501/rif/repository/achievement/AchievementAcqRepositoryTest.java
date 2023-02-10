@@ -43,7 +43,7 @@ class AchievementAcqRepositoryTest {
                 .tier(0)
                 .title("업적 1")
                 .description("Tempus imperdiet nulla malesuada pellentesque elit eget gravida")
-                .achievementImgPath("/achievement/1.png")
+                .imgPath("/achievement/1.png")
                 .build());
 
         AchievementAcq achievementAcq = achievementAcqRepository.save(new AchievementAcq());// 영속성 컨텍스트에서 manage 됨

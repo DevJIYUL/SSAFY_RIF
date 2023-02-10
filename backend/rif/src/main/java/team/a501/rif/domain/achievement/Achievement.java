@@ -21,7 +21,7 @@ public class Achievement {
     @Column(length = 40)
     private String title;
 
-    @Column(length = 100)
+    @Column
     private String description;
 
     @Column(length = 50)
@@ -34,11 +34,11 @@ public class Achievement {
     private List<AchievementAcq> achievementAcqs;
 
     @Builder
-    public Achievement(Integer tier, String title, String description, String achievementImgPath, Integer tagOrdinal) {
+    public Achievement(Integer tier, String title, String description, String imgPath, Integer tagOrdinal) {
         this.tier = tier;
         this.title = title;
         this.description = description;
-        this.imgPath = achievementImgPath;
+        this.imgPath = imgPath;
         this.achievementTag = AchievementTag.values()[tagOrdinal];
         this.achievementAcqs = new ArrayList<>();
     }

@@ -12,10 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 public class AchievementAcqInfo {
     private AchievementInfo achievementInfo;
-
     private Boolean onDisplay;
     private LocalDateTime achievedAt;
-
     private Boolean hasAchievement;
 
     @Builder

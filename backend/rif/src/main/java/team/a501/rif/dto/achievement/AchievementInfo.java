@@ -15,7 +15,6 @@ public class AchievementInfo {
     private String description;
     private String imgPath;
     private String tag;
-
     @Builder
     public AchievementInfo(Long id, Integer tier, String title, String description, String imgPath, String tag) {
         this.id = id;
