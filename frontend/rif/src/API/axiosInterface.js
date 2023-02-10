@@ -15,15 +15,36 @@ export default async function axiosInterface(
   headers = {},
   params = {}
 ) {
+  if (headers.Authorization) {
+    axios.interceptors.response.use(
+      function (res) {
+        return res;
+      },
+      async function (err) {
+        const { config } = err;
+        console.log(err);
+        console.log(config);
+
+        // if (err.response.data.code === "token_not_valid") {
+        //   const originalRequest = config;
+        //   await store.dispatch("auth/refreshAccessToken");
+
+        //   originalRequest.headers.authorization = `Bearer ${store.state.auth.accessToken}`;
+        //   return instance(originalRequest);
+        // }
+
+        return Promise.reject(err);
+      }
+    );
+  }
+
   let response = await axios({
     method: method,
     url: url,
-    // baseURL: "https://5324c034-b46a-4387-a193-7865dc3869b2.mock.pstmn.io",
     baseURL: "http://i8a501.p.ssafy.io:8080/",
     data: data,
     headers: headers,
     params: params,
-    // withCredentials: true,
   })
     .then((res) => res)
     .catch((err) => err);
