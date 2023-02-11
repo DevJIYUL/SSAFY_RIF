@@ -28,7 +28,7 @@ const DescriptionPageComponent = () => {
             <h1>왜 RIF 인가?</h1>
           </div>
         </Grid>
-        <Grid item className="grid-description">
+        <Grid item className="grid-description" style={{ width: "80%" }}>
           <Container className="description" sx={{ mx: "auto" }}>
             <p>사실 우리는 분리수거를 제대로 하고 있지 않고 있습니다.</p>
             <p>
@@ -46,11 +46,11 @@ const DescriptionPageComponent = () => {
           </Container>
         </Grid>
         <Grid item className="grid-buttons">
-          <Link to="/description/2" style={{ textDecoration: "none" }}>
+          <Link to="/usage/1" style={{ textDecoration: "none" }}>
             <BtnComponent color="secondary">다음 : 기기 사용법</BtnComponent>
           </Link>
           <br />
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/login" style={{ textDecoration: "none" }}>
             <BtnComponent> 서비스 시작하기 </BtnComponent>
           </Link>
         </Grid>

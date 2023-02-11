@@ -47,7 +47,7 @@ const NavigationComponent = () => {
           showLabels
           value={navigateTarget}
           onChange={(event, newValue) => {
-            console.log(newValue);
+            // console.log(newValue);
             navigate(`/${newValue}`);
             setNavigateTarget(newValue);
           }}
