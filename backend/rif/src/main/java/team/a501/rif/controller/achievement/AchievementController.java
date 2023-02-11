@@ -26,7 +26,7 @@ public class AchievementController {
     public ResponseEntity<AchievementInfo> saveAchievement(@RequestBody AchievementSaveRequest request) {
 
         AchievementInfo achievementInfo =
-                AchievementInfo.from(achievementService.save(request));
+                achievementService.save(request);
 
         return ResponseEntity.ok(achievementInfo);
     }

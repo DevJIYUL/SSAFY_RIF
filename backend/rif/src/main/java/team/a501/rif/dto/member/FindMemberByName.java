@@ -13,5 +13,5 @@ public class FindMemberByName {
     private String id;
     private String name;
     private Integer exp;
-    private String profile_img_path;
+    private String imgPath;
 }

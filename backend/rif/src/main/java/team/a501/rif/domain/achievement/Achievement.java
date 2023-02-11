@@ -28,18 +28,18 @@ public class Achievement {
     private String imgPath;
 
     @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AchievementTag achievementTag;
     @OneToMany(mappedBy = "achievement")
     private List<AchievementAcq> achievementAcqs;
 
     @Builder
-    public Achievement(Integer tier, String title, String description, String imgPath, Integer tagOrdinal) {
+    public Achievement(Integer tier, String title, String description, String imgPath, String tag) {
         this.tier = tier;
         this.title = title;
         this.description = description;
         this.imgPath = imgPath;
-        this.achievementTag = AchievementTag.values()[tagOrdinal];
+        this.achievementTag = AchievementTag.valueOf(tag);
         this.achievementAcqs = new ArrayList<>();
     }
 
@@ -96,7 +96,7 @@ public class Achievement {
         this.achievementAcqs.add(acq);
     }
 
-    public void removeAchievementAcq(@NotNull AchievementAcq acq){
+    public void removeAchievementAcq(@NotNull AchievementAcq acq) {
         acq.setAchievement(null);
         this.achievementAcqs.remove(acq);
     }

@@ -24,20 +24,20 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        
+
         String token = resolveToken((HttpServletRequest) request);
-        if (token != null && jwtTokenProvider.validateToken(token)){
+        if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 
     // Request Header 에서 토큰 정보 추출
-    public String resolveToken(HttpServletRequest request){
+    public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        log.info("resolveToken bearerToken = {}",bearerToken);
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")){
+        log.info("resolveToken bearerToken = {}", bearerToken);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
             return bearerToken.substring(7);
         }
         return null;

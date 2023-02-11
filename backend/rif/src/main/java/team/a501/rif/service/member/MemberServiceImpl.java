@@ -20,6 +20,7 @@ import team.a501.rif.domain.riflog.RifLog;
 import team.a501.rif.domain.riflog.RifScore;
 import team.a501.rif.dto.achievement.AchievementAcqInfo;
 import team.a501.rif.dto.badge.BadgeAcqInfo;
+import team.a501.rif.dto.badge.BadgeInfo;
 import team.a501.rif.dto.member.*;
 import team.a501.rif.dto.riflog.RifLogInfo;
 import team.a501.rif.dto.riflog.RifLogSaveRequest;
@@ -135,9 +136,9 @@ public class MemberServiceImpl implements MemberService {
 
         List<BadgeAcqInfo> badgeAcqInfoList = new ArrayList<>();
 
-        for(var e: allBadges){
+        for (var e : allBadges) {
 
-            if(memberBadgeAcqs.containsKey(e.getId())){
+            if (memberBadgeAcqs.containsKey(e.getId())) {
 
                 badgeAcqInfoList.add(BadgeAcqInfo.from(memberBadgeAcqs.get(e.getId())));
                 continue;
@@ -174,9 +175,9 @@ public class MemberServiceImpl implements MemberService {
 
         List<AchievementAcqInfo> achievementAcqInfoList = new ArrayList<>();
 
-        for(var e: allAchievements){
+        for (var e : allAchievements) {
 
-            if(memberAchievementAcqs.containsKey(e.getId())){
+            if (memberAchievementAcqs.containsKey(e.getId())) {
 
                 achievementAcqInfoList.add(AchievementAcqInfo.from(memberAchievementAcqs.get(e.getId())));
                 continue;
@@ -229,7 +230,7 @@ public class MemberServiceImpl implements MemberService {
         return BadgeGatchaResponse.builder()
                 .reduplicated(reduplicated)
                 .remainingPoint(member.getPoint())
-                .badge(badge.getInfo())
+                .badge(BadgeInfo.from(badge))
                 .build();
     }
 
@@ -244,7 +245,7 @@ public class MemberServiceImpl implements MemberService {
 
         badgeAcq.toggleOnDisplay();
 
-        return badgeAcq.getInfo();
+        return BadgeAcqInfo.from(badgeAcq);
     }
 
     @Override
@@ -258,7 +259,7 @@ public class MemberServiceImpl implements MemberService {
 
         achievementAcq.toggleOnDisplay();
 
-        return achievementAcq.getInfo();
+        return AchievementAcqInfo.from(achievementAcq);
     }
 
     @Override
@@ -271,6 +272,7 @@ public class MemberServiceImpl implements MemberService {
     public AchievementAcqInfo addAchievementAcq(String memberId, Long achievementId) {
         return achievementAcqService.save(memberId, achievementId);
     }
+
     @Override
     public RifLogSaveResponse addRifLog(RifLogSaveRequest request) {
 
@@ -278,10 +280,10 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository.findByUid(request.getUid())
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
-        log.info("Member info ={}",member);
+        log.info("Member info ={}", member);
         Integer score = RifScore.getScoreOf(request.getPlasticTotal(), request.getPlasticOk(),
-                                            request.getRecycleTotal(), request.getRecycleOk());
-        log.info("score info ={}",score);
+                request.getRecycleTotal(), request.getRecycleOk());
+        log.info("score info ={}", score);
         Integer gainedExp = score;
         Integer gainedPoint = 10 * ((score + 5) / 10);
 
@@ -306,7 +308,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    public List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId){
+    public List<AchievementAcqInfo> checkRifLogsAndAddAchievements(String memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
@@ -326,9 +328,9 @@ public class MemberServiceImpl implements MemberService {
 
         List<AchievementAcqInfo> newlyAdded = new ArrayList<>();
 
-        for(var e: achievementsToCheck){
+        for (var e : achievementsToCheck) {
 
-            if(checker.isCompleted(e.getAchievementTag())) {
+            if (checker.isCompleted(e.getAchievementTag())) {
                 AchievementAcqInfo info
                         = this.addAchievementAcq(member.getId(), e.getId());
                 newlyAdded.add(info);
@@ -338,7 +340,7 @@ public class MemberServiceImpl implements MemberService {
         return newlyAdded;
     }
 
-    private List<Long> getCompletedAchievements (String memberId) {
+    private List<Long> getCompletedAchievements(String memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
 
@@ -447,7 +449,7 @@ public class MemberServiceImpl implements MemberService {
                     .id(b.getId())
                     .name(b.getName())
                     .exp(b.getExp())
-                    .profile_img_path(b.getProfileImgPath())
+                    .imgPath(b.getProfileImgPath())
                     .build());
         }
         return response;
@@ -472,34 +474,34 @@ public class MemberServiceImpl implements MemberService {
 //                    .build());
 //        }
         List<Member> responses = memberRepository.findByOrderByExpDesc();
-        log.info("response info = {}",responses);
-        Map<Integer,List<Member>> map = new HashMap<>();
+        log.info("response info = {}", responses);
+        Map<Integer, List<Member>> map = new HashMap<>();
         int rank = 1;
-        map.put(rank,new ArrayList<>(Arrays.asList(responses.get(0))));
+        map.put(rank, new ArrayList<>(Arrays.asList(responses.get(0))));
 
         for (int i = 1; i < responses.size(); i++) {
             boolean flag = false;
             for (int j = 0; j < map.get(rank).size(); j++) {
-                if(responses.get(i).getExp()==map.get(rank).get(j).getExp()){
+                if (responses.get(i).getExp() == map.get(rank).get(j).getExp()) {
                     map.get(rank).add(responses.get(i));
                     flag = true;
                     break;
                 }
             }
-            if(!flag){
+            if (!flag) {
                 rank++;
-                map.put(rank,map.getOrDefault(rank,new ArrayList<>(Arrays.asList(responses.get(i)))));
+                map.put(rank, map.getOrDefault(rank, new ArrayList<>(Arrays.asList(responses.get(i)))));
             }
         }
 
         List<MemberRankingResponse> response = new ArrayList<>();
         ArrayList<Integer> keys = new ArrayList<>();
-        for(Integer k : map.keySet())keys.add(k);
+        for (Integer k : map.keySet()) keys.add(k);
         Collections.sort(keys);
         int limit = 1;
         boolean done = false;
-        for(Integer members : keys){
-            if(done) break;
+        for (Integer members : keys) {
+            if (done) break;
             Collections.sort(map.get(members), new Comparator<Member>() {
                 @Override
                 public int compare(Member member, Member t1) {
@@ -507,7 +509,7 @@ public class MemberServiceImpl implements MemberService {
                 }
             });
             for (int i = 0; i < map.get(members).size(); i++) {
-                if(limit == 10){
+                if (limit == 10) {
                     done = true;
                     break;
                 }
@@ -537,43 +539,43 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberRankingResponse> getFirstAllByOrderByExp(String memberId) {
         List<Member> responses = memberRepository.findByOrderByExpDesc();
-        log.info("response info = {}",responses);
-        Map<Integer,List<Member>> map = new HashMap<>();
+        log.info("response info = {}", responses);
+        Map<Integer, List<Member>> map = new HashMap<>();
         int rank = 1;
         int myRank = 0;
         Member myMember = new Member();
-        map.put(rank,new ArrayList<>(Arrays.asList(responses.get(0))));
-        if(responses.get(0).getId().equals(memberId)){
+        map.put(rank, new ArrayList<>(Arrays.asList(responses.get(0))));
+        if (responses.get(0).getId().equals(memberId)) {
             myMember = responses.get(0);
             myRank = 1;
         }
         for (int i = 1; i < responses.size(); i++) {
             boolean flag = false;
-            if(responses.get(i).getId().equals(memberId)){
+            if (responses.get(i).getId().equals(memberId)) {
                 myMember = responses.get(i);
-                myRank = i+1;
+                myRank = i + 1;
             }
             for (int j = 0; j < map.get(rank).size(); j++) {
-                if(responses.get(i).getExp()==map.get(rank).get(j).getExp()){
+                if (responses.get(i).getExp() == map.get(rank).get(j).getExp()) {
                     map.get(rank).add(responses.get(i));
                     flag = true;
                     break;
                 }
             }
-            if(!flag){
+            if (!flag) {
                 rank++;
-                map.put(rank,map.getOrDefault(rank,new ArrayList<>(Arrays.asList(responses.get(i)))));
+                map.put(rank, map.getOrDefault(rank, new ArrayList<>(Arrays.asList(responses.get(i)))));
             }
         }
 
         List<MemberRankingResponse> response = new ArrayList<>();
         ArrayList<Integer> keys = new ArrayList<>();
-        for(Integer k : map.keySet())keys.add(k);
+        for (Integer k : map.keySet()) keys.add(k);
         Collections.sort(keys);
         int limit = 1;
         boolean done = false;
-        for(Integer members : keys){
-            if(done) break;
+        for (Integer members : keys) {
+            if (done) break;
             Collections.sort(map.get(members), new Comparator<Member>() {
                 @Override
                 public int compare(Member member, Member t1) {
@@ -581,7 +583,7 @@ public class MemberServiceImpl implements MemberService {
                 }
             });
             for (int i = 0; i < map.get(members).size(); i++) {
-                if(limit == 10){
+                if (limit == 10) {
                     done = true;
                     break;
                 }
