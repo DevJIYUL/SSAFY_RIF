@@ -589,6 +589,8 @@ public class MemberServiceImpl implements MemberService {
                 limit++;
             }
         }
+//        result.put("me",MemberRankingResponse.builder().rank(myRank).member(MemberResponse.from(myMember)).build());
+//        log.info("me info={}",result.get("me"));
         response.add(MemberRankingResponse.builder().rank(myRank).member(MemberResponse.from(myMember)).build());
         return response;
     }

@@ -20,6 +20,7 @@ import team.a501.rif.service.member.MemberService;
 import team.a501.rif.service.riflog.RifLogService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -237,6 +238,10 @@ public class MemberController {
 
         List<MemberRankingResponse> expTop10MeMembers = memberService.getFirstAllByOrderByExp(memberId);
         log.info("ranking info = {}", expTop10MeMembers);
-        return ResponseEntity.ok(Map.of("members", expTop10MeMembers));
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("me",expTop10MeMembers.remove(expTop10MeMembers.size()-1));
+        result.put("members",expTop10MeMembers);
+        return ResponseEntity.ok(result);
     }
 }
