@@ -23,17 +23,16 @@ public class BadgeController {
 
     @PostMapping("/badge")
     @Operation(summary = "뱃지 추가")
-    public ResponseEntity<BadgeInfo> saveBadge(@RequestBody BadgeSaveRequest request){
+    public ResponseEntity<BadgeInfo> saveBadge(@RequestBody BadgeSaveRequest request) {
 
-        BadgeInfo badgeInfo = BadgeInfo.from(badgeService.save(request));
+        BadgeInfo badgeInfo = badgeService.save(request);
 
         return ResponseEntity.ok(badgeInfo);
     }
 
     @GetMapping("/badge")
     @Operation(summary = "모든 종류의 뱃지 반환")
-    public ResponseEntity<List<BadgeInfo>> findAllBadges(){
-
+    public ResponseEntity<List<BadgeInfo>> findAllBadges() {
 
         List<BadgeInfo> badgeInfoList = badgeService.findAll()
                 .stream()
