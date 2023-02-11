@@ -21,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import team.a501.rif.exception.ErrorCode;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 //@Configuration
 @EnableWebSecurity(debug = true)
@@ -37,10 +38,11 @@ public class SecurityConfig {
 
         return ((request, response, accessDeniedException) -> {
             String fail = "Login Require";
+
             ObjectMapper ob = new ObjectMapper();
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            String json = ob.writeValueAsString(fail);
+            String json = ob.writeValueAsString(Map.of("msg",fail));
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
