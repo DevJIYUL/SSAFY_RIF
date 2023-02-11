@@ -16,24 +16,42 @@ export default async function axiosInterface(
   params = {}
 ) {
   if (headers.Authorization) {
-    axios.interceptors.response.use(
+    const myInterceptor = axios.interceptors.response.use(
       function (res) {
         return res;
       },
       async function (err) {
         const { config } = err;
-        console.log(err);
-        console.log(config);
+        const responseData = err.response.data;
+        const state = JSON.parse(localStorage.getItem("persist:root"));
+        const authentication = JSON.parse(state.auth);
 
-        // if (err.response.data.code === "token_not_valid") {
-        //   const originalRequest = config;
-        //   await store.dispatch("auth/refreshAccessToken");
+        console.log(responseData, "aa");
 
-        //   originalRequest.headers.authorization = `Bearer ${store.state.auth.accessToken}`;
-        //   return instance(originalRequest);
-        // }
-
-        return Promise.reject(err);
+        if (responseData === "Login Require") {
+          axios.interceptors.response.eject(myInterceptor);
+          const refreshResponse = await axios({
+            method: "POST",
+            url: "api/reissue",
+            baseURL: "http://i8a501.p.ssafy.io:8080/",
+            data: {
+              grantType: "Bearer",
+              accessToken: authentication.authentication.token,
+              refreshToken: authentication.authentication.refreshToken,
+            },
+          });
+          if (refreshResponse.status === 200) {
+            config.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
+            const data2 = await axios(config);
+            data2.newToken = refreshResponse.data.accessToken;
+            return Promise.resolve(data2);
+          }
+        } else if (responseData.message === "refreshtoken_expired") {
+          return Promise.reject({
+            message: "Redirect Login",
+            value: responseData,
+          });
+        }
       }
     );
   }
@@ -47,7 +65,10 @@ export default async function axiosInterface(
     params: params,
   })
     .then((res) => res)
-    .catch((err) => err);
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
 
   return response;
 }
