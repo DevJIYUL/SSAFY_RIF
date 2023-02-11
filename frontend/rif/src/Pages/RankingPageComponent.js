@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import getRankingInfoWithMeAPI from "../API/getRankingInfoWithMeAPI";
 import getRankingInfoWithoutMeAPI from "../API/getRankingInfoWithoutMeAPI";
 import RankingItemComponent from "../Components/RankingItemComponent";
 import { CircularProgress, Grid } from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { reissueHandler } from "../API/reissueHandler";
+import { authActions } from "../store/auth";
 
 let isInitial = true;
 
 const RankingPageComponent = () => {
+  const dispatch = useDispatch();
+
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
 
@@ -19,6 +23,14 @@ const RankingPageComponent = () => {
     async function sendRequest() {
       if (token) {
         const response = await getRankingInfoWithMeAPI(token, id);
+        if (response.data.newToken) {
+          reissueHandler(
+            response.data.newToken,
+            dispatch,
+            authActions.updateToken
+          );
+          // dispatch(authActions.updateToken());
+        }
         setRankingInfos(response.data.members);
         setMyRankingInfo(response.data.me);
         console.log(response);
@@ -33,7 +45,7 @@ const RankingPageComponent = () => {
     } else {
       return;
     }
-  }, [token, id]);
+  }, [token, id, dispatch]);
 
   return (
     <div>
@@ -51,19 +63,18 @@ const RankingPageComponent = () => {
       <Grid container style={{ fontFamily: "NanumSquareEB", fontSize: "25px" }}>
         {rankingInfos ? (
           rankingInfos.map((rankingInfo) => (
-            <Grid style={{ width: "100%" }}>
-              <RankingItemComponent
-                key={`${"ranking" + rankingInfo.rank}`}
-                rankingInfo={rankingInfo}
-              />
-            </Grid>
+            <RankingItemComponent
+              key={`ranking${rankingInfo.rank}`}
+              rankingInfo={rankingInfo}
+            />
           ))
         ) : (
           <CircularProgress color="success" />
         )}
+        <hr />
         {myRankingInfo && (
           <RankingItemComponent
-            key={`${"myRanking" + myRankingInfo.rank}`}
+            key={`myRanking${myRankingInfo.rank}`}
             rankingInfo={myRankingInfo}
           />
         )}
