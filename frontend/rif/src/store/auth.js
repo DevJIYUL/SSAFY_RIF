@@ -21,6 +21,9 @@ const authSlice = createSlice({
         id: "",
       };
     },
+    updateToken(state, action) {
+      state.authentication.token = action.payload;
+    },
   },
 });
 
