@@ -2,7 +2,6 @@ package team.a501.rif.domain.achievement;
 
 import team.a501.rif.domain.BaseEntity;
 import team.a501.rif.domain.member.Member;
-import team.a501.rif.dto.achievement.AchievementAcqInfo;
 
 import javax.persistence.*;
 
@@ -67,9 +66,5 @@ public class AchievementAcq extends BaseEntity {
 
     public void toggleOnDisplay() {
         this.onDisplay = !this.onDisplay;
-    }
-
-    public AchievementAcqInfo getInfo(){
-        return AchievementAcqInfo.from(this);
     }
 }
