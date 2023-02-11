@@ -4,7 +4,7 @@ import LoginPageComponent from "./Pages/LoginPageComponent";
 import MainPageComponent from "./Pages/MainPageComponent";
 import HomePageComponent from "./Pages/HomePageComponent";
 import DescriptionPageComponent from "./Pages/DescriptionPageComponent";
-import DescriptionPageComponentTwo from "./Pages/DescriptionPageComponentTwo";
+import UsagePageComponent from "./Pages/UsagePageComponent";
 import ErrorPageComponent from "./Pages/ErrorPageComponent";
 import LotPageComponent from "./Pages/LotPageComponent";
 import UserSearchComponent from "./Pages/UserSearchComponent";
@@ -40,13 +40,13 @@ const router = createBrowserRouter([
       },
       {
         // Description Page (why RIF?)
-        path: "/description/1",
+        path: "/description/",
         element: <DescriptionPageComponent />,
       },
       {
         // Description Page Two (How to Use)
-        path: "/description/2",
-        element: <DescriptionPageComponentTwo />,
+        path: "/usage/:pageId",
+        element: <UsagePageComponent />,
       },
       {
         // Lotto Component
