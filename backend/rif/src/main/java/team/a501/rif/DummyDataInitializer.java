@@ -43,7 +43,6 @@ public class DummyDataInitializer implements CommandLineRunner {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // 실행 파일에서는 resources 디렉토리 하위 파일을 불러올 수 없으므로 inputstream으로 파일을 가져온 뒤
         InputStream membersJsonInputStream = new ClassPathResource("members.json").getInputStream();
         InputStream achievementsJsonInputStream = new ClassPathResource("achievements.json").getInputStream();
         InputStream badgesJsonInputStream = new ClassPathResource("badges.json").getInputStream();
