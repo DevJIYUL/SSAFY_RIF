@@ -10,7 +10,7 @@ async function changeProfileInfoAPI(profileImgPathId, nickname, token) {
   };
   const response = await axiosInterface(
     "patch",
-    "/api/user/profile",
+    "/api/v/user/profile",
     data,
     headers
   );

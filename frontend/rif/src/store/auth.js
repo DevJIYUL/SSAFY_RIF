@@ -5,7 +5,7 @@ import loginAPI from "../API/loginAPI";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { authentication: { token: "", id: "" } },
+  initialState: { authentication: { token: "", refreshToken: "", id: "" } },
   reducers: {
     changeAuth(state, action) {
       state.authentication = {
@@ -13,6 +13,16 @@ const authSlice = createSlice({
         refreshToken: action.payload.refreshToken,
         id: action.payload.id,
       };
+    },
+    logout(state) {
+      state.authentication = {
+        token: "",
+        refreshToken: "",
+        id: "",
+      };
+    },
+    updateToken(state, action) {
+      state.authentication.token = action.payload;
     },
   },
 });
