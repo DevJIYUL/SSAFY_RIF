@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @ConditionalOnProperty(
@@ -43,20 +44,21 @@ public class DummyDataInitializer implements CommandLineRunner {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // 실행 파일에서는 resources 디렉토리 하위 파일을 불러올 수 없으므로 inputstream으로 파일을 가져온 뒤
         InputStream membersJsonInputStream = new ClassPathResource("members.json").getInputStream();
         InputStream achievementsJsonInputStream = new ClassPathResource("achievements.json").getInputStream();
         InputStream badgesJsonInputStream = new ClassPathResource("badges.json").getInputStream();
         InputStream rifLogsJsonInputStream = new ClassPathResource("riflogs.json").getInputStream();
 
-        File membersJson = File.createTempFile("tmp-members", ".json");
-        File achievementsJson = File.createTempFile("tmp-achievements", ".json");
-        File badgesJson = File.createTempFile("tmp-badges", ".json");
-        File rifLogsJson = File.createTempFile("tmp-riflogs", ".json");
+        File membersJson = File.createTempFile("members", ".json");
+        File achievementsJson = File.createTempFile("achievements", ".json");
+        File badgesJson = File.createTempFile("badges", ".json");
+        File rifLogsJson = File.createTempFile("riflogs", ".json");
 
-        Files.copy(membersJsonInputStream, membersJson.toPath());
-        Files.copy(achievementsJsonInputStream, achievementsJson.toPath());
-        Files.copy(badgesJsonInputStream, badgesJson.toPath());
-        Files.copy(rifLogsJsonInputStream, rifLogsJson.toPath());
+        Files.copy(membersJsonInputStream, membersJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(achievementsJsonInputStream, achievementsJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(badgesJsonInputStream, badgesJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(rifLogsJsonInputStream, rifLogsJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         // 멤버 등록
         List<MemberRegisterRequest> memberRegisterRequestList =
