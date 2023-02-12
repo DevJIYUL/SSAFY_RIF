@@ -49,10 +49,10 @@ public class DummyDataInitializer implements CommandLineRunner {
         InputStream badgesJsonInputStream = new ClassPathResource("badges.json").getInputStream();
         InputStream rifLogsJsonInputStream = new ClassPathResource("riflogs.json").getInputStream();
 
-        File membersJson = File.createTempFile("members", ".json");
-        File achievementsJson = File.createTempFile("achievements", ".json");
-        File badgesJson = File.createTempFile("badges", ".json");
-        File rifLogsJson = File.createTempFile("riflogs", ".json");
+        File membersJson = File.createTempFile("tmp-members", ".json");
+        File achievementsJson = File.createTempFile("tmp-achievements", ".json");
+        File badgesJson = File.createTempFile("tmp-badges", ".json");
+        File rifLogsJson = File.createTempFile("tmp-riflogs", ".json");
 
         Files.copy(membersJsonInputStream, membersJson.toPath());
         Files.copy(achievementsJsonInputStream, achievementsJson.toPath());
