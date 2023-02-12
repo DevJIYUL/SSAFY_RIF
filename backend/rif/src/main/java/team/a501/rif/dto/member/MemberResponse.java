@@ -17,7 +17,7 @@ public class MemberResponse {
     String profileImgPath;
 
     @Builder
-    public MemberResponse(String id, String uid, String name, String profileImgPath,Integer exp,Integer point) {
+    public MemberResponse(String id, String uid, String name, String profileImgPath, Integer exp, Integer point) {
         this.id = id;
         this.point = point;
         this.uid = uid;
@@ -26,7 +26,7 @@ public class MemberResponse {
         this.profileImgPath = profileImgPath;
     }
 
-    public static MemberResponse from(Member member){
+    public static MemberResponse from(Member member) {
 
         return MemberResponse.builder()
                 .id(member.getId())

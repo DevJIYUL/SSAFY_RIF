@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import team.a501.rif.dto.badge.BadgeInfo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -89,17 +88,7 @@ public class Badge {
         this.badgeAcqs.add(acq);
     }
 
-    public BadgeInfo getInfo(){
-        return BadgeInfo.builder()
-                .id(this.id)
-                .tier(this.tier)
-                .title(this.title)
-                .description(this.description)
-                .imgPath(this.imgPath)
-                .build();
-    }
-
-    public void removeBadgeAcq(@NotNull BadgeAcq acq){
+    public void removeBadgeAcq(@NotNull BadgeAcq acq) {
 
         acq.setBadge(null);
         this.badgeAcqs.remove(acq);

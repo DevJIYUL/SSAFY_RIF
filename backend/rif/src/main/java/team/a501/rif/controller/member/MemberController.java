@@ -239,9 +239,9 @@ public class MemberController {
         List<MemberRankingResponse> expTop10MeMembers = memberService.getFirstAllByOrderByExp(memberId);
         log.info("ranking info = {}", expTop10MeMembers);
 
-        Map<String,Object> result = new HashMap<>();
-        result.put("me",expTop10MeMembers.remove(expTop10MeMembers.size()-1));
-        result.put("members",expTop10MeMembers);
+        Map<String, Object> result = new HashMap<>();
+        result.put("me", expTop10MeMembers.remove(expTop10MeMembers.size() - 1));
+        result.put("members", expTop10MeMembers);
         return ResponseEntity.ok(result);
     }
 }
