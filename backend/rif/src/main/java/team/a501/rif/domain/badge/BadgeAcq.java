@@ -62,10 +62,6 @@ public class BadgeAcq extends BaseEntity {
         this.badge = badge;
     }
 
-    public BadgeAcqInfo getInfo() {
-        return BadgeAcqInfo.from(this);
-    }
-
     @Override
     public String toString() {
         return "BadgeAcq{" +

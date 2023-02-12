@@ -33,7 +33,7 @@ public class AchievementAcqInfo {
                 .build();
     }
 
-    public static AchievementAcqInfo from(Achievement achievement){
+    public static AchievementAcqInfo from(Achievement achievement) {
         return AchievementAcqInfo.builder()
                 .achievementInfo(AchievementInfo.from(achievement))
                 .onDisplay(false)

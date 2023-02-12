@@ -1,12 +1,11 @@
 package team.a501.rif.dto.riflog;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@Data
+@Getter
 public class RifLogSaveRequest {
     private String uid;
     private Integer plasticTotal;

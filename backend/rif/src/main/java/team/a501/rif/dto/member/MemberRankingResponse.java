@@ -1,6 +1,8 @@
 package team.a501.rif.dto.member;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter

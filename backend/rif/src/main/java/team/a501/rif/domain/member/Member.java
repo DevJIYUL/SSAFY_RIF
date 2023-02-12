@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Member implements UserDetails {
     @JsonIgnore
-    public static final String DEFAULT_PROFILE_IMG = "/profile/default.png";
+    public static final String DEFAULT_PROFILE_IMG = "/profile/1.png";
     @Id
     private String id; // 학번
 
@@ -38,7 +38,7 @@ public class Member implements UserDetails {
     private Integer exp;
 
     @Column(length = 40)
-    private String profile_img_path; // 기본값 /profile/default.png
+    private String imgPath; // 기본값 /profile/default.png
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Map<Long, BadgeAcq> badgeAcqs;
@@ -61,7 +61,7 @@ public class Member implements UserDetails {
         this.name = name;
         this.point = point;
         this.exp = exp;
-        this.profile_img_path = profileImgPath;
+        this.imgPath = profileImgPath;
 
         this.badgeAcqs = new HashMap<>();
         this.achievementAcqs = new HashMap<>();
@@ -117,16 +117,8 @@ public class Member implements UserDetails {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getUid() {
         return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getName() {
@@ -154,7 +146,7 @@ public class Member implements UserDetails {
     }
 
     public String getProfileImgPath() {
-        return profile_img_path;
+        return imgPath;
     }
 
     public Map<Long, BadgeAcq> getBadgeAcqs() {
@@ -166,9 +158,8 @@ public class Member implements UserDetails {
     }
 
     public void setProfileImgPath(String profileImgPath) {
-        this.profile_img_path = profileImgPath;
+        this.imgPath = profileImgPath;
     }
-
 
     public Boolean hasBadge(@NotNull Long badgeId) {
         return badgeAcqs.containsKey(badgeId);
@@ -202,14 +193,6 @@ public class Member implements UserDetails {
         achievementAcqs.remove(acq.getAchievement().getId());
     }
 
-    public void setBadgeAcqs(Map<Long, BadgeAcq> badgeAcqs) {
-        this.badgeAcqs = badgeAcqs;
-    }
-
-    public void setAchievementAcqs(Map<Long, AchievementAcq> achievementAcqs) {
-        this.achievementAcqs = achievementAcqs;
-    }
-
     public List<RifLog> getRifLogs() {
         return rifLogs;
     }
@@ -236,7 +219,7 @@ public class Member implements UserDetails {
                 ", name='" + name + '\'' +
                 ", point=" + point +
                 ", exp=" + exp +
-                ", profileImgPath='" + profile_img_path + '\'' +
+                ", profileImgPath='" + imgPath + '\'' +
                 '}';
     }
 }

@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import team.a501.rif.exception.ErrorCode;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class SecurityConfig {
             ObjectMapper ob = new ObjectMapper();
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            String json = ob.writeValueAsString(Map.of("msg",fail));
+            String json = ob.writeValueAsString(Map.of("msg", fail));
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
@@ -97,6 +96,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
