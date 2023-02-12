@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import { Grid, Paper } from "@mui/material";
+import PageChangerComponent from "../UI/PageChangerComponent";
 
 const MainProfileComopnent = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
-
+  console.log(userInfo);
   return (
     <Paper
       elevation={3}
@@ -19,8 +20,15 @@ const MainProfileComopnent = () => {
         margin: "5% auto",
         borderRadius: "15px",
         color: "#5D5E58",
+        position: "relative",
       }}
     >
+      <PageChangerComponent
+        sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
+        to={"/change-profile"}
+      >
+        프사 변경
+      </PageChangerComponent>
       <Grid container>
         <Grid
           sx={{
@@ -30,18 +38,20 @@ const MainProfileComopnent = () => {
             alignItems: "center",
           }}
         >
-          <img
-            src={userInfo.profileImgPath}
-            alt=""
-            srcSet=""
-            style={{
-              border: "3px solid #7DBC2F",
-              width: "101px",
-              borderRadius: "50%",
-              // margin: "33px 0px 33px 31px",
-              padding: "",
-            }}
-          />
+          {userInfo.profileImgPath && (
+            <img
+              src={userInfo.profileImgPath}
+              alt=""
+              srcSet=""
+              style={{
+                border: "3px solid #7DBC2F",
+                width: "101px",
+                borderRadius: "50%",
+                // margin: "33px 0px 33px 31px",
+                padding: "",
+              }}
+            />
+          )}
         </Grid>
         <Grid
           sx={{
@@ -63,6 +73,8 @@ const MainProfileComopnent = () => {
               style={{
                 fontFamily: "NanumSquareB",
                 fontSize: "30px",
+                margin: "0px",
+                display: "flex",
               }}
             >
               {userInfo.name}

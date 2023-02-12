@@ -13,15 +13,13 @@ const ChangePasswordPageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const token = useSelector((state) => state.auth.authentication.token);
-  const token = 1239986;
+  const token = useSelector((state) => state.auth.authentication.token);
   const authentication = useSelector((state) => state.auth.authentication);
 
   useEffect(() => {
     if (!token) {
       navigate("/login");
     }
-    console.log(authentication);
   }, [token, navigate, authentication]);
 
   const inputCurrentPasswordHandler = (event) => {
@@ -51,6 +49,9 @@ const ChangePasswordPageComponent = () => {
           newPasswordConfirm,
           token
         );
+        if (response.data.newToken) {
+          dispatch(authActions.updateToken(response.data.newToken));
+        }
         dispatch(
           authActions.changeAuth({
             token: response.data.accessToken,

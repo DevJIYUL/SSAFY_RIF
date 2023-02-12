@@ -3,6 +3,8 @@ import getUserInfoAPI from "../API/getUserInfoAPI";
 import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
 import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI";
 import { UIActions } from "./UISlice";
+import { useNavigate } from "react-router-dom";
+import { authActions } from "./auth";
 
 const userInfoSlice = createSlice({
   name: "userInfo",
@@ -30,6 +32,7 @@ const userInfoSlice = createSlice({
 
 export const mainPageRequestHandler = (id) => {
   return async (dispatch) => {
+    const navigate = useNavigate();
     dispatch(
       UIActions.changeNofication({
         status: "pending",
@@ -37,6 +40,15 @@ export const mainPageRequestHandler = (id) => {
     );
     try {
       const response = await getUserInfoAPI(id);
+      if (response.newToken) {
+        dispatch(authActions.updateToken(response.newToken));
+        return;
+      }
+      if (response.status === 307) {
+        dispatch(authActions.logout());
+        navigate("/login");
+        return;
+      }
       if (response.status !== 200) {
         throw new Error("Error is raiesd!");
       }
@@ -45,8 +57,9 @@ export const mainPageRequestHandler = (id) => {
         id: response.data.id,
         uid: response.data.uid,
         name: response.data.name,
-        profileImgPath: response.data.profile_img_path,
+        profileImgPath: response.data.profileImgPath,
         point: response.data.point ? response.data.point : 10000,
+        exp: response.data.exp,
       };
 
       dispatch(userInfoActions.setUserInfo(parsedUserInfoAPI));
