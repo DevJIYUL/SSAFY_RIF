@@ -1,21 +1,34 @@
 import LogItemComponent from "../Components/LogItemComponent";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef, useCallback, useState, useEffect } from "react";
 import useLogGetAPI from "../API/getLogAPI";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { useNavigate } from "react-router-dom";
+import { authActions } from "../store/auth";
 
 const LogPageComponent = () => {
+  const navigate = useDispatch();
+  const dispatch = useNavigate();
+
   const accessToken = useSelector((state) => state.auth.authentication.token);
   const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, logs, hasMore } = useLogGetAPI(
+
+  const { loading, error, logs, hasMore, newToken, statusCode } = useLogGetAPI(
     accessToken,
     pageNumber,
     "sortOption"
   );
 
   useEffect(() => {
+    if (newToken) {
+      dispatch(authActions.updateToken(newToken));
+    }
+    if (statusCode === 307) {
+      dispatch(authActions.logout());
+      navigate("/login");
+    }
     setPageNumber(1);
-  }, [accessToken]);
+  }, [accessToken, newToken, dispatch, statusCode, navigate]);
 
   const observer = useRef();
   const lastLogComponentRef = useCallback(

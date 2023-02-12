@@ -5,13 +5,14 @@ import getRankingInfoWithoutMeAPI from "../API/getRankingInfoWithoutMeAPI";
 import RankingItemComponent from "../Components/RankingItemComponent";
 import { CircularProgress, Grid } from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
-import { reissueHandler } from "../API/reissueHandler";
 import { authActions } from "../store/auth";
+import { useNavigate } from "react-router-dom";
 
 let isInitial = true;
 
 const RankingPageComponent = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
@@ -23,13 +24,14 @@ const RankingPageComponent = () => {
     async function sendRequest() {
       if (token) {
         const response = await getRankingInfoWithMeAPI(token, id);
-        if (response.data.newToken) {
-          reissueHandler(
-            response.data.newToken,
-            dispatch,
-            authActions.updateToken
-          );
-          // dispatch(authActions.updateToken());
+        if (response.newToken) {
+          dispatch(authActions.updateToken(response.newToken));
+          return;
+        }
+        if (response.status === 307) {
+          dispatch(authActions.logout());
+          navigate("/login");
+          return;
         }
         setRankingInfos(response.data.members);
         setMyRankingInfo(response.data.me);
@@ -45,7 +47,7 @@ const RankingPageComponent = () => {
     } else {
       return;
     }
-  }, [token, id, dispatch]);
+  }, [token, id, dispatch, navigate]);
 
   return (
     <div>
