@@ -3,7 +3,9 @@ import getBadgesAPI from "../API/getBadgesAPI";
 import getAchievementsAPI from "../API/getAchievementsAPI";
 import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../store/auth";
+import { useNavigate } from "react-router-dom";
 
 // show rounded reward icons
 // props : type, isRef
@@ -15,10 +17,23 @@ const RewardComponent = (props) => {
   const [rewards, setRewards] = useState([]);
   const type = props.type;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // when mounted
   useEffect(() => {
     async function getAchievements() {
       const response = await getAchievementsAPI(token, id);
+
+      if (response.newToken) {
+        dispatch(authActions.updateToken(response.newToken));
+        return;
+      }
+      if (response.status === 307) {
+        dispatch(authActions.logout());
+        navigate("/login");
+        return;
+      }
 
       let totalReward = response.data.totalAchievement;
 
@@ -47,6 +62,16 @@ const RewardComponent = (props) => {
       console.log(token);
       console.log(id, typeof id);
       const response = await getBadgesAPI(token, id);
+
+      if (response.newToken) {
+        dispatch(authActions.updateToken(response.newToken));
+        return;
+      }
+      if (response.status === 307) {
+        dispatch(authActions.logout());
+        navigate("/login");
+        return;
+      }
 
       let totalReward = response.data.totalBadge;
 
@@ -78,7 +103,7 @@ const RewardComponent = (props) => {
     } else {
       setRewards(props.rewards);
     }
-  }, [type, props.isRef, props.rewards, token, id]);
+  }, [type, props.isRef, props.rewards, dispatch, navigate, token, id]);
 
   return (
     <Grid
