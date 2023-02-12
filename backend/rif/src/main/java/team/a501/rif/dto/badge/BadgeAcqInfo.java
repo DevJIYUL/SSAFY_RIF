@@ -37,7 +37,7 @@ public class BadgeAcqInfo {
                 .build();
     }
 
-    public static BadgeAcqInfo from(Badge badge){
+    public static BadgeAcqInfo from(Badge badge) {
         return BadgeAcqInfo.builder()
                 .badgeInfo(BadgeInfo.from(badge))
                 .onDisplay(false)

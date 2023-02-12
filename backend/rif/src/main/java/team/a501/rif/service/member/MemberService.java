@@ -9,7 +9,6 @@ import team.a501.rif.dto.riflog.RifLogSaveResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 
 public interface MemberService extends UserDetailsService {
