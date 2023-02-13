@@ -458,67 +458,27 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberRankingResponse> getFirst10ByOrderByExp() {
 
-//        List<MemberResponse> top10 = memberRepository
-//                .findFirst10ByOrderByExpDesc()
-//                .stream()
-//                .filter(member -> member.getExp() > 0)
-//                .map(MemberResponse::from)
-//                .collect(Collectors.toList());
-//
-//        List<MemberRankingResponse> memberRankingResponses = new ArrayList<>();
-//
-//        for (int i = 0; i < top10.size(); ++i) {
-//            memberRankingResponses.add(MemberRankingResponse.builder()
-//                    .rank(i + 1)
-//                    .member(top10.get(i))
-//                    .build());
-//        }
-        List<Member> responses = memberRepository.findByOrderByExpDesc();
-        log.info("response info = {}", responses);
-        Map<Integer, List<Member>> map = new HashMap<>();
-        int rank = 1;
-        map.put(rank, new ArrayList<>(Arrays.asList(responses.get(0))));
+        List<MemberResponse> top10 = memberRepository
+                .findFirst10ByOrderByExpDesc()
+                .stream()
+                .filter(member -> member.getExp() > 0)
+                .sorted((m1, m2) -> m1.getExp().equals(m2.getExp()) ? m1.getId().compareTo(m2.getId()) : 1)
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
 
-        for (int i = 1; i < responses.size(); i++) {
-            boolean flag = false;
-            for (int j = 0; j < map.get(rank).size(); j++) {
-                if (responses.get(i).getExp() == map.get(rank).get(j).getExp()) {
-                    map.get(rank).add(responses.get(i));
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                rank++;
-                map.put(rank, map.getOrDefault(rank, new ArrayList<>(Arrays.asList(responses.get(i)))));
-            }
+        List<MemberRankingResponse> memberRankingResponses = new ArrayList<>();
+
+        Integer rank = 1;
+        for (var e :
+                top10) {
+            memberRankingResponses.add(MemberRankingResponse.builder()
+                    .rank(rank)
+                    .member(e)
+                    .build());
+            rank++;
         }
 
-        List<MemberRankingResponse> response = new ArrayList<>();
-        ArrayList<Integer> keys = new ArrayList<>();
-        for (Integer k : map.keySet()) keys.add(k);
-        Collections.sort(keys);
-        int limit = 1;
-        boolean done = false;
-        for (Integer members : keys) {
-            if (done) break;
-            Collections.sort(map.get(members), new Comparator<Member>() {
-                @Override
-                public int compare(Member member, Member t1) {
-                    return member.getId().compareTo(t1.getId());
-                }
-            });
-            for (int i = 0; i < map.get(members).size(); i++) {
-                if (limit == 10) {
-                    done = true;
-                    break;
-                }
-                response.add(MemberRankingResponse.builder().rank(limit).member(MemberResponse.from(map.get(members).get(i))).build());
-                limit++;
-            }
-        }
-//        return memberRankingResponses;
-        return response;
+        return memberRankingResponses;
     }
 
     @Override
@@ -538,63 +498,42 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<MemberRankingResponse> getFirstAllByOrderByExp(String memberId) {
-        List<Member> responses = memberRepository.findByOrderByExpDesc();
-        log.info("response info = {}", responses);
-        Map<Integer, List<Member>> map = new HashMap<>();
-        int rank = 1;
-        int myRank = 0;
-        Member myMember = new Member();
-        map.put(rank, new ArrayList<>(Arrays.asList(responses.get(0))));
-        if (responses.get(0).getId().equals(memberId)) {
-            myMember = responses.get(0);
-            myRank = 1;
-        }
-        for (int i = 1; i < responses.size(); i++) {
-            boolean flag = false;
-            if (responses.get(i).getId().equals(memberId)) {
-                myMember = responses.get(i);
-                myRank = i + 1;
+
+        List<MemberResponse> orderedMembers = memberRepository
+                .findByOrderByExpDesc()
+                .stream()
+                .sorted((m1, m2) -> m1.getExp().equals(m2.getExp()) ? m1.getId().compareTo(m2.getId()) : 1)
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
+
+        List<MemberRankingResponse> memberRankingResponses = new ArrayList<>();
+
+        MemberRankingResponse myRanking = null;
+
+        Integer rank = 1;
+
+        for (var e : orderedMembers) {
+
+            if(rank <= 10) {
+                memberRankingResponses.add(MemberRankingResponse.builder()
+                        .rank(rank)
+                        .member(e)
+                        .build());
             }
-            for (int j = 0; j < map.get(rank).size(); j++) {
-                if (responses.get(i).getExp() == map.get(rank).get(j).getExp()) {
-                    map.get(rank).add(responses.get(i));
-                    flag = true;
-                    break;
-                }
+
+            if(e.getId().equals(memberId)) {
+                myRanking = MemberRankingResponse.builder()
+                        .rank(rank)
+                        .member(e)
+                        .build();
             }
-            if (!flag) {
-                rank++;
-                map.put(rank, map.getOrDefault(rank, new ArrayList<>(Arrays.asList(responses.get(i)))));
-            }
+
+            rank++;
         }
 
-        List<MemberRankingResponse> response = new ArrayList<>();
-        ArrayList<Integer> keys = new ArrayList<>();
-        for (Integer k : map.keySet()) keys.add(k);
-        Collections.sort(keys);
-        int limit = 1;
-        boolean done = false;
-        for (Integer members : keys) {
-            if (done) break;
-            Collections.sort(map.get(members), new Comparator<Member>() {
-                @Override
-                public int compare(Member member, Member t1) {
-                    return member.getId().compareTo(t1.getId());
-                }
-            });
-            for (int i = 0; i < map.get(members).size(); i++) {
-                if (limit == 10) {
-                    done = true;
-                    break;
-                }
-                response.add(MemberRankingResponse.builder().rank(limit).member(MemberResponse.from(map.get(members).get(i))).build());
-                limit++;
-            }
-        }
-//        result.put("me",MemberRankingResponse.builder().rank(myRank).member(MemberResponse.from(myMember)).build());
-//        log.info("me info={}",result.get("me"));
-        response.add(MemberRankingResponse.builder().rank(myRank).member(MemberResponse.from(myMember)).build());
-        return response;
+        memberRankingResponses.add(myRanking);
+
+        return memberRankingResponses;
     }
 
 
