@@ -67,7 +67,7 @@ export default async function axiosInterface(
   let response = await axios({
     method: method,
     url: url,
-    baseURL: "http://i8a501.p.ssafy.io:8080/",
+    baseURL: "https://i8a501.p.ssafy.io/",
     data: data,
     headers: headers,
     params: params,
