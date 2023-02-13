@@ -16,4 +16,12 @@ public class MemberRankingResponse {
         this.rank = rank;
         this.member = member;
     }
+
+    @Override
+    public String toString() {
+        return "MemberRankingResponse{" +
+                "\n rank=" + rank +
+                ",\n member=" + member +
+                "\n}";
+    }
 }
