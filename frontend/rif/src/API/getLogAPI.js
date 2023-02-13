@@ -1,23 +1,31 @@
 import axiosInterface from "./axiosInterface";
 import { useEffect, useState } from "react";
 
-async function getLogAPI(accessToken, pageNumber, sortOption) {
+async function getLogAPI(accessToken, memberId, page, size) {
   const response = await axiosInterface(
     "GET",
-    "api/v/user/log",
+    "api/v/member/riflog",
     {},
     {
       Authorization: `Bearer ${accessToken}`,
     },
     {
-      page: pageNumber,
-      sort: sortOption,
+      memberId: memberId,
+      page: page,
+      size: size,
     }
   );
+  if (response.status === 200) {
+    console.log(`Log API 성공 page: ${page}`);
+    console.log(response.data, "response.data");
+    return response.data;
+  } else {
+    console.log("Log API 실패");
+  }
   return response;
 }
 
-export default function useLogGetAPI(accessToken, pageNumber, sortOption) {
+export default function useLogGetAPI(accessToken, memberId, page, size) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -27,10 +35,11 @@ export default function useLogGetAPI(accessToken, pageNumber, sortOption) {
     setLoading(true);
     setError(false);
 
-    const response = getLogAPI(accessToken, pageNumber, sortOption);
-    response
+    const resData = getLogAPI(accessToken, memberId, page, size);
+    resData
       .then((res) => {
-        const newLogs = res.data.logs; // array of Objects [{...},{...},{...}]
+        const newLogs = res.content;
+
         if (newLogs.length) {
           // 새로운 로그가 아직 있다면
           setLogs((prevLogs) => {
@@ -38,7 +47,8 @@ export default function useLogGetAPI(accessToken, pageNumber, sortOption) {
             return totalLogs;
           });
           setLoading(false);
-        } else {
+        }
+        if (res.last) {
           // 새로운 로그가 없다면
           setHasMore(false);
           setLoading(false);
@@ -47,7 +57,7 @@ export default function useLogGetAPI(accessToken, pageNumber, sortOption) {
       .catch((err) => {
         setError(true);
       });
-  }, [accessToken, pageNumber, sortOption]);
+  }, [accessToken, memberId, page, size]);
 
   return { loading, error, logs, hasMore };
 }
