@@ -30,14 +30,25 @@ export default function useLogGetAPI(accessToken, memberId, page, size) {
   const [error, setError] = useState(false);
   const [logs, setLogs] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [newToken, setNewToken] = useState("");
+  const [statusCode, setStatusCode] = useState("");
 
   useEffect(() => {
+    if (statusCode === 307) {
+      console.log("the end");
+      return;
+    }
     setLoading(true);
     setError(false);
 
     const resData = getLogAPI(accessToken, memberId, page, size);
     resData
       .then((res) => {
+        if (res.response.status === 307) {
+          console.log(307);
+          setStatusCode(307);
+          return;
+        }
         const newLogs = res.content;
 
         if (newLogs.length) {
@@ -55,9 +66,10 @@ export default function useLogGetAPI(accessToken, memberId, page, size) {
         }
       })
       .catch((err) => {
+        console.log(err);
         setError(true);
       });
-  }, [accessToken, memberId, page, size]);
+  }, [accessToken, memberId, page, size, statusCode]);
 
-  return { loading, error, logs, hasMore };
+  return { loading, error, logs, hasMore, newToken, statusCode };
 }

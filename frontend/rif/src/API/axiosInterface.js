@@ -30,34 +30,33 @@ export default async function axiosInterface(
         const authentication = JSON.parse(state.auth);
 
         if (responseData.data.msg === "Login Require") {
-          console.log("reissue");
           axios.interceptors.response.eject(myInterceptor);
-          console.log("eject interceptor");
 
-          try {
-            const refreshResponse = await axios({
-              method: "POST",
-              url: "api/reissue",
-              baseURL: "https://i8a501.p.ssafy.io",
-              data: {
-                grantType: "Bearer",
-                accessToken: authentication.authentication.token,
-                refreshToken: authentication.authentication.refreshToken,
-              },
+          const refreshResponse = await axios({
+            method: "post",
+            baseURL: "https://i8a501.p.ssafy.io",
+            url: "/api/reissue",
+            data: {
+              grantType: "Bearer",
+              accessToken: authentication.authentication.token,
+              refreshToken: authentication.authentication.refreshToken,
+            },
+          })
+            .then((refreshResponse) => refreshResponse)
+            .catch((error) => {
+              return error;
             });
 
-            if (refreshResponse.status === 200) {
-              config.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
-              const data2 = await axios(config);
-              data2.newToken = refreshResponse.data.accessToken;
-              return Promise.resolve(data2);
-            } else if (responseData.data.message === "refreshtoken_expired") {
-              console.log("?");
-              return Promise.reject(responseData);
-            }
-          } catch (error) {
-            console.log(error);
-            return error;
+          console.log(refreshResponse);
+
+          if (refreshResponse.status === 200) {
+            config.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
+            const data2 = await axios(config);
+            data2.newToken = refreshResponse.data.accessToken;
+
+            return Promise.resolve(data2);
+          } else if (refreshResponse.response.status === 307) {
+            return Promise.reject(refreshResponse);
           }
         }
       }
