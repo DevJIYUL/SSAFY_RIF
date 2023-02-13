@@ -29,9 +29,6 @@ export default async function axiosInterface(
         const state = JSON.parse(localStorage.getItem("persist:root"));
         const authentication = JSON.parse(state.auth);
 
-        console.log(responseData, "aa");
-        console.log(responseData.data, "aa");
-
         if (responseData.data.msg === "Login Require") {
           console.log("reissue");
           axios.interceptors.response.eject(myInterceptor);
