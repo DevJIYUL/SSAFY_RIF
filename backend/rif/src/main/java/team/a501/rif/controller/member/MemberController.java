@@ -212,7 +212,7 @@ public class MemberController {
     }
 
     @Operation(summary = "회원 찾기", description = "이름으로 회원을 찾는 메서드입니다.")
-    @GetMapping(value = "/v/member/search")
+    @GetMapping(value = "/member/search")
     public ResponseEntity<Map<String, Object>> findMembers(@RequestParam String name) {
 
         log.info("Search member name info = {}", name);
