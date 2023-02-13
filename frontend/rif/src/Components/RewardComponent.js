@@ -9,9 +9,13 @@ import { useNavigate } from "react-router-dom";
 
 // show rounded reward icons
 // props : type, isRef
-
 const RewardComponent = (props) => {
   // states
+  const userRefBadges = useSelector((state) => state.user.userRefBadges);
+  const userRefAchievements = useSelector(
+    (state) => state.user.userRefAchievements
+  );
+
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
   const [rewards, setRewards] = useState([]);
@@ -59,8 +63,6 @@ const RewardComponent = (props) => {
     }
 
     async function getBadges() {
-      console.log(token);
-      console.log(id, typeof id);
       const response = await getBadgesAPI(token, id);
 
       if (response.newToken) {
@@ -100,10 +102,21 @@ const RewardComponent = (props) => {
       getBadges();
     } else if (type === "achievement" && !props.isRef) {
       getAchievements();
-    } else {
-      setRewards(props.rewards);
+    } else if (type === "badge" && props.isRef) {
+      setRewards(userRefBadges);
+    } else if (type === "achievement" && props.isRef) {
+      setRewards(userRefAchievements);
     }
-  }, [type, props.isRef, props.rewards, dispatch, navigate, token, id]);
+  }, [
+    type,
+    props.isRef,
+    dispatch,
+    navigate,
+    token,
+    id,
+    userRefAchievements,
+    userRefBadges,
+  ]);
 
   return (
     <Grid
@@ -127,6 +140,7 @@ const RewardComponent = (props) => {
             <RewardItemComponent
               reward={value}
               type={type}
+              isRef={props.isRef}
             ></RewardItemComponent>
           </Grid>
         );

@@ -47,7 +47,7 @@ export const mainPageRequestHandler = (id) => {
         uid: response.data.uid,
         name: response.data.name,
         profileImgPath: response.data.profileImgPath,
-        point: response.data.point ? response.data.point : 10000,
+        point: response.data.point,
         exp: response.data.exp,
       };
 

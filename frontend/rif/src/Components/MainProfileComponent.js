@@ -4,7 +4,6 @@ import PageChangerComponent from "../UI/PageChangerComponent";
 
 const MainProfileComopnent = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log(userInfo);
   return (
     <Paper
       elevation={3}

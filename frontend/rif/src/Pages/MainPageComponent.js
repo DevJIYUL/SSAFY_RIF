@@ -45,7 +45,6 @@ const MainPageComponent = () => {
   }, [token, id, logoutFlag, navigate, dispatch]);
 
   const [exp, caledExp] = calLevel(userInfo.exp);
-  console.log(exp, caledExp);
 
   const logoutBtnHandler = () => {
     dispatch(authActions.logout());
@@ -77,11 +76,7 @@ const MainPageComponent = () => {
             sectionDetail="뱃지 관리"
           />
           {userRefBadges && (
-            <RewardComponent
-              type="badge"
-              rewards={userRefBadges}
-              isRef={true}
-            />
+            <RewardComponent type="badge" isRef={true} />
             // userRefBadges [badgeInfo, onDisplay, acheievedAt]
           )}
           <SectionTitleComponent
@@ -90,11 +85,7 @@ const MainPageComponent = () => {
             sectionDetail="업적 관리"
           />
           {userRefAchievements && (
-            <RewardComponent
-              type="achievement"
-              rewards={userRefAchievements}
-              isRef={true}
-            />
+            <RewardComponent type="achievement" isRef={true} />
           )}
         </Grid>
         <Grid
