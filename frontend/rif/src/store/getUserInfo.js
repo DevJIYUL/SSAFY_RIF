@@ -3,8 +3,6 @@ import getUserInfoAPI from "../API/getUserInfoAPI";
 import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
 import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI";
 import { UIActions } from "./UISlice";
-import { useNavigate } from "react-router-dom";
-import { authActions } from "./auth";
 
 const userInfoSlice = createSlice({
   name: "userInfo",
