@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -24,8 +24,33 @@ const outerTheme = createTheme({
 });
 
 const NavigationComponent = () => {
-  const [navigateTarget, setNavigateTarget] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  let locationPath = location.pathname.substring(1).split("/")[0];
+  console.log(locationPath);
+
+  if (
+    [
+      "login",
+      "main",
+      "badge",
+      "change-profile",
+      "change-password",
+      "log",
+      "achievement",
+    ].includes(locationPath)
+  ) {
+    locationPath = "main";
+  } else if (["description", "usage"].includes(locationPath)) {
+    locationPath = "home";
+  }
+  console.log(locationPath);
+  const [navigateTarget, setNavigateTarget] = useState(locationPath);
+  if (locationPath !== navigateTarget) {
+    setNavigateTarget(locationPath);
+  }
+  console.log(locationPath, navigateTarget);
 
   const navigationURLList = ["search", "ranking", "home", "main", "lot"];
   const navigationName = ["검색", "랭킹", "홈페이지", "프로필", "뽑기"];
