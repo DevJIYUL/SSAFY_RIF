@@ -38,7 +38,7 @@ export default async function axiosInterface(
             const refreshResponse = await axios({
               method: "POST",
               url: "api/reissue",
-              baseURL: "http://i8a501.p.ssafy.io:8080/",
+              baseURL: "https://i8a501.p.ssafy.io/",
               data: {
                 grantType: "Bearer",
                 accessToken: authentication.authentication.token,
