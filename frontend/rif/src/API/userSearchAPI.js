@@ -8,10 +8,10 @@ import axiosInterface from "./axiosInterface";
 async function userSearchAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "/member/search",
+    "/api/v/member/search",
     {},
     {},
-    { id }
+    { name: id }
   );
 
   if (response.status === 200) {
