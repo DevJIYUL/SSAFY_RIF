@@ -41,13 +41,13 @@ const lottoSlice = createSlice({
 
 export default lottoSlice;
 
-export const lotteryOpenHandler = () => {
+export const lotteryOpenHandler = (accessToken, id) => {
   return async (dispatch) => {
     // show loading status at first
     dispatch(lottoSlice.actions.drawLotteryPending());
 
     // get response
-    const response = await lottoAPI("accessToken", "0847647");
+    const response = await lottoAPI(accessToken, id);
 
     if (response.status !== 200) {
       dispatch(lottoSlice.actions.drawLotteryFailed());

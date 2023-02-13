@@ -1,21 +1,37 @@
 import LogItemComponent from "../Components/LogItemComponent";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef, useCallback, useState, useEffect } from "react";
 import useLogGetAPI from "../API/getLogAPI";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { useNavigate } from "react-router-dom";
+import { authActions } from "../store/auth";
 
 const LogPageComponent = () => {
+  const navigate = useDispatch();
+  const dispatch = useNavigate();
+
   const accessToken = useSelector((state) => state.auth.authentication.token);
-  const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, logs, hasMore } = useLogGetAPI(
+  const memberId = useSelector((state) => state.auth.authentication.id);
+
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const { loading, error, logs, hasMore, newToken, statusCode } = useLogGetAPI(
     accessToken,
+    memberId,
     pageNumber,
-    "sortOption"
+    10
   );
 
   useEffect(() => {
-    setPageNumber(1);
-  }, [accessToken]);
+    if (newToken) {
+      dispatch(authActions.updateToken(newToken));
+    }
+    if (statusCode === 307) {
+      dispatch(authActions.logout());
+      navigate("/login");
+    }
+    setPageNumber(0);
+  }, [accessToken, newToken, dispatch, statusCode, navigate]);
 
   const observer = useRef();
   const lastLogComponentRef = useCallback(
@@ -36,7 +52,7 @@ const LogPageComponent = () => {
 
   return (
     <div>
-      <PageChangerComponent to="/"> 마이 페이지 </PageChangerComponent>
+      <PageChangerComponent to="/main"> 마이 페이지 </PageChangerComponent>
       {logs &&
         logs.map((log, logIndex) => {
           if (logs.length === logIndex + 1) {
@@ -58,7 +74,7 @@ const LogPageComponent = () => {
         {error && "error"}
       </h1>
       <h1 style={{ textAlign: "center", color: "#5D5E58" }}>
-        {!hasMore && "Done !"}
+        {!hasMore && "마지막 페이지입니다."}
       </h1>
     </div>
   );
