@@ -42,8 +42,12 @@ const LoginPageComponent = () => {
   }
 
   useEffect(() => {
-    if (token) {
-      navigate("/main");
+    try {
+      if (token) {
+        navigate(-1);
+      }
+    } catch (e) {
+      navigate("/home");
     }
   }, [token, navigate]);
 
