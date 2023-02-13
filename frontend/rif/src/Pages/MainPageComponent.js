@@ -1,19 +1,28 @@
 import { useSelector, useDispatch } from "react-redux";
-import {} from "@reduxjs/toolkit";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { mainPageRequestHandler } from "../store/getUserInfo";
+import calLevel from "../API/calLevel";
+import SectionTitleComponent from "../UI/SectionTitleComponent";
 
-// Temporary import
-import { Link } from "react-router-dom"
-import BtnComponent from "../UI/BtnComponent"
+import { Grid, createTheme, ThemeProvider, Button } from "@mui/material";
+import MainProfileComopnent from "../Components/MainProfileComponent";
+import RewardComponent from "../Components/RewardComponent";
+import { authActions } from "../store/auth";
 
-let isInitial = true
+const profileTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#9CB59D",
+    },
+  },
+});
 
 const MainPageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [logoutFlag, setLogoutFlag] = useState("");
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -23,47 +32,104 @@ const MainPageComponent = () => {
   );
 
   useEffect(() => {
-    if (isInitial) {
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-      isInitial = false;
-      dispatch(mainPageRequestHandler(id));
+    if (logoutFlag) {
+      navigate("/home");
+      return;
     }
-  }, [token, id, navigate, dispatch]);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
+    dispatch(mainPageRequestHandler(id));
+  }, [token, id, logoutFlag, navigate, dispatch]);
+
+  const [exp, caledExp] = calLevel(userInfo.exp);
+  console.log(exp, caledExp);
+
+  const logoutBtnHandler = () => {
+    dispatch(authActions.logout());
+    setLogoutFlag("logout");
+  };
+  const logBtnHandler = () => {
+    navigate("/log");
+  };
+
+  //exp, id, name, point, profileImgPath
   return (
-    <div>
-      <Link to="/lot" style={{ textDecoration: "none" }}>
-        <BtnComponent> 로또 컴포넌트 </BtnComponent>
-      </Link>
-      {userInfo
-        ? Object.entries(userInfo).map(([key, value]) => (
-            <p key={key}>
-              {key} : {value}
-            </p>
-          ))
-        : null}
-      {userRefBadges
-        ? userRefBadges.map((userRefBadge) =>
-            Object.entries(userRefBadge).map(([key, value]) => (
-              <p key={key + "Badge"}>
-                {key}:{value}
-              </p>
-            ))
-          )
-        : null}
-      {userRefAchievements
-        ? userRefAchievements.map((userRefAchievement) =>
-            Object.entries(userRefAchievement).map(([key, value]) => (
-              <p key={key + "Achievement"}>
-                {key}:{value}
-              </p>
-            ))
-          )
-        : null}
-    </div>
+    <ThemeProvider theme={profileTheme}>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <MainProfileComopnent />
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <SectionTitleComponent
+            sectionTitle="내 대표 뱃지"
+            to="/badge"
+            sectionDetail="뱃지 관리"
+          />
+          {userRefBadges && (
+            <RewardComponent
+              type="badge"
+              rewards={userRefBadges}
+              isRef={true}
+            />
+            // userRefBadges [badgeInfo, onDisplay, acheievedAt]
+          )}
+          <SectionTitleComponent
+            sectionTitle="내 대표 업적"
+            to="/achievement"
+            sectionDetail="업적 관리"
+          />
+          {userRefAchievements && (
+            <RewardComponent
+              type="achievement"
+              rewards={userRefAchievements}
+              isRef={true}
+            />
+          )}
+        </Grid>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ width: window.innerWidth * 0.75 + 32 }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              margin: "auto",
+              color: "#FFFFFF",
+              width: "40%",
+              paddingX: "0px",
+            }}
+            onClick={logoutBtnHandler}
+          >
+            로그아웃
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              margin: "auto",
+              color: "#FFFFFF",
+              width: "40%",
+              paddingX: "0px",
+            }}
+            onClick={logBtnHandler}
+          >
+            로그 보러 가기
+          </Button>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

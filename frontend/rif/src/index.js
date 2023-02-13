@@ -6,13 +6,20 @@ import { Provider } from "react-redux";
 import store from "./store/index";
 import "./index.css";
 
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+export let persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      {/* <React.StrictMode> */}
       <App />
-    </React.StrictMode>
+      {/* </React.StrictMode> */}
+    </PersistGate>
   </Provider>
 );
 

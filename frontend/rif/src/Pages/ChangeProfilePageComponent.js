@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Button, Box } from "@mui/material";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { authActions } from "../store/auth";
 
 const ChangeProfilePageComponent = () => {
   const navigate = useNavigate();
@@ -33,7 +34,15 @@ const ChangeProfilePageComponent = () => {
     async function changeProfileRequest(profileImgPathId, token) {
       try {
         const response = await changeProfileInfoAPI(profileImgPathId, token);
-
+        if (response.newToken) {
+          dispatch(authActions.updateToken(response.newToken));
+          return;
+        }
+        if (response.status === 307) {
+          dispatch(authActions.logout());
+          navigate("/login");
+          return;
+        }
         if (response.status !== 200) {
           throw new Error("Error is comming.");
         }

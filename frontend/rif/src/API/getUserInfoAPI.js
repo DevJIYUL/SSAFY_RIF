@@ -5,9 +5,16 @@ import axiosInterface from "./axiosInterface";
  * Will return the users id, name, point, exp, profileImgPath
  */
 async function getUserInfoAPI(id) {
-  const response = await axiosInterface("GET", "user/profile", { id });
+  const response = await axiosInterface(
+    "GET",
+    "api/member/profile",
+    {},
+    {},
+    { id }
+  );
 
   if (response.status === 200) {
+    console.log(response);
     return response;
   }
 

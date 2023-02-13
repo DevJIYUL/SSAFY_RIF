@@ -29,7 +29,10 @@ export default async function axiosInterface(
         const state = JSON.parse(localStorage.getItem("persist:root"));
         const authentication = JSON.parse(state.auth);
 
-        if (responseData.data.msg === "Login Require") {
+        console.log(responseData, "aa");
+        console.log(responseData.data, "aa");
+
+        if (responseData.data === "Login Require") {
           console.log("reissue");
           axios.interceptors.response.eject(myInterceptor);
           console.log("eject interceptor");
@@ -62,20 +65,20 @@ export default async function axiosInterface(
         }
       }
     );
+
+    let response = await axios({
+      method: method,
+      url: url,
+      baseURL: "http://i8a501.p.ssafy.io:8080/",
+      data: data,
+      headers: headers,
+      params: params,
+    })
+      .then((res) => res)
+      .catch((err) => {
+        return err;
+      });
+
+    return response;
   }
-
-  let response = await axios({
-    method: method,
-    url: url,
-    baseURL: "http://i8a501.p.ssafy.io:8080/",
-    data: data,
-    headers: headers,
-    params: params,
-  })
-    .then((res) => res)
-    .catch((err) => {
-      return err;
-    });
-
-  return response;
 }
