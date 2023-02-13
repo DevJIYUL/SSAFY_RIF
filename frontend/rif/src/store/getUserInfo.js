@@ -32,7 +32,6 @@ const userInfoSlice = createSlice({
 
 export const mainPageRequestHandler = (id) => {
   return async (dispatch) => {
-    const navigate = useNavigate();
     dispatch(
       UIActions.changeNofication({
         status: "pending",
@@ -40,15 +39,7 @@ export const mainPageRequestHandler = (id) => {
     );
     try {
       const response = await getUserInfoAPI(id);
-      if (response.newToken) {
-        dispatch(authActions.updateToken(response.newToken));
-        return;
-      }
-      if (response.status === 307) {
-        dispatch(authActions.logout());
-        navigate("/login");
-        return;
-      }
+
       if (response.status !== 200) {
         throw new Error("Error is raiesd!");
       }
