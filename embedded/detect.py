@@ -51,7 +51,9 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 
 # 사진에 대한 결과 (빨대 몇개,,, 이런 거 반환하도록 변경)
-# 3개 배열로 반환
+# 3개 딕셔너리로 반환
+# {'항목' : '갯수'}
+
 @smart_inference_mode()
 def run(
         weights=ROOT / 'yolov5s.pt',  # model path or triton URL
@@ -84,7 +86,8 @@ def run(
 ):
 
     # detect item list
-    return_list = [[] for _ in range(3)]
+    # list 안에 dictionary {'항목' : '갯수'}
+    return_list = [{} for _ in range(3)]
     return_list_idx = -1
 
     source = str(source)
@@ -183,7 +186,12 @@ def run(
                     # print(names[c1])
 
                     # list append
-                    return_list[return_list_idx].append(names[c1])
+                    # 만약 값 없을 경우만 집어넣기
+                    try:
+                        return_list[return_list_idx][names[c1]] += 1
+                    except KeyError:
+                        # append
+                        return_list[return_list_idx][names[c1]] = 1
 
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -286,10 +294,9 @@ def parse_opt():
 
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
-    return_list = run(**vars(opt))
-    return return_list
+    return run(**vars(opt))
 
 
-if __name__ == "__main__":
-    opt = parse_opt()
-    main(opt)
+#if __name__ == "__main__":
+#    opt = parse_opt()
+#    main(opt)
