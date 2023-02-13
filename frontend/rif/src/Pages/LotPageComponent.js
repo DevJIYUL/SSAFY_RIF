@@ -7,7 +7,7 @@ import {
   DialogContentText,
   DialogContent,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice";
 import Firework from "../Components/Firework";

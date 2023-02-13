@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { userInfoActions } from "./getUserInfo";
 import lottoAPI from "../API/LottoAPI";
 
 const lottoSlice = createSlice({
@@ -52,6 +53,7 @@ export const lotteryOpenHandler = (accessToken, id) => {
     if (response.status !== 200) {
       dispatch(lottoSlice.actions.drawLotteryFailed());
     } else {
+      console.log(response, "lotto success");
       const payload = {
         badgeTitle: response.data.badge.title,
         badgeDesc: response.data.badge.description,
@@ -59,6 +61,11 @@ export const lotteryOpenHandler = (accessToken, id) => {
         badgeImgPath: response.data.badge.imgPath,
       };
       dispatch(lottoSlice.actions.drawLotterySuccess(payload));
+
+      const remainingPoint = response.data.remainingPoint;
+      dispatch(userInfoActions.setUserExp(remainingPoint));
+
+      console.log(remainingPoint, "남은 포인트");
     }
   };
 };
