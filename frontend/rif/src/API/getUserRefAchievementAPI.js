@@ -7,7 +7,7 @@ import axiosInterface from "./axiosInterface";
 async function getUserRefAchievementAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "api/member/achievement",
+    "/api/member/achievement",
     {},
     {},
     { memberId: id }

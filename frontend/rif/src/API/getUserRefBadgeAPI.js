@@ -7,7 +7,7 @@ import axiosInterface from "./axiosInterface";
 async function getUserRefBadgeAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "api/member/badge",
+    "/api/member/badge",
     {},
     {},
     { memberId: id }

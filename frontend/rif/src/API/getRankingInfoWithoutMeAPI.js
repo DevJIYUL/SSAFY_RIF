@@ -7,7 +7,7 @@ import axiosInterface from "./axiosInterface";
  * Each element is an object with two keys that returns a rank and a member object whose string is the value.
  */
 async function getRankingInfoWithoutMeAPI() {
-  const response = await axiosInterface("GET", "api/ranking");
+  const response = await axiosInterface("GET", "/api/ranking");
 
   if (response.status === 200) {
     return response;

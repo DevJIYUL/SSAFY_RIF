@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 async function getLogAPI(accessToken, memberId, page, size) {
   const response = await axiosInterface(
     "GET",
-    "api/v/member/riflog",
+    "/api/v/member/riflog",
     {},
     {
       Authorization: `Bearer ${accessToken}`,

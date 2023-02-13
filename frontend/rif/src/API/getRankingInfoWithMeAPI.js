@@ -10,7 +10,7 @@ async function getRankingInfoWithMeAPI(token, id) {
   console.log(id, token);
   const response = await axiosInterface(
     "GET",
-    "api/v/ranking",
+    "/api/v/ranking",
     {},
     { Authorization: `${"Bearer " + token}` },
     { memberId: id }
