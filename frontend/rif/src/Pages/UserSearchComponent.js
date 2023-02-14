@@ -33,13 +33,11 @@ const UserSearchComponent = () => {
   );
   const inputChangeHandler = (event) => {
     setName(event.target.value);
-    console.log(event.target.value);
   };
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
     if (name === recentSearchWord) {
-      console.log("same");
       return;
     }
     dispatch(userSearchRequestHandler(name));
@@ -68,8 +66,6 @@ const UserSearchComponent = () => {
             border: "2px solid #3C6255",
             minWidth: "256px",
             width: "90%",
-            // backgroundColor: "#3C6255",
-            // borderRadius: "15px",
           }}
           onSubmit={formSubmitHandler}
         >
@@ -90,7 +86,6 @@ const UserSearchComponent = () => {
                 </InputAdornment>
               ),
             }}
-            // variant="standard"
             value={name}
             onChange={inputChangeHandler}
           ></TextField>
