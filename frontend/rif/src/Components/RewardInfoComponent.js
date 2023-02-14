@@ -38,12 +38,17 @@ const RewardInfoComponent = (props) => {
     async function getRepresentativeLength(id) {
       let curRefLength;
       if (props.type === "badge") {
-        const userBadgeResponse = await getUserRefBadgeAPI(id);
-        curRefLength = userBadgeResponse.data.onDisplayBadge.length;
+        if (id) {
+          const userBadgeResponse = await getUserRefBadgeAPI(id);
+          curRefLength = userBadgeResponse.data.onDisplayBadge.length;
+        }
       } else {
         // props.type === "achievement"
-        const userAcievementResponse = await getUserRefAchievementAPI(id);
-        curRefLength = userAcievementResponse.data.onDisplayAchievement.length;
+        if (id) {
+          const userAcievementResponse = await getUserRefAchievementAPI(id);
+          curRefLength =
+            userAcievementResponse.data.onDisplayAchievement.length;
+        }
       }
 
       if (curRefLength < 3) {
