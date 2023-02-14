@@ -2,20 +2,20 @@ import { useSelector } from "react-redux";
 import { Grid, Paper } from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
 import { useEffect, useState } from "react";
-import getUserInfoAPI from "../API/getUserInfoAPI";
-import { useLocation } from "react-router-dom";
 
 const MainProfileComopnent = (props) => {
-  const location = useLocation();
   const reduxUserInfo = useSelector((state) => state.user.userInfo);
-  const [userInfo, setUserInfo] = useState(reduxUserInfo);
+  const [userInfo, setUserInfo] = useState("");
+
   console.log(userInfo);
+  console.log(props.userInfo);
   useEffect(() => {
-    console.log(location);
-    // if (props.another) {
-    //   setUserInfo(location)
-    // }
-  }, [location]);
+    if (props.another) {
+      setUserInfo(props.userInfo);
+    } else {
+      setUserInfo(reduxUserInfo);
+    }
+  }, [props.userInfo, props.another, reduxUserInfo]);
   return (
     <Paper
       elevation={3}
