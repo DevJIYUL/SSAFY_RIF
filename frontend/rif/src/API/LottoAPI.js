@@ -7,7 +7,7 @@ import axiosInterface from "./axiosInterface";
 async function lottoAPI(accessToken, memberId) {
   const response = await axiosInterface(
     "POST",
-    "api/v/gatcha",
+    "/api/v/gatcha",
     {},
     {
       Authorization: `Bearer ${accessToken}`,

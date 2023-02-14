@@ -62,7 +62,7 @@ const ChangePasswordPageComponent = () => {
           throw new Error("비밀번호 변경 오류");
         }
         console.log(response);
-        navigate("/index");
+        navigate("/main");
       } catch (error) {
         console.log(error);
       }

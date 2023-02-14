@@ -6,7 +6,7 @@ import axiosInterface from "./axiosInterface";
 async function getAchievementsAPI(accessToken, memberId) {
   const response = await axiosInterface(
     "GET",
-    "api/v/member/achievement",
+    "/api/v/member/achievement",
     {},
     {
       Authorization: `Bearer ${accessToken}`,

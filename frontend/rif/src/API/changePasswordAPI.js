@@ -16,7 +16,7 @@ async function changePasswordAPI(
   };
   const response = await axiosInterface(
     "patch",
-    "/api/v/user/password",
+    "/api/v/member/password",
     data,
     headers
   );

@@ -7,7 +7,7 @@ import axiosInterface from "./axiosInterface";
 async function getUserInfoAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "api/member/profile",
+    "/api/member/profile",
     {},
     {},
     { id }

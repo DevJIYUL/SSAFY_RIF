@@ -41,7 +41,7 @@ const MainPageComponent = () => {
       return;
     }
 
-    dispatch(mainPageRequestHandler(id));
+    dispatch(mainPageRequestHandler(id, token));
   }, [token, id, logoutFlag, navigate, dispatch]);
 
   const [exp, caledExp] = calLevel(userInfo.exp);

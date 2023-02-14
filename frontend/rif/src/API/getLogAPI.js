@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 async function getLogAPI(accessToken, memberId, page, size) {
   const response = await axiosInterface(
     "GET",
-    "api/v/member/riflog",
+    "/api/v/member/riflog",
     {},
     {
       Authorization: `Bearer ${accessToken}`,
@@ -16,6 +16,9 @@ async function getLogAPI(accessToken, memberId, page, size) {
     }
   );
   if (response.status === 200) {
+    if (response.newToken) {
+      response.data.newToken = response.newToken;
+    }
     console.log(`Log API 성공 page: ${page}`);
     console.log(response.data, "response.data");
     return response.data;
@@ -30,14 +33,30 @@ export default function useLogGetAPI(accessToken, memberId, page, size) {
   const [error, setError] = useState(false);
   const [logs, setLogs] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [newToken, setNewToken] = useState("");
+  const [statusCode, setStatusCode] = useState("");
 
   useEffect(() => {
+    if (statusCode === 307) {
+      console.log("the end");
+      return;
+    }
     setLoading(true);
     setError(false);
 
     const resData = getLogAPI(accessToken, memberId, page, size);
     resData
       .then((res) => {
+        console.log(res);
+        if (res.newToken) {
+          console.log(res);
+          setNewToken(res.newToken);
+        } else if (res.response && res.response.status === 307) {
+          console.log(307);
+          setStatusCode(307);
+          return;
+        }
+
         const newLogs = res.content;
 
         if (newLogs.length) {
@@ -55,9 +74,10 @@ export default function useLogGetAPI(accessToken, memberId, page, size) {
         }
       })
       .catch((err) => {
+        console.log(err);
         setError(true);
       });
-  }, [accessToken, memberId, page, size]);
+  }, [accessToken, memberId, page, size, statusCode]);
 
-  return { loading, error, logs, hasMore };
+  return { loading, error, logs, hasMore, newToken, statusCode };
 }
