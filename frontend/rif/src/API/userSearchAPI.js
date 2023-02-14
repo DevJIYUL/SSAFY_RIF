@@ -8,7 +8,7 @@ import axiosInterface from "./axiosInterface";
 async function userSearchAPI(id) {
   const response = await axiosInterface(
     "GET",
-    "/api/v/member/search",
+    "/api/member/search",
     {},
     {},
     { name: id }
