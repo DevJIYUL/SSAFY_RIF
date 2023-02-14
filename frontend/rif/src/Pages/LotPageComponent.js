@@ -7,11 +7,13 @@ import {
   DialogContentText,
   DialogContent,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lotteryCloseHandler, lotteryOpenHandler } from "../store/lottoSlice";
 import Firework from "../Components/Firework";
 import Zoom from "@mui/material/Zoom";
+import { mainPageRequestHandler } from "../store/getUserInfo";
+import { useNavigate } from "react-router-dom";
 
 const LotDialog = (props) => {
   const colors = ["#4C70B0", "#A48D25", "#434343", "#865A42"];
@@ -76,6 +78,7 @@ const LotComponent = () => {
   const id = useSelector((state) => state.auth.authentication.id);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   let userPoint = useSelector((state) => state.user.userInfo.point);
 
@@ -88,6 +91,15 @@ const LotComponent = () => {
     setOpen(false);
     dispatch(lotteryCloseHandler());
   };
+
+  useEffect(() => {
+    if (!token || !id) {
+      navigate("/login");
+      return;
+    } else {
+      dispatch(mainPageRequestHandler(id, token));
+    }
+  }, [navigate, dispatch, token, id]);
 
   return (
     <div>

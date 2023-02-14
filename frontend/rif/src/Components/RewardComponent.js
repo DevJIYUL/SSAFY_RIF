@@ -71,8 +71,7 @@ const RewardComponent = (props) => {
       if (response.newToken) {
         dispatch(authActions.updateToken(response.newToken));
         return;
-      }
-      if (response.status === 307) {
+      } else if (response.status === 307) {
         dispatch(authActions.logout());
         navigate("/login");
         return;
