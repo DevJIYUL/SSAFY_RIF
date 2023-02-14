@@ -423,7 +423,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<FindMemberByName> findByName(String name) {
-        List<Member> repo = memberRepository.findByNameLike(name);
+        List<Member> repo = memberRepository.findByNameLike("%" + name + "%");
         List<FindMemberByName> response = new ArrayList<>();
         for (Member b : repo) {
             response.add(FindMemberByName.builder()

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 
 @Configuration
@@ -39,5 +40,13 @@ public class SwaggerConfiguration {
                 // API 마다 Security 인증 컴포넌트 설정
                 .addSecurityItem(addSecurityItem)
                 .info(info);
+    }
+
+    @Bean
+    public ResourceBundleMessageSource translator(){
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.setDefaultEncoding("utf-8");
+
+        return source;
     }
 }
