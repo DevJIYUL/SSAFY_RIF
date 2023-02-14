@@ -4,11 +4,30 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import changePasswordAPI from "../API/changePasswordAPI";
 import { authActions } from "../store/auth";
+import {
+  Box,
+  TextField,
+  Button,
+  Grid,
+  createTheme,
+  ThemeProvider,
+  FormHelperText,
+} from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
+
+const loginTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#357a38",
+    },
+  },
+});
 
 const ChangePasswordPageComponent = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+  const [errorForm, setErrorForm] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -61,10 +80,9 @@ const ChangePasswordPageComponent = () => {
         if (response.status !== 200) {
           throw new Error("비밀번호 변경 오류");
         }
-        console.log(response);
         navigate("/main");
       } catch (error) {
-        console.log(error);
+        setErrorForm(true);
       }
     }
     changePasswordRequest(
@@ -76,36 +94,74 @@ const ChangePasswordPageComponent = () => {
   };
 
   return (
-    <div>
-      <div>ChangePasswordPageComponent</div>
-      <form action="" onSubmit={changePasswordSubmitHandler}>
-        <input
-          type="text"
-          name="currentPassword"
-          id="currentPassword"
-          value={currentPassword}
-          style={{ display: "block", margin: "10px" }}
-          onChange={inputCurrentPasswordHandler}
-        />
-        <input
-          type="text"
-          name="newPassword"
-          id="newPassword"
-          value={newPassword}
-          style={{ display: "block", margin: "10px" }}
-          onChange={inputNewPasswordHandler}
-        />
-        <input
-          type="text"
-          name="newPasswordConfirm"
-          id="newPasswordConfirm"
-          value={newPasswordConfirm}
-          style={{ display: "block", margin: "10px" }}
-          onChange={inputNewPasswordConfirmHandler}
-        />
-        <button type="submit">제출</button>
-      </form>
-    </div>
+    <ThemeProvider theme={loginTheme}>
+      <Grid
+        container
+        className="grid-container"
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ my: "8rem" }}
+      >
+        <Grid item className="grid-header">
+          <img
+            src="/rif-logo-96.png"
+            alt="rif logo 96"
+            className="rif-logo-96"
+          />
+        </Grid>
+        <Grid item className="grid-body" sx={{ mx: 2 }}>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={changePasswordSubmitHandler}
+          >
+            <TextField
+              fullWidth
+              id="currentPassword"
+              label="현재 비밀번호"
+              type="password"
+              sx={{ mb: 2 }}
+              defaultValue={currentPassword}
+              onChange={inputCurrentPasswordHandler}
+            />
+            <TextField
+              fullWidth
+              id="newPassword"
+              label="새 비밀번호"
+              type="password"
+              sx={{ mb: 2 }}
+              defaultValue={newPassword}
+              onChange={inputNewPasswordHandler}
+            />
+            <TextField
+              fullWidth
+              id="newPasswordConfirm"
+              label="새 비밀번호 확인"
+              type="password"
+              sx={{ mb: 2 }}
+              defaultValue={newPasswordConfirm}
+              onChange={inputNewPasswordConfirmHandler}
+            />
+            {errorForm && (
+              <FormHelperText>
+                <ErrorIcon />
+                아이디 또는 비밀번호가 올바르지 않습니다.
+              </FormHelperText>
+            )}
+            <Button
+              fullWidth
+              variant="contained"
+              type="submit"
+              sx={{ height: "56px" }}
+            >
+              변경하기
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 
