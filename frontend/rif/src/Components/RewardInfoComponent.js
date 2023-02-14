@@ -8,7 +8,7 @@ import {
 import BtnComponent from "../UI/BtnComponent";
 import setUserRefRewardAPI from "../API/setUserRefRewardAPI";
 import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 // import { userInfoActions } from "../store/getUserInfo";
 
@@ -21,23 +21,6 @@ const RewardInfoComponent = (props) => {
   const { rewardInfo, achievedAt, hasReward } = props.reward;
   const { title, description, imgPath } = rewardInfo;
   const imgPathColored = imgPath.slice(0, -4) + "_colored.png";
-
-  let refReward;
-
-  const refBadges = useSelector(
-    (state) => state.user.userRefBadges,
-    shallowEqual
-  );
-  const refAchievements = useSelector(
-    (state) => state.user.userRefAchievements,
-    shallowEqual
-  );
-
-  if (props.type == "badge") {
-    refReward = refBadges;
-  } else {
-    refReward = refAchievements;
-  }
 
   async function ToggleHandler(e) {
     if (props.onDisplay) {
@@ -83,7 +66,7 @@ const RewardInfoComponent = (props) => {
           >
             {props.type === "badge" ? (
               <img
-                src={imgPath}
+                src={imgPathColored}
                 alt={title}
                 height="75px"
                 style={{ margin: "1rem" }}
