@@ -15,6 +15,7 @@ import ChangePasswordPageComponent from "./Pages/ChangePasswordPageComponent";
 import LogPageComponent from "./Pages/LogPageComponent";
 import AchievementPageComponent from "./Pages/AchievementPageComponent";
 import RootLayOut from "./UI/RootLayOut";
+import MemberProfilePageComponet from "./Pages/MemberProfilePageComponet";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,11 @@ const router = createBrowserRouter([
         // Achievement Page Component
         path: "/achievement",
         element: <AchievementPageComponent />,
+      },
+      {
+        // Another Member Profile Component
+        path: "/member/:memberID",
+        element: <MemberProfilePageComponet />,
       },
     ],
   },
