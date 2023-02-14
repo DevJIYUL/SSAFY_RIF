@@ -20,6 +20,7 @@ const userInfoSlice = createSlice({
       };
     },
     setUserRefBadges(state, action) {
+      console.log("유저 대표 뱃지 바뀌었다.");
       state.userRefBadges = [...action.payload];
     },
     setUserRefAchievements(state, action) {
