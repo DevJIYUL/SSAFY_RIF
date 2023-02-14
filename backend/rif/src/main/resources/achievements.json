@@ -2,20 +2,20 @@
   {
     "tier": 4,
     "title": "Welcome",
-    "description": "Welcome",
+    "description": "반갑습니다! 보다 정확한 분리수거를 더 재밌게 실천해 보아요",
     "imgPath": "/achievement/1.png",
     "tag": "RIF_FIRST_USE"
   },
   {
     "tier": 3,
-    "title": "Plastic Success 1",
-    "description": "Plastic Success 1",
+    "title": "초급 플라스틱 분류자",
+    "description": "처음으로 플라스틱 분류를 완벽히 해내셨습니다",
     "imgPath": "/achievement/2.png",
     "tag": "PLASTIC_SUCCESS_FIRST"
   },
   {
     "tier": 2,
-    "title": "Plastic Success 5",
+    "title": "중급 플라스틱 분류자",
     "description": "Plastic Success 5",
     "imgPath": "/achievement/3.png",
     "tag": "PLASTIC_SUCCESS_FIVE_TIMES"

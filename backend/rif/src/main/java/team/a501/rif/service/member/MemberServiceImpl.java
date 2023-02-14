@@ -340,25 +340,6 @@ public class MemberServiceImpl implements MemberService {
         return newlyAdded;
     }
 
-    private List<Long> getCompletedAchievements(String memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RifCustomException(ErrorCode.ENTITY_INSTANCE_NOT_FOUND));
-
-        Set<Long> alreadyCompletedAchievementIds = member
-                .getAchievementAcqs()
-                .keySet();
-
-        List<Long> achievementIdsForCheck = achievementRepository.findAll()
-                .stream()
-                .filter(a -> !alreadyCompletedAchievementIds.contains(a.getId()))
-                .map(a -> a.getId())
-                .collect(Collectors.toList());
-
-        List<RifLog> rifLogs = member.getRifLogs();
-
-        return null;
-    }
-
     public void deleteByUid(String uid) {
 
         Member member = memberRepository
@@ -442,7 +423,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<FindMemberByName> findByName(String name) {
-        List<Member> repo = memberRepository.findAllByName(name);
+        List<Member> repo = memberRepository.findByNameLike(name);
         List<FindMemberByName> response = new ArrayList<>();
         for (Member b : repo) {
             response.add(FindMemberByName.builder()
