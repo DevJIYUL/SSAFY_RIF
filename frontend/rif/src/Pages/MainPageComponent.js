@@ -10,8 +10,6 @@ import MainProfileComopnent from "../Components/MainProfileComponent";
 import RewardComponent from "../Components/RewardComponent";
 import { authActions } from "../store/auth";
 
-let isInitial = true;
-
 const profileTheme = createTheme({
   palette: {
     primary: {
@@ -43,11 +41,11 @@ const MainPageComponent = () => {
       return;
     }
 
-    isInitial = false;
-    dispatch(mainPageRequestHandler(id));
+    dispatch(mainPageRequestHandler(id, token));
   }, [token, id, logoutFlag, navigate, dispatch]);
 
   const [exp, caledExp] = calLevel(userInfo.exp);
+  console.log(exp, caledExp);
 
   const logoutBtnHandler = () => {
     dispatch(authActions.logout());

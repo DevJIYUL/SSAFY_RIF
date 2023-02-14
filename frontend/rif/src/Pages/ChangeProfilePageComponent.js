@@ -12,6 +12,7 @@ const ChangeProfilePageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const id = useSelector((state) => state.auth.authentication.id);
   const token = useSelector((state) => state.auth.authentication.token);
   const profileImgpath = useSelector(
     (state) => state.user.userInfo.profileImgPath
@@ -33,7 +34,11 @@ const ChangeProfilePageComponent = () => {
     event.preventDefault();
     async function changeProfileRequest(profileImgPathId, token) {
       try {
-        const response = await changeProfileInfoAPI(profileImgPathId, token);
+        const response = await changeProfileInfoAPI(
+          profileImgPathId,
+          id,
+          token
+        );
         if (response.newToken) {
           dispatch(authActions.updateToken(response.newToken));
           return;
@@ -95,33 +100,33 @@ const ChangeProfilePageComponent = () => {
               </Grid>
             ))}
           </Grid>
-        </form>
-        <Box
-          sx={{
-            width: window.innerWidth * 0.75 + 32,
-            backgroundColor: "#EAE7B1",
-            borderRadius: 2,
-            boxShadow: 2,
-            component: "span",
-            display: "flex",
-            justifyContent: "space-between",
-            minHeight: "46.500px",
-            marginTop: "20px",
-            height: "15vw",
-          }}
-        >
-          <Button
-            style={{
-              width: "100%",
-              height: "100%",
-              color: "#5D5E58",
-              fontSize: "6vw",
-              fontFamily: "NanumSquareB",
+          <Box
+            sx={{
+              width: window.innerWidth * 0.75 + 32,
+              backgroundColor: "#EAE7B1",
+              borderRadius: 2,
+              boxShadow: 2,
+              component: "span",
+              display: "flex",
+              justifyContent: "space-between",
+              minHeight: "46.500px",
+              marginTop: "20px",
+              height: "15vw",
             }}
           >
-            변경
-          </Button>
-        </Box>
+            <Button
+              style={{
+                width: "100%",
+                height: "100%",
+                color: "#5D5E58",
+                fontSize: "6vw",
+                fontFamily: "NanumSquareB",
+              }}
+            >
+              변경
+            </Button>
+          </Box>
+        </form>
         <Box
           sx={{
             width: window.innerWidth * 0.75 + 32,
@@ -137,6 +142,9 @@ const ChangeProfilePageComponent = () => {
           }}
         >
           <Button
+            onClick={() => {
+              navigate("/change-password");
+            }}
             style={{
               width: "100%",
               height: "100%",

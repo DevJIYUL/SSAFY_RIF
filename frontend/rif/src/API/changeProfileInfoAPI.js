@@ -1,16 +1,16 @@
 import axiosInterface from "./axiosInterface";
 
-async function changeProfileInfoAPI(profileImgPathId, nickname, token) {
+async function changeProfileInfoAPI(profileImgPath, id, token) {
   const data = {
-    profileImgPathId,
-    nickname,
+    id,
+    profileImgPath,
   };
   const headers = {
     Authorization: "Bearer " + token,
   };
   const response = await axiosInterface(
     "patch",
-    "/api/v/user/profile",
+    "/api/v/member/profile",
     data,
     headers
   );

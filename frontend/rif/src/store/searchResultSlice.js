@@ -1,55 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { UIActions } from "./UISlice"
-import userSearchAPI from "../API/userSearchAPI"
+import { createSlice } from "@reduxjs/toolkit";
+import { UIActions } from "./UISlice";
+import userSearchAPI from "../API/userSearchAPI";
 
 const searchResultSlice = createSlice({
   name: "searchResult",
   initialState: { recentSearchWord: "", recentSearchResults: null },
   reducers: {
     setRecentSearchWord(state, action) {
-      state.recentSearchWord = action.payload
-      console.log(state.recentSearchWord)
+      state.recentSearchWord = action.payload;
+      console.log(state.recentSearchWord);
     },
     setRecentSearchResults(state, action) {
-      state.recentSearchResults = action.payload
-      console.log(state.recentSearchResults)
+      state.recentSearchResults = action.payload;
+      console.log(state.recentSearchResults);
     },
   },
-})
+});
 
 export const userSearchRequestHandler = (name) => {
   return async (dispatch) => {
-    dispatch(
-      UIActions.changeNofication({
-        status: "pending",
-      })
-    )
     try {
-      const response = await userSearchAPI(name)
-      console.log(response)
+      const response = await userSearchAPI(name);
+      console.log(response);
       if (response.status !== 200) {
-        throw new Error("response error!")
+        throw new Error("response error!");
       }
       dispatch(
         UIActions.changeNofication({
           status: "success",
         })
-      )
-      dispatch(searchResultActions.setRecentSearchWord(name))
+      );
+      dispatch(searchResultActions.setRecentSearchWord(name));
       dispatch(
         searchResultActions.setRecentSearchResults(response.data.members)
-      )
+      );
       dispatch(
         UIActions.changeNofication({
           status: "",
         })
-      )
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}
+  };
+};
 
-export const searchResultActions = searchResultSlice.actions
+export const searchResultActions = searchResultSlice.actions;
 
-export default searchResultSlice
+export default searchResultSlice;

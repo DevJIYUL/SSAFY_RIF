@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { loginHandler } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { UIActions } from "../store/UISlice";
 import {
   Box,
   TextField,
@@ -10,7 +10,9 @@ import {
   Grid,
   createTheme,
   ThemeProvider,
+  FormHelperText,
 } from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const loginTheme = createTheme({
   palette: {
@@ -19,33 +21,71 @@ const loginTheme = createTheme({
     },
   },
 });
+
 const LoginPageComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
+  const [errorForm, setErrorForm] = useState(false);
+  const [idGuide, setIdGuide] = useState("아이디는 학번입니다.");
+  const [pwGuide, setPwGuide] = useState("초기 비밀번호는 학번입니다.");
+
   const status = useSelector((state) => state.ui.notification.status);
   const token = useSelector((state) => state.auth.authentication.token);
 
   const idChangeHandler = (event) => {
+    if (event.target.value) {
+      setIdGuide("아이디");
+    }
     setUserInputId(event.target.value);
   };
+
   const passwordChangeHandler = (event) => {
+    if (event.target.value) {
+      setPwGuide("비밀번호");
+    }
     setUserInputPassword(event.target.value);
   };
 
   function formSubmitHandler(event) {
     event.preventDefault();
-    console.log(userInputId, userInputPassword);
+    if (!status) {
+      dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
+    }
+  }
 
-    dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
+  function idFormFocusHandler() {
+    setIdGuide("아이디");
+  }
+
+  function pwFormFocusHandler() {
+    setPwGuide("비밀번호");
   }
 
   useEffect(() => {
-    if (token) {
-      navigate("/main");
+    if (status) {
+      dispatch(UIActions.resetNofication());
     }
-  }, [token, navigate]);
+
+    if (userInputId) {
+      setIdGuide("아이디");
+    }
+
+    try {
+      if (token) {
+        navigate(-1);
+      }
+    } catch (e) {
+      navigate("/home");
+    }
+
+    if (status === "error") {
+      setErrorForm(true);
+      dispatch(UIActions.resetNofication());
+    }
+  }, [token, navigate, status, dispatch, userInputId]);
 
   let btnMessage;
 
@@ -83,25 +123,62 @@ const LoginPageComponent = () => {
             autoComplete="off"
             onSubmit={formSubmitHandler}
           >
-            <TextField
-              fullWidth
-              id="id"
-              label="아이디"
-              type="number"
-              sx={{ mb: 2 }}
-              defaultValue={userInputId}
-              onChange={idChangeHandler}
-            />
-            <TextField
-              fullWidth
-              id="password"
-              label="비밀번호"
-              type="password"
-              autoComplete="current-password"
-              sx={{ mb: 2 }}
-              value={userInputPassword}
-              onChange={passwordChangeHandler}
-            />
+            {!errorForm && (
+              <>
+                <TextField
+                  fullWidth
+                  id="id"
+                  label={idGuide}
+                  type="number"
+                  sx={{ mb: 2 }}
+                  defaultValue={userInputId}
+                  onChange={idChangeHandler}
+                  onFocus={idFormFocusHandler}
+                />
+                <TextField
+                  fullWidth
+                  id="password"
+                  label={pwGuide}
+                  type="password"
+                  autoComplete="current-password"
+                  sx={{ mb: 2 }}
+                  value={userInputPassword}
+                  onChange={passwordChangeHandler}
+                  onFocus={pwFormFocusHandler}
+                />
+              </>
+            )}
+            {errorForm && (
+              <>
+                <TextField
+                  fullWidth
+                  error
+                  id="id"
+                  label="아이디"
+                  type="number"
+                  sx={{ mb: 2 }}
+                  defaultValue={userInputId}
+                  onChange={idChangeHandler}
+                  onFocus={idFormFocusHandler}
+                />
+                <TextField
+                  fullWidth
+                  error
+                  id="password"
+                  label="비밀번호"
+                  type="password"
+                  autoComplete="current-password"
+                  sx={{ mb: 2 }}
+                  value={userInputPassword}
+                  onChange={passwordChangeHandler}
+                  onFocus={pwFormFocusHandler}
+                />
+                <FormHelperText>
+                  <ErrorIcon />
+                  아이디 또는 비밀번호가 올바르지 않습니다.
+                </FormHelperText>
+              </>
+            )}
             <Button
               fullWidth
               variant="contained"

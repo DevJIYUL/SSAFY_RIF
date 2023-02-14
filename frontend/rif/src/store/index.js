@@ -3,6 +3,7 @@ import UISlice from "./UISlice";
 import authSlice from "./auth";
 import userInfoSlice from "./getUserInfo";
 import searchResultSlice from "./searchResultSlice";
+import navigationSlice from "./navigationSlice";
 import lottoSlice from "./lottoSlice";
 
 import { combineReducers } from "redux";
@@ -20,7 +21,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user"],
+  whitelist: ["auth"],
 };
 
 const reducers = combineReducers({
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   user: userInfoSlice.reducer,
   search: searchResultSlice.reducer,
   lotto: lottoSlice.reducer,
+  navigationLocation: navigationSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

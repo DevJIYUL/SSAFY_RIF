@@ -1,0 +1,65 @@
+[
+  {
+    "tier": 4,
+    "title": "Welcome",
+    "description": "Welcome",
+    "imgPath": "/achievement/1.png",
+    "tag": "RIF_FIRST_USE"
+  },
+  {
+    "tier": 3,
+    "title": "Plastic Success 1",
+    "description": "Plastic Success 1",
+    "imgPath": "/achievement/2.png",
+    "tag": "PLASTIC_SUCCESS_FIRST"
+  },
+  {
+    "tier": 2,
+    "title": "Plastic Success 5",
+    "description": "Plastic Success 5",
+    "imgPath": "/achievement/3.png",
+    "tag": "PLASTIC_SUCCESS_FIVE_TIMES"
+  },
+  {
+    "tier": 1,
+    "title": "Plastic Success 10",
+    "description": "Plastic Success 10",
+    "imgPath": "/achievement/4.png",
+    "tag": "PLASTIC_SUCCESS_TEN_TIMES"
+  },
+  {
+    "tier": 3,
+    "title": "Recycle Success 1",
+    "description": "Recycle Success 1",
+    "imgPath": "/achievement/5.png",
+    "tag": "RECYCLE_SUCCESS_FIRST"
+  },
+  {
+    "tier": 2,
+    "title": "Recycle Success 5",
+    "description": "Recycle Success 5",
+    "imgPath": "/achievement/6.png",
+    "tag": "RECYCLE_SUCCESS_FIVE_TIMES"
+  },
+  {
+    "tier": 1,
+    "title": "Recycle Success 10",
+    "description": "description",
+    "imgPath": "/achievement/7.png",
+    "tag": "RECYCLE_SUCCESS_TEN_TIMES"
+  },
+  {
+    "tier": 3,
+    "title": "Perfect 1",
+    "description": "description",
+    "imgPath": "/achievement/8.png",
+    "tag": "RIF_PERFECT_FIRST"
+  },
+  {
+    "tier": 1,
+    "title": "Perfect 5",
+    "description": "description",
+    "imgPath": "/achievement/9.png",
+    "tag": "RIF_PERFECT_FIVE_TIMES"
+  }
+]
