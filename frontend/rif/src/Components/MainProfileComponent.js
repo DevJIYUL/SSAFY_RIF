@@ -27,7 +27,7 @@ const MainProfileComopnent = () => {
         sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
         to={"/change-profile"}
       >
-        프사 변경
+        프로필 변경
       </PageChangerComponent>
       <Grid container>
         <Grid
