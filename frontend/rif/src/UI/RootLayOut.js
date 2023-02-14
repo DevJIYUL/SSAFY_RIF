@@ -3,11 +3,13 @@ import NavigationComponent from "./NavigationComponent";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { navigationActions } from "../store/navigationSlice";
+import useWindowDimensions from "../Components/useWindowDimensions";
 
 const RootLayOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -26,10 +28,13 @@ const RootLayOut = () => {
 
   return (
     <>
-      <main style={{ marginBottom: "70px" }}>
+    {width < 480 ?
+      (<main style={{ marginBottom: "70px" }}>
         <Outlet />
       </main>
-      <NavigationComponent />
+      <NavigationComponent />) :(
+      <p> 너무 커용</p>)
+    }
     </>
   );
 };
