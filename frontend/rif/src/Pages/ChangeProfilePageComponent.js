@@ -14,20 +14,21 @@ const ChangeProfilePageComponent = () => {
 
   const id = useSelector((state) => state.auth.authentication.id);
   const token = useSelector((state) => state.auth.authentication.token);
-  const profileImgpath = useSelector(
+  const profileImgPath = useSelector(
     (state) => state.user.userInfo.profileImgPath
   );
 
   useEffect(() => {
-    if (!profileImgpath) {
+    if (!profileImgPath) {
       dispatch(mainPageRequestHandler());
     }
-  }, [profileImgpath, dispatch]);
+  }, [profileImgPath, dispatch]);
 
-  const [selectedProfileImg, setselectedProfileImg] = useState(profileImgpath);
+  const [selectedProfileImg, setselectedProfileImg] = useState(profileImgPath);
 
   const profileClickHandler = (event) => {
-    setselectedProfileImg(event.target.dataset.profileId);
+    console.log(`/profile/${event.target.dataset.profileId}.png`);
+    setselectedProfileImg(`/profile/${event.target.dataset.profileId}.png`);
   };
 
   const changeProfileSubmitHandler = (event) => {
@@ -58,15 +59,14 @@ const ChangeProfilePageComponent = () => {
     }
     changeProfileRequest(selectedProfileImg, token);
   };
+  console.log(profileImgPath);
 
   return (
     <>
       <PageChangerComponent to="/main">메인 화면</PageChangerComponent>
       <Grid container justifyContent="center" stlye={{ width: "90%" }}>
         <SectionTitleComponent sectionTitle="프로필 사진 수정"></SectionTitleComponent>
-        <form
-          action=""
-          onSubmit={changeProfileSubmitHandler}
+        <Grid
           style={{
             width: "90%",
           }}
@@ -93,6 +93,11 @@ const ChangeProfilePageComponent = () => {
                       borderRadius: "50%",
                       margin: "3px 0px",
                       border: "3px solid #4E9E00",
+                      filter:
+                        `/profile/${value + firstValue}.png` ===
+                        selectedProfileImg
+                          ? "drop-shadow(1px 1px 3px #3C6255) drop-shadow(-1px -1px 3px #3C6255)"
+                          : "",
                     }}
                     onClick={profileClickHandler}
                   />
@@ -100,33 +105,34 @@ const ChangeProfilePageComponent = () => {
               </Grid>
             ))}
           </Grid>
-          <Box
-            sx={{
-              width: window.innerWidth * 0.75 + 32,
-              backgroundColor: "#EAE7B1",
-              borderRadius: 2,
-              boxShadow: 2,
-              component: "span",
-              display: "flex",
-              justifyContent: "space-between",
-              minHeight: "46.500px",
-              marginTop: "20px",
-              height: "15vw",
+        </Grid>
+        <Box
+          sx={{
+            width: window.innerWidth * 0.75 + 32,
+            backgroundColor: "#EAE7B1",
+            borderRadius: 2,
+            boxShadow: 2,
+            component: "span",
+            display: "flex",
+            justifyContent: "space-between",
+            minHeight: "46.500px",
+            marginTop: "20px",
+            height: "15vw",
+          }}
+        >
+          <Button
+            onClick={changeProfileSubmitHandler}
+            style={{
+              width: "100%",
+              height: "100%",
+              color: "#5D5E58",
+              fontSize: "6vw",
+              fontFamily: "NanumSquareB",
             }}
           >
-            <Button
-              style={{
-                width: "100%",
-                height: "100%",
-                color: "#5D5E58",
-                fontSize: "6vw",
-                fontFamily: "NanumSquareB",
-              }}
-            >
-              변경
-            </Button>
-          </Box>
-        </form>
+            변경
+          </Button>
+        </Box>
         <Box
           sx={{
             width: window.innerWidth * 0.75 + 32,
