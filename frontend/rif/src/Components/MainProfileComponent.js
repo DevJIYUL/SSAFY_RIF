@@ -34,7 +34,7 @@ const MainProfileComopnent = (props) => {
         position: "relative",
       }}
     >
-      {props.another && (
+      {!props.another && (
         <PageChangerComponent
           sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
           to={"/change-profile"}
