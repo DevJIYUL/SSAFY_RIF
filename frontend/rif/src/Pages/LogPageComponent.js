@@ -4,7 +4,6 @@ import { useRef, useCallback, useState, useEffect } from "react";
 import useLogGetAPI from "../API/getLogAPI";
 import PageChangerComponent from "../UI/PageChangerComponent";
 import { useNavigate } from "react-router-dom";
-import { authActions } from "../store/auth";
 
 const LogPageComponent = () => {
   const navigate = useDispatch();
@@ -23,13 +22,6 @@ const LogPageComponent = () => {
   );
 
   useEffect(() => {
-    // if (newToken) {
-    //   dispatch(authActions.updateToken(newToken));
-    // }
-    // if (statusCode === 307) {
-    //   dispatch(authActions.logout());
-    //   navigate("/login");
-    // }
     setPageNumber(0);
   }, [accessToken, newToken, dispatch, statusCode, navigate]);
 
