@@ -133,7 +133,7 @@ const LotComponent = () => {
         </Grid>
       </Grid>
       <LotDialog open={open} onClose={modelCloseHandler}></LotDialog>
-      <Firework />
+      <Firework closer={modelCloseHandler} />
     </div>
   );
 };
