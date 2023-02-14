@@ -76,7 +76,7 @@ const LoginPageComponent = () => {
 
     if (token) {
       console.log(history);
-      if (history) {
+      if (history && history !== "/home") {
         navigate(history);
       } else {
         navigate("/main");
