@@ -27,8 +27,9 @@ const NavigationComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log(location);
+
   let locationPath = location.pathname.substring(1).split("/")[0];
-  console.log(locationPath);
 
   if (
     [
@@ -45,12 +46,12 @@ const NavigationComponent = () => {
   } else if (["description", "usage"].includes(locationPath)) {
     locationPath = "home";
   }
-  console.log(locationPath);
+
   const [navigateTarget, setNavigateTarget] = useState(locationPath);
+
   if (locationPath !== navigateTarget) {
     setNavigateTarget(locationPath);
   }
-  console.log(locationPath, navigateTarget);
 
   const navigationURLList = ["search", "ranking", "home", "main", "lot"];
   const navigationName = ["검색", "랭킹", "홈페이지", "프로필", "뽑기"];
@@ -72,15 +73,15 @@ const NavigationComponent = () => {
           showLabels
           value={navigateTarget}
           onChange={(event, newValue) => {
-            // console.log(newValue);
-            navigate(`/${newValue}`);
+            console.log(event);
+            if (event.type === "click") {
+              navigate(`/${newValue}`);
+            }
             setNavigateTarget(newValue);
           }}
-          // sx={{ color: "#000000" }}
         >
           {navigationURLList.map((value, index) => (
             <BottomNavigationAction
-              // sx={{ color: "#000000" }}
               label={navigationName[index]}
               value={value}
               key={`mui-nav-${index}`}
