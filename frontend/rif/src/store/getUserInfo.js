@@ -20,10 +20,14 @@ const userInfoSlice = createSlice({
       };
     },
     setUserRefBadges(state, action) {
+      console.log("유저 대표 뱃지 바뀌었다.");
       state.userRefBadges = [...action.payload];
     },
     setUserRefAchievements(state, action) {
       state.userRefAchievements = [...action.payload];
+    },
+    setUserPoint(state, action) {
+      state.userInfo.point = action.payload;
     },
   },
 });
@@ -40,7 +44,7 @@ async function getUserRequest(id, dispatch) {
     uid: response.data.uid,
     name: response.data.name,
     profileImgPath: response.data.profileImgPath,
-    point: response.data.point ? response.data.point : 10000,
+    point: response.data.point,
     exp: response.data.exp,
   };
 
