@@ -16,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     List<Member> findFirst10ByOrderByExpDesc();
 
     List<Member> findByOrderByExpDesc();
+
+    List<Member> findByNameLike(String name);
 }
