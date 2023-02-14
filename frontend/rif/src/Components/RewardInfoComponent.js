@@ -8,6 +8,8 @@ import {
 import BtnComponent from "../UI/BtnComponent";
 import setUserRefRewardAPI from "../API/setUserRefRewardAPI";
 import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
+import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI";
+
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 // import { userInfoActions } from "../store/getUserInfo";
@@ -34,16 +36,21 @@ const RewardInfoComponent = (props) => {
 
   useEffect(() => {
     async function getRepresentativeLength(id) {
-      const userBadgeResponse = await getUserRefBadgeAPI(id);
-      const curRefLength = userBadgeResponse.data.onDisplayBadge.length;
+      let curRefLength;
+      if (props.type === "badge") {
+        const userBadgeResponse = await getUserRefBadgeAPI(id);
+        curRefLength = userBadgeResponse.data.onDisplayBadge.length;
+      } else {
+        // props.type === "achievement"
+        const userAcievementResponse = await getUserRefAchievementAPI(id);
+        curRefLength = userAcievementResponse.data.onDisplayAchievement.length;
+      }
 
       if (curRefLength < 3) {
         setRefSettable(true);
       } else {
         setRefSettable(false);
       }
-
-      console.log("effect 실행", refSettable, curRefLength);
     }
     getRepresentativeLength(id);
   });
