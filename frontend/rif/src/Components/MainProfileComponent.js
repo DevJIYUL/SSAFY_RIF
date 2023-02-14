@@ -1,10 +1,21 @@
 import { useSelector } from "react-redux";
 import { Grid, Paper } from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { useEffect, useState } from "react";
+import getUserInfoAPI from "../API/getUserInfoAPI";
+import { useLocation } from "react-router-dom";
 
-const MainProfileComopnent = () => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+const MainProfileComopnent = (props) => {
+  const location = useLocation();
+  const reduxUserInfo = useSelector((state) => state.user.userInfo);
+  const [userInfo, setUserInfo] = useState(reduxUserInfo);
   console.log(userInfo);
+  useEffect(() => {
+    console.log(location);
+    // if (props.another) {
+    //   setUserInfo(location)
+    // }
+  }, [location]);
   return (
     <Paper
       elevation={3}
@@ -23,12 +34,14 @@ const MainProfileComopnent = () => {
         position: "relative",
       }}
     >
-      <PageChangerComponent
-        sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
-        to={"/change-profile"}
-      >
-        프로필 변경
-      </PageChangerComponent>
+      {props.another && (
+        <PageChangerComponent
+          sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
+          to={"/change-profile"}
+        >
+          프로필 변경
+        </PageChangerComponent>
+      )}
       <Grid container>
         <Grid
           sx={{
