@@ -77,11 +77,7 @@ const MainPageComponent = () => {
             sectionDetail="뱃지 관리"
           />
           {userRefBadges && (
-            <RewardComponent
-              type="badge"
-              rewards={userRefBadges}
-              isRef={true}
-            />
+            <RewardComponent type="badge" isRef={true} />
             // userRefBadges [badgeInfo, onDisplay, acheievedAt]
           )}
           <SectionTitleComponent
@@ -90,11 +86,7 @@ const MainPageComponent = () => {
             sectionDetail="업적 관리"
           />
           {userRefAchievements && (
-            <RewardComponent
-              type="achievement"
-              rewards={userRefAchievements}
-              isRef={true}
-            />
+            <RewardComponent type="achievement" isRef={true} />
           )}
         </Grid>
         <Grid
