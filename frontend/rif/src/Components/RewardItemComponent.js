@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RewardInfoComponent from "./RewardInfoComponent";
 
 // show rounded reward Icon
 // props : type, reward
 const RewardItemComponent = (props) => {
-  const { rewardInfo, onDisplay, hasReward } = props.reward;
+  const { rewardInfo, hasReward } = props.reward;
+  let onDisplay = props.reward.onDisplay;
+  const [tempOnDisplay, setTempOnDisplay] = useState(onDisplay);
+
   const { title, imgPath } = rewardInfo;
 
   const NotHasStyle = { opacity: 0.3, filter: "grayscale(100)" };
@@ -28,7 +31,7 @@ const RewardItemComponent = (props) => {
   if (!hasReward) {
     // if the user has no badge
     style = NotHasStyle;
-  } else if (onDisplay) {
+  } else if (tempOnDisplay) {
     style = displayStyle;
   }
 
@@ -38,7 +41,10 @@ const RewardItemComponent = (props) => {
         open={modalOpen}
         onClose={handleModalClose}
         reward={props.reward}
+        onDisplay={tempOnDisplay}
+        toggler={setTempOnDisplay}
         type={props.type}
+        isRef={props.isRef}
       ></RewardInfoComponent>
       <img
         src={imgPath}

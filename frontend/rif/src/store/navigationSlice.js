@@ -4,10 +4,14 @@ const navigationSlice = createSlice({
   name: "navigation",
   initialState: {
     navigationBarValue: "",
+    pastHistory: "",
   },
   reducers: {
     setNavigationBarValue(state, action) {
       state.navigationBarValue = action.payload;
+    },
+    setPastHistory(state, action) {
+      state.pastHistory = action.payload;
     },
   },
 });

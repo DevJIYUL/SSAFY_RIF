@@ -6,16 +6,73 @@ import {
   Grid,
 } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
+import setUserRefRewardAPI from "../API/setUserRefRewardAPI";
+import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
+import { useSelector, shallowEqual } from "react-redux";
+import { useState, useEffect } from "react";
+// import { userInfoActions } from "../store/getUserInfo";
 
 // show the specific information about the badge
 // props : onClose, open, reward
 const RewardInfoComponent = (props) => {
-  const { rewardInfo, onDisplay, achievedAt } = props.reward;
+  const [refSettable, setRefSettable] = useState(true);
+  const token = useSelector((state) => state.auth.authentication.token);
+  const id = useSelector((state) => state.auth.authentication.id);
+  const { rewardInfo, achievedAt, hasReward } = props.reward;
   const { title, description, imgPath } = rewardInfo;
   const imgPathColored = imgPath.slice(0, -4) + "_colored.png";
 
+  let refReward;
+
+  const refBadges = useSelector(
+    (state) => state.user.userRefBadges,
+    shallowEqual
+  );
+  const refAchievements = useSelector(
+    (state) => state.user.userRefAchievements,
+    shallowEqual
+  );
+
+  if (props.type == "badge") {
+    refReward = refBadges;
+  } else {
+    refReward = refAchievements;
+  }
+
+  async function ToggleHandler(e) {
+    if (props.onDisplay) {
+      props.toggler(false);
+    } else {
+      props.toggler(true);
+    }
+    setUserRefRewardAPI(props.type, token, id, rewardInfo.id);
+    props.onClose();
+  }
+
+  useEffect(() => {
+    async function getRepresentativeLength(id) {
+      const userBadgeResponse = await getUserRefBadgeAPI(id);
+      const curRefLength = userBadgeResponse.data.onDisplayBadge.length;
+
+      if (curRefLength < 3) {
+        setRefSettable(true);
+      } else {
+        setRefSettable(false);
+      }
+
+      console.log("effect 실행", refSettable, curRefLength);
+    }
+    getRepresentativeLength(id);
+  });
+
   return (
-    <Dialog onClose={props.onClose} open={props.open}>
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      PaperProps={{
+        style: { borderRadius: 30 },
+      }}
+    >
       <DialogContent sx={{ bgcolor: "#A6BB8D" }}>
         <Grid className="grid-profile-name" container>
           <Grid
@@ -25,12 +82,17 @@ const RewardInfoComponent = (props) => {
             alignItems="center"
           >
             {props.type === "badge" ? (
-              <img src={imgPathColored} alt={title} height="75px" />
+              <img
+                src={imgPath}
+                alt={title}
+                height="75px"
+                style={{ margin: "1rem" }}
+              />
             ) : (
               <img src={imgPath} alt={title} height="75px" />
             )}
           </Grid>
-          <Grid item className="grid-name" sx={{ ml: "2rem" }}>
+          <Grid item className="grid-name" sx={{ m: "auto" }}>
             <h2 style={{ margin: "0px", textAlign: "center" }}>{title}</h2>
             <h4 style={{ margin: "0px" }}>
               {achievedAt && achievedAt.slice(0, 10)}
@@ -38,14 +100,28 @@ const RewardInfoComponent = (props) => {
           </Grid>
         </Grid>
         <DialogContentText sx={{ mt: "2rem" }}>{description}</DialogContentText>
+        {!refSettable && !props.onDisplay && (
+          <DialogContentText sx={{ mt: "2rem", color: "red", fontSize: 12 }}>
+            대표 뱃지(업적)은 3 개까지 설정 가능합니다.
+          </DialogContentText>
+        )}
       </DialogContent>
       <DialogActions
         sx={{ bgcolor: "#A6BB8D", display: "flex", justifyContent: "center" }}
       >
-        {onDisplay ? (
-          <BtnComponent color="secondary"> 대표 해제 </BtnComponent>
-        ) : (
-          <BtnComponent color="secondary"> 대표 설정 </BtnComponent>
+        {props.onDisplay && !props.isRef && (
+          <BtnComponent color="secondary" onClick={ToggleHandler}>
+            대표 해제
+          </BtnComponent>
+        )}
+        {!props.onDisplay && !props.isRef && (
+          <BtnComponent
+            color="secondary"
+            onClick={ToggleHandler}
+            disabled={!hasReward || !refSettable ? true : false}
+          >
+            대표 설정
+          </BtnComponent>
         )}
       </DialogActions>
     </Dialog>

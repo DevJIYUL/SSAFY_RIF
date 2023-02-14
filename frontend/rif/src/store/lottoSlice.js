@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { userInfoActions } from "./getUserInfo";
 import lottoAPI from "../API/LottoAPI";
 
 const lottoSlice = createSlice({
@@ -60,6 +61,9 @@ export const lotteryOpenHandler = (accessToken, id) => {
       };
       dispatch(lottoSlice.actions.drawLotterySuccess(payload));
     }
+
+    const remainingPoint = response.data.remainingPoint;
+    dispatch(userInfoActions.setUserPoint(remainingPoint));
   };
 };
 
