@@ -23,13 +23,13 @@ const LogPageComponent = () => {
   );
 
   useEffect(() => {
-    if (newToken) {
-      dispatch(authActions.updateToken(newToken));
-    }
-    if (statusCode === 307) {
-      dispatch(authActions.logout());
-      navigate("/login");
-    }
+    // if (newToken) {
+    //   dispatch(authActions.updateToken(newToken));
+    // }
+    // if (statusCode === 307) {
+    //   dispatch(authActions.logout());
+    //   navigate("/login");
+    // }
     setPageNumber(0);
   }, [accessToken, newToken, dispatch, statusCode, navigate]);
 
