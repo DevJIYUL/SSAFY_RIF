@@ -1,8 +1,11 @@
 import { Grid, Container } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HomePageComponent = () => {
+  const token = useSelector((state) => state.auth.authentication.token);
+
   return (
     <Grid
       container
@@ -35,12 +38,19 @@ const HomePageComponent = () => {
         </Container>
       </Grid>
       <Grid item className="grid-buttons">
-        <Link to="/description/" style={{ textDecoration: "none" }}>
+        <Link to="/description" style={{ textDecoration: "none" }}>
           <BtnComponent> 더 알아보기 </BtnComponent>
         </Link>
-        <Link to="/login/" style={{ textDecoration: "none" }}>
-          <BtnComponent> 서비스 시작하기 </BtnComponent>
-        </Link>
+        {!token && (
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <BtnComponent> 서비스 시작하기 </BtnComponent>
+          </Link>
+        )}
+        {token && (
+          <Link to="/main" style={{ textDecoration: "none" }}>
+            <BtnComponent> 서비스 시작하기 </BtnComponent>
+          </Link>
+        )}
       </Grid>
     </Grid>
   );

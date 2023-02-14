@@ -4,8 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import PageChangerComponent from "../UI/PageChangerComponent";
 import howToUse from "../howToUse.json";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const UsagePageComponent = () => {
+  const token = useSelector((state) => state.auth.authentication.token);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   });
@@ -85,9 +88,16 @@ const UsagePageComponent = () => {
           )}
         </Grid>
         <Grid item sx={{ display: "flex", justifyContent: "center" }}>
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            <BtnComponent> 서비스 시작하기 </BtnComponent>
-          </Link>
+          {!token && (
+            <Link to="/login/" style={{ textDecoration: "none" }}>
+              <BtnComponent> 서비스 시작하기 </BtnComponent>
+            </Link>
+          )}
+          {token && (
+            <Link to="/main/" style={{ textDecoration: "none" }}>
+              <BtnComponent> 서비스 시작하기 </BtnComponent>
+            </Link>
+          )}
         </Grid>
       </Grid>
     </div>

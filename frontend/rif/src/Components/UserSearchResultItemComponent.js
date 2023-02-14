@@ -54,8 +54,7 @@ const UserSearchResultItemComponent = (props) => {
   if (level === 6) {
     level = 10;
   }
-  console.log(caledExp);
-  const profileImgPath = props.recentSearchResult.profileImgPath;
+  const profileImgPath = props.recentSearchResult.imgPath;
   return (
     <ThemeProvider theme={userSearchItemTheme}>
       <Grid container>
@@ -77,7 +76,7 @@ const UserSearchResultItemComponent = (props) => {
         >
           <Grid>
             <img
-              src={`/profile/${profileImgPath}`}
+              src={profileImgPath}
               style={{
                 height: "40px",
                 borderRadius: "50%",

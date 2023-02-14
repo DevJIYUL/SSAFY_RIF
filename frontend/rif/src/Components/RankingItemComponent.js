@@ -114,7 +114,7 @@ const RankingItemComponent = (props) => {
               right: "0px",
               bottom: "0px",
               backgroundRepeat: "no-repeat",
-              backgroundImage: `url("/profile/level.png")`,
+              backgroundImage: `url("/profile/level${level}.png")`,
               backgroundSize: "contain",
               color: "white",
               fontSize: "12px",
