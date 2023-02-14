@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RewardInfoComponent from "./RewardInfoComponent";
 
 // show rounded reward Icon
