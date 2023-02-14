@@ -1,0 +1,72 @@
+[
+  {
+    "uid": "1",
+    "plasticTotal": 1,
+    "plasticOk": 1,
+    "recycleTotal": 1,
+    "recycleOk": 1
+  },
+  {
+    "uid": "2",
+    "plasticTotal": 1,
+    "plasticOk": 1,
+    "recycleTotal": 1,
+    "recycleOk": 1
+  },
+  {
+    "uid": "3",
+    "plasticTotal": 3,
+    "plasticOk": 3,
+    "recycleTotal": 3,
+    "recycleOk": 3
+  },
+  {
+    "uid": "4",
+    "plasticTotal": 4,
+    "plasticOk": 4,
+    "recycleTotal": 4,
+    "recycleOk": 4
+  },
+  {
+    "uid": "5",
+    "plasticTotal": 5,
+    "plasticOk": 5,
+    "recycleTotal": 5,
+    "recycleOk": 5
+  },
+  {
+    "uid": "6",
+    "plasticTotal": 6,
+    "plasticOk": 6,
+    "recycleTotal": 6,
+    "recycleOk": 6
+  },
+  {
+    "uid": "7",
+    "plasticTotal": 7,
+    "plasticOk": 7,
+    "recycleTotal": 7,
+    "recycleOk": 7
+  },
+  {
+    "uid": "8",
+    "plasticTotal": 8,
+    "plasticOk": 8,
+    "recycleTotal": 8,
+    "recycleOk": 8
+  },
+  {
+    "uid": "9",
+    "plasticTotal": 9,
+    "plasticOk": 9,
+    "recycleTotal": 9,
+    "recycleOk": 9
+  },
+  {
+    "uid": "10",
+    "plasticTotal": 10,
+    "plasticOk": 10,
+    "recycleTotal": 10,
+    "recycleOk": 10
+  }
+]
