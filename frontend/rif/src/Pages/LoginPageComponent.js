@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { loginHandler } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { UIActions } from "../store/UISlice";
 import {
   Box,
   TextField,
@@ -10,7 +10,9 @@ import {
   Grid,
   createTheme,
   ThemeProvider,
+  FormHelperText,
 } from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const loginTheme = createTheme({
   palette: {
@@ -24,6 +26,7 @@ const LoginPageComponent = () => {
   const navigate = useNavigate();
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
+  const [errorForm, setErrorForm] = useState(false);
   const status = useSelector((state) => state.ui.notification.status);
   const token = useSelector((state) => state.auth.authentication.token);
 
@@ -37,15 +40,24 @@ const LoginPageComponent = () => {
   function formSubmitHandler(event) {
     event.preventDefault();
     console.log(userInputId, userInputPassword);
-
-    dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
+    if (!status) {
+      dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
+    }
   }
 
   useEffect(() => {
-    if (token) {
-      navigate("/main");
+    try {
+      if (token) {
+        navigate(-1);
+      }
+    } catch (e) {
+      navigate("/home");
     }
-  }, [token, navigate]);
+    if (status === "error") {
+      setErrorForm(true);
+      dispatch(UIActions.resetNofication());
+    }
+  }, [token, navigate, status, dispatch]);
 
   let btnMessage;
 
@@ -83,25 +95,58 @@ const LoginPageComponent = () => {
             autoComplete="off"
             onSubmit={formSubmitHandler}
           >
-            <TextField
-              fullWidth
-              id="id"
-              label="아이디"
-              type="number"
-              sx={{ mb: 2 }}
-              defaultValue={userInputId}
-              onChange={idChangeHandler}
-            />
-            <TextField
-              fullWidth
-              id="password"
-              label="비밀번호"
-              type="password"
-              autoComplete="current-password"
-              sx={{ mb: 2 }}
-              value={userInputPassword}
-              onChange={passwordChangeHandler}
-            />
+            {!errorForm && (
+              <>
+                <TextField
+                  fullWidth
+                  id="id"
+                  label="아이디"
+                  type="number"
+                  sx={{ mb: 2 }}
+                  defaultValue={userInputId}
+                  onChange={idChangeHandler}
+                />
+                <TextField
+                  fullWidth
+                  id="password"
+                  label="비밀번호"
+                  type="password"
+                  autoComplete="current-password"
+                  sx={{ mb: 2 }}
+                  value={userInputPassword}
+                  onChange={passwordChangeHandler}
+                />
+              </>
+            )}
+            {errorForm && (
+              <>
+                <TextField
+                  fullWidth
+                  error
+                  id="id"
+                  label="아이디"
+                  type="number"
+                  sx={{ mb: 2 }}
+                  defaultValue={userInputId}
+                  onChange={idChangeHandler}
+                />
+                <TextField
+                  fullWidth
+                  error
+                  id="password"
+                  label="비밀번호"
+                  type="password"
+                  autoComplete="current-password"
+                  sx={{ mb: 2 }}
+                  value={userInputPassword}
+                  onChange={passwordChangeHandler}
+                />
+                <FormHelperText>
+                  <ErrorIcon />
+                  아이디 또는 비밀번호가 올바르지 않습니다.
+                </FormHelperText>
+              </>
+            )}
             <Button
               fullWidth
               variant="contained"

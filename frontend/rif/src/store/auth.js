@@ -41,6 +41,7 @@ export const loginHandler = (data) => {
       const response = await loginAPI(data.id, data.password);
 
       if (response.status !== 200) {
+        console.log(response);
         throw new Error(response.data.message);
       }
 

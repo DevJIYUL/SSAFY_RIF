@@ -3,6 +3,8 @@ import getUserInfoAPI from "../API/getUserInfoAPI";
 import getUserRefBadgeAPI from "../API/getUserRefBadgeAPI";
 import getUserRefAchievementAPI from "../API/getUserRefAchievementAPI";
 import { UIActions } from "./UISlice";
+import getBadgesAPI from "../API/getBadgesAPI";
+import { authActions } from "./auth";
 
 const userInfoSlice = createSlice({
   name: "userInfo",
@@ -19,95 +21,106 @@ const userInfoSlice = createSlice({
     },
     setUserRefBadges(state, action) {
       state.userRefBadges = [...action.payload];
-      // console.log(state.userRefBadges, typeof state.userRefBadges);
     },
     setUserRefAchievements(state, action) {
       state.userRefAchievements = [...action.payload];
-      // console.log(state.userRefAchievements, typeof state.userRefAchievements);
     },
   },
 });
 
-export const mainPageRequestHandler = (id) => {
+async function getUserRequest(id, dispatch) {
+  const response = await getUserInfoAPI(id);
+
+  if (response.status !== 200) {
+    throw new Error("Error is raiesd!");
+  }
+
+  const parsedUserInfoAPI = {
+    id: response.data.id,
+    uid: response.data.uid,
+    name: response.data.name,
+    profileImgPath: response.data.profileImgPath,
+    point: response.data.point ? response.data.point : 10000,
+    exp: response.data.exp,
+  };
+
+  dispatch(userInfoActions.setUserInfo(parsedUserInfoAPI));
+}
+
+async function getBadgesRequest(id, dispatch) {
+  const badgeResponse = await getUserRefBadgeAPI(id);
+  if (badgeResponse.status !== 200) {
+    throw new Error("Error is raiesd!");
+  }
+
+  const parsedDisplayBadge = badgeResponse.data.onDisplayBadge.map((obj) => {
+    const temp = {
+      rewardInfo: obj["badgeInfo"],
+      onDisplay: obj["onDisplay"],
+      achievedAt: obj["achievedAt"],
+      hasReward: obj["hasBadge"],
+    };
+    return temp;
+  });
+
+  dispatch(userInfoActions.setUserRefBadges(parsedDisplayBadge));
+}
+
+async function getAchievementsRequest(id, dispatch) {
+  const achievementResponse = await getUserRefAchievementAPI(id);
+  if (achievementResponse.status !== 200) {
+    throw new Error("Error is raiesd!");
+  }
+
+  const parsedDisplayAchievement =
+    achievementResponse.data.onDisplayAchievement.map((obj) => {
+      const temp = {
+        rewardInfo: obj["achievementInfo"],
+        onDisplay: obj["onDisplay"],
+        achievedAt: obj["achievedAt"],
+        hasReward: obj["hasAchievement"],
+      };
+      return temp;
+    });
+
+  dispatch(userInfoActions.setUserRefAchievements(parsedDisplayAchievement));
+}
+
+async function tokenEffectniessHandler(token, id) {
+  const response = await getBadgesAPI(token, id);
+
+  return response;
+}
+
+export const mainPageRequestHandler = (id, token) => {
   return async (dispatch) => {
     dispatch(
       UIActions.changeNofication({
         status: "pending",
       })
     );
-    try {
-      const response = await getUserInfoAPI(id);
+    const checkTokenResponse = await tokenEffectniessHandler(token, id);
 
-      if (response.status !== 200) {
-        throw new Error("Error is raiesd!");
-      }
-
-      const parsedUserInfoAPI = {
-        id: response.data.id,
-        uid: response.data.uid,
-        name: response.data.name,
-        profileImgPath: response.data.profileImgPath,
-        point: response.data.point ? response.data.point : 10000,
-        exp: response.data.exp,
-      };
-
-      dispatch(userInfoActions.setUserInfo(parsedUserInfoAPI));
-
-      const badgeResponse = await getUserRefBadgeAPI(id);
-      if (badgeResponse.status !== 200) {
-        throw new Error("Error is raiesd!");
-      }
-
-      // console.log(badgeResponse, "badge");
-
-      // remove id and change the Key
-      const parsedDisplayBadge = badgeResponse.data.onDisplayBadge.map(
-        (obj) => {
-          const temp = {
-            rewardInfo: obj["badgeInfo"],
-            onDisplay: obj["onDisplay"],
-            achievedAt: obj["achievedAt"],
-            hasReward: obj["hasBadge"],
-          };
-          return temp;
-        }
-      );
-
-      dispatch(userInfoActions.setUserRefBadges(parsedDisplayBadge));
-
-      const achievementResponse = await getUserRefAchievementAPI(id);
-      if (achievementResponse.status !== 200) {
-        throw new Error("Error is raiesd!");
-      }
-
-      // console.log(achievementResponse, "achievementResponse");
-
-      // remove id and change the Key
-      const parsedDisplayAchievement =
-        achievementResponse.data.onDisplayAchievement.map((obj) => {
-          const temp = {
-            rewardInfo: obj["achievementInfo"],
-            onDisplay: obj["onDisplay"],
-            achievedAt: obj["achievedAt"],
-            hasReward: obj["hasAchievement"],
-          };
-          return temp;
-        });
-
-      dispatch(
-        userInfoActions.setUserRefAchievements(parsedDisplayAchievement)
-      );
-
-      dispatch(
-        UIActions.changeNofication({
-          status: "success",
-        })
-      );
-
-      dispatch(UIActions.resetNofication());
-    } catch (error) {
-      console.log(error);
+    if (checkTokenResponse.newToken) {
+      dispatch(authActions.updateToken(checkTokenResponse.newToken));
+    } else if (checkTokenResponse.status === 307) {
+      dispatch(authActions.logout());
+      return;
     }
+
+    getUserRequest(id, dispatch);
+
+    getBadgesRequest(id, dispatch);
+
+    getAchievementsRequest(id, dispatch);
+
+    dispatch(
+      UIActions.changeNofication({
+        status: "success",
+      })
+    );
+
+    dispatch(UIActions.resetNofication());
   };
 };
 
