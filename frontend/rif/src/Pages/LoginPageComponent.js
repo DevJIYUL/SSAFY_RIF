@@ -21,34 +21,58 @@ const loginTheme = createTheme({
     },
   },
 });
+
 const LoginPageComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
   const [errorForm, setErrorForm] = useState(false);
+  const [idGuide, setIdGuide] = useState("아이디는 학번입니다.");
+  const [pwGuide, setPwGuide] = useState("초기 비밀번호는 학번입니다.");
+
   const status = useSelector((state) => state.ui.notification.status);
   const token = useSelector((state) => state.auth.authentication.token);
 
   const idChangeHandler = (event) => {
+    if (event.target.value) {
+      setIdGuide("아이디");
+    }
     setUserInputId(event.target.value);
   };
+
   const passwordChangeHandler = (event) => {
+    if (event.target.value) {
+      setPwGuide("비밀번호");
+    }
     setUserInputPassword(event.target.value);
   };
 
   function formSubmitHandler(event) {
     event.preventDefault();
-    console.log(userInputId, userInputPassword);
     if (!status) {
       dispatch(loginHandler({ id: userInputId, password: userInputPassword }));
     }
+  }
+
+  function idFormFocusHandler() {
+    setIdGuide("아이디");
+  }
+
+  function pwFormFocusHandler() {
+    setPwGuide("비밀번호");
   }
 
   useEffect(() => {
     if (status) {
       dispatch(UIActions.resetNofication());
     }
+
+    if (userInputId) {
+      setIdGuide("아이디");
+    }
+
     try {
       if (token) {
         navigate(-1);
@@ -56,11 +80,12 @@ const LoginPageComponent = () => {
     } catch (e) {
       navigate("/home");
     }
+
     if (status === "error") {
       setErrorForm(true);
       dispatch(UIActions.resetNofication());
     }
-  }, [token, navigate, status, dispatch]);
+  }, [token, navigate, status, dispatch, userInputId]);
 
   let btnMessage;
 
@@ -103,21 +128,23 @@ const LoginPageComponent = () => {
                 <TextField
                   fullWidth
                   id="id"
-                  label="아이디"
+                  label={idGuide}
                   type="number"
                   sx={{ mb: 2 }}
                   defaultValue={userInputId}
                   onChange={idChangeHandler}
+                  onFocus={idFormFocusHandler}
                 />
                 <TextField
                   fullWidth
                   id="password"
-                  label="비밀번호"
+                  label={pwGuide}
                   type="password"
                   autoComplete="current-password"
                   sx={{ mb: 2 }}
                   value={userInputPassword}
                   onChange={passwordChangeHandler}
+                  onFocus={pwFormFocusHandler}
                 />
               </>
             )}
@@ -132,6 +159,7 @@ const LoginPageComponent = () => {
                   sx={{ mb: 2 }}
                   defaultValue={userInputId}
                   onChange={idChangeHandler}
+                  onFocus={idFormFocusHandler}
                 />
                 <TextField
                   fullWidth
@@ -143,6 +171,7 @@ const LoginPageComponent = () => {
                   sx={{ mb: 2 }}
                   value={userInputPassword}
                   onChange={passwordChangeHandler}
+                  onFocus={pwFormFocusHandler}
                 />
                 <FormHelperText>
                   <ErrorIcon />
