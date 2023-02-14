@@ -13,7 +13,8 @@ import {
   Person,
   LocalActivity,
 } from "@mui/icons-material";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const outerTheme = createTheme({
   palette: {
@@ -28,6 +29,19 @@ const NavigationComponent = () => {
   const location = useLocation();
 
   console.log(location);
+  const refreshToken = useSelector(
+    (state) => state.auth.authentication.refreshToken
+  );
+
+  const [profileNavName, setProfileNavName] = useState("프로필");
+
+  useEffect(() => {
+    if (refreshToken) {
+      setProfileNavName("프로필");
+    } else {
+      setProfileNavName("로그인");
+    }
+  }, [refreshToken]);
 
   let locationPath = location.pathname.substring(1).split("/")[0];
 
@@ -54,7 +68,7 @@ const NavigationComponent = () => {
   }
 
   const navigationURLList = ["search", "ranking", "home", "main", "lot"];
-  const navigationName = ["검색", "랭킹", "홈페이지", "프로필", "뽑기"];
+  const navigationName = ["검색", "랭킹", "홈페이지", profileNavName, "뽑기"];
   const navigationMUIIconList = [
     <Search />,
     <Equalizer />,
