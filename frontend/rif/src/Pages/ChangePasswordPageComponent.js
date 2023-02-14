@@ -33,6 +33,7 @@ const ChangePasswordPageComponent = () => {
   const dispatch = useDispatch();
 
   const token = useSelector((state) => state.auth.authentication.token);
+  const id = useSelector((state) => state.auth.authentication.id);
   const authentication = useSelector((state) => state.auth.authentication);
 
   useEffect(() => {
@@ -66,7 +67,8 @@ const ChangePasswordPageComponent = () => {
           currentPassword,
           newPassword,
           newPasswordConfirm,
-          token
+          token,
+          id
         );
         if (response.data.newToken) {
           dispatch(authActions.updateToken(response.data.newToken));
