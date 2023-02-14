@@ -29,14 +29,6 @@ const authSlice = createSlice({
 
 export const loginHandler = (data) => {
   return async (dispatch) => {
-    dispatch(
-      UIActions.changeNofication({
-        status: "pending",
-        title: "Sending",
-        message: "Sending Login Request!",
-      })
-    );
-
     try {
       const response = await loginAPI(data.id, data.password);
 
@@ -70,7 +62,6 @@ export const loginHandler = (data) => {
           message: "Login is Fail..",
         })
       );
-      console.log(error);
     }
   };
 };

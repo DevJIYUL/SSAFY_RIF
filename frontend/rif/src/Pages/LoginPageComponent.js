@@ -46,6 +46,9 @@ const LoginPageComponent = () => {
   }
 
   useEffect(() => {
+    if (status) {
+      dispatch(UIActions.resetNofication());
+    }
     try {
       if (token) {
         navigate(-1);
