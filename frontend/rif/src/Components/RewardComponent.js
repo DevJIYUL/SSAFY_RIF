@@ -17,6 +17,11 @@ const RewardComponent = (props) => {
   const [rewards, setRewards] = useState([]);
   const type = props.type;
 
+  const userRefBadges = useSelector((state) => state.user.userRefBadges);
+  const userRefAchievements = useSelector(
+    (state) => state.user.userRefAchievements
+  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -100,10 +105,21 @@ const RewardComponent = (props) => {
       getBadges();
     } else if (type === "achievement" && !props.isRef) {
       getAchievements();
-    } else {
-      setRewards(props.rewards);
+    } else if (type === "badge" && props.isRef) {
+      setRewards(userRefBadges);
+    } else if (type === "achievement" && props.isRef) {
+      setRewards(userRefAchievements);
     }
-  }, [type, props.isRef, props.rewards, dispatch, navigate, token, id]);
+  }, [
+    type,
+    props.isRef,
+    dispatch,
+    navigate,
+    token,
+    id,
+    userRefAchievements,
+    userRefBadges,
+  ]);
 
   return (
     <Grid
@@ -127,6 +143,7 @@ const RewardComponent = (props) => {
             <RewardItemComponent
               reward={value}
               type={type}
+              isRef={props.isRef}
             ></RewardItemComponent>
           </Grid>
         );

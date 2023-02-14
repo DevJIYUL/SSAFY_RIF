@@ -34,6 +34,7 @@ const LoginPageComponent = () => {
 
   const status = useSelector((state) => state.ui.notification.status);
   const token = useSelector((state) => state.auth.authentication.token);
+  const history = useSelector((state) => state.navigationLocation.pastHistory);
 
   const idChangeHandler = (event) => {
     if (event.target.value) {
@@ -73,19 +74,20 @@ const LoginPageComponent = () => {
       setIdGuide("아이디");
     }
 
-    try {
-      if (token) {
-        navigate(-1);
+    if (token) {
+      console.log(history);
+      if (history) {
+        navigate(history);
+      } else {
+        navigate("/main");
       }
-    } catch (e) {
-      navigate("/home");
     }
 
     if (status === "error") {
       setErrorForm(true);
       dispatch(UIActions.resetNofication());
     }
-  }, [token, navigate, status, dispatch, userInputId]);
+  }, [token, navigate, status, dispatch, userInputId, history]);
 
   let btnMessage;
 
