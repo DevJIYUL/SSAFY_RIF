@@ -120,6 +120,8 @@ const RewardComponent = (props) => {
     userRefBadges,
   ]);
 
+  console.log(props, rewards, "rewardCom");
+
   return (
     <Grid
       container
@@ -128,25 +130,53 @@ const RewardComponent = (props) => {
       rowSpacing={1}
       width="75%"
     >
-      {rewards.map((value, index) => {
-        return (
-          <Grid
-            item
-            xs={2}
-            sm={4}
-            key={index}
-            display="flex"
-            justifyContent="center"
-            alignContent="center"
-          >
-            <RewardItemComponent
-              reward={value}
-              type={type}
-              isRef={props.isRef}
-            ></RewardItemComponent>
-          </Grid>
-        );
-      })}
+      {rewards.length ? (
+        rewards.map((value, index) => {
+          return (
+            <Grid
+              item
+              xs={2}
+              sm={4}
+              key={index}
+              display="flex"
+              justifyContent="center"
+              alignContent="center"
+            >
+              <RewardItemComponent
+                reward={value}
+                type={type}
+                isRef={props.isRef}
+              ></RewardItemComponent>
+            </Grid>
+          );
+        })
+      ) : (
+        <Grid
+          item
+          display="flex"
+          justifyContent="space-around"
+          alignContent="center"
+          sx={{ width: "100%", overflow: "auto" }}
+        >
+          {[1, 2, 3].map((imgPath, index) => {
+            return (
+              <img
+                src={`/${props.type}/${imgPath}.png`}
+                alt={`/${props.type}/${imgPath}.png`}
+                style={{ opacity: 0.3, filter: "grayscale(100)" }}
+                height="75px"
+              />
+            );
+          })}
+          <h4 style={{ position: "absolute" }}>
+            아직 설정된{" "}
+            <span style={{ color: "#4E9E00", fontWeight: "700" }}>
+              대표 {props.type === "badge" ? "뱃지가 " : "업적이 "}
+            </span>
+            없습니다.
+          </h4>
+        </Grid>
+      )}
     </Grid>
   );
 };

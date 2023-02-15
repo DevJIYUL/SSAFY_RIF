@@ -10,7 +10,7 @@ const BtnComponent = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Button
-        variant="contained"
+        variant={props.variant || "contained"}
         color={props.color || "primary"}
         className={`${props.className}`}
         onClick={props.onClick}
