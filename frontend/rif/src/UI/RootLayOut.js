@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { navigationActions } from "../store/navigationSlice";
 import useWindowDimensions from "../Components/useWindowDimensions";
 import BigWindowComponent from "../Components/BigWindowComponent";
+import TopBarComponent from "../Components/TopBarComponent";
 
 const RootLayOut = () => {
   const navigate = useNavigate();
@@ -37,9 +38,11 @@ const RootLayOut = () => {
     achievement: "업적",
     member: "다른 멤버",
   };
+
   const title = Object.entries(titleObj).find(
     (list) => list[0] === routeAddress
   );
+
   console.log(title);
   useEffect(() => {
     const htmlTitle = document.querySelector("title");
@@ -69,12 +72,13 @@ const RootLayOut = () => {
 
   return (
     <div>
+      <TopBarComponent />
       {navigationHidden ? (
         <p>
           <BigWindowComponent width={width} />
         </p>
       ) : (
-        <main style={{ margin: "10px 0px 70px 0px" }}>
+        <main style={{ margin: "0px 0px 70px 0px" }}>
           <Outlet />
         </main>
       )}
