@@ -1,8 +1,8 @@
 [
   {
     "tier": 4,
-    "title": "Welcome",
-    "description": "반갑습니다! 보다 정확한 분리수거를 더 재밌게 실천해 보아요",
+    "title": "어서오세요",
+    "description": "반갑습니다! 재활용 분리배출 제대로, 재밌게 RIF 입니다",
     "imgPath": "/achievement/1.png",
     "tag": "RIF_FIRST_USE"
   },
@@ -16,49 +16,49 @@
   {
     "tier": 2,
     "title": "중급 플라스틱 분류자",
-    "description": "플라스틱 분류를 성공 누적 5회를 달성하셨습니다",
+    "description": "플라스틱 분류 성공 누적 5회를 달성하셨습니다",
     "imgPath": "/achievement/3.png",
     "tag": "PLASTIC_SUCCESS_FIVE_TIMES"
   },
   {
     "tier": 1,
-    "title": "Plastic Success 10",
-    "description": "Plastic Success 10",
+    "title": "플라스틱 분류 마스터",
+    "description": "플라스틱 분류 성공 누적 10회 이상을 달성하셨습니다",
     "imgPath": "/achievement/4.png",
     "tag": "PLASTIC_SUCCESS_TEN_TIMES"
   },
   {
     "tier": 3,
-    "title": "Recycle Success 1",
-    "description": "Recycle Success 1",
+    "title": "초급 재활용 분류자",
+    "description": "처음으로 재활용 분류를 완벽히 해내셨습니다",
     "imgPath": "/achievement/5.png",
     "tag": "RECYCLE_SUCCESS_FIRST"
   },
   {
     "tier": 2,
-    "title": "Recycle Success 5",
-    "description": "Recycle Success 5",
+    "title": "중급 재활용 분류자",
+    "description": "재활용 분류 성공 누적 5회를 달성하셨습니다",
     "imgPath": "/achievement/6.png",
     "tag": "RECYCLE_SUCCESS_FIVE_TIMES"
   },
   {
     "tier": 1,
-    "title": "Recycle Success 10",
-    "description": "description",
+    "title": "재활용 분류 마스터",
+    "description": "재활용 분류 성공 누적 10회 이상을 달성하셨습니다",
     "imgPath": "/achievement/7.png",
     "tag": "RECYCLE_SUCCESS_TEN_TIMES"
   },
   {
     "tier": 3,
-    "title": "Perfect 1",
-    "description": "description",
+    "title": "완벽한 분류",
+    "description": "플라스틱, 재활용, 일반쓰레기를 완벽히 분류하셨습니다!",
     "imgPath": "/achievement/8.png",
     "tag": "RIF_PERFECT_FIRST"
   },
   {
     "tier": 1,
-    "title": "Perfect 5",
-    "description": "description",
+    "title": "완벽한 분류 V",
+    "description": "완벽한 분류 누적 5회 이상 달성하셨습니다. 당신은 분리배출 마스터!",
     "imgPath": "/achievement/9.png",
     "tag": "RIF_PERFECT_FIVE_TIMES"
   }
