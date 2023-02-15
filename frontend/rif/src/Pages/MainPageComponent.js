@@ -5,10 +5,11 @@ import { mainPageRequestHandler } from "../store/getUserInfo";
 import calLevel from "../API/calLevel";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
 
-import { Grid, createTheme, ThemeProvider, Button } from "@mui/material";
+import { Grid, createTheme, ThemeProvider } from "@mui/material";
 import MainProfileComopnent from "../Components/MainProfileComponent";
 import RewardComponent from "../Components/RewardComponent";
 import { authActions } from "../store/auth";
+import BtnComponent from "../UI/BtnComponent";
 
 const profileTheme = createTheme({
   palette: {
@@ -57,71 +58,61 @@ const MainPageComponent = () => {
 
   //exp, id, name, point, profileImgPath
   return (
-    <ThemeProvider theme={profileTheme}>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <MainProfileComopnent />
+    <div>
+      <ThemeProvider theme={profileTheme}>
         <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
         >
-          <SectionTitleComponent
-            sectionTitle="내 대표 뱃지"
-            to="/badge"
-            sectionDetail="뱃지 관리"
-          />
-          {userRefBadges && (
-            <RewardComponent type="badge" isRef={true} />
-            // userRefBadges [badgeInfo, onDisplay, acheievedAt]
-          )}
-          <SectionTitleComponent
-            sectionTitle="내 대표 업적"
-            to="/achievement"
-            sectionDetail="업적 관리"
-          />
-          {userRefAchievements && (
-            <RewardComponent type="achievement" isRef={true} />
-          )}
-        </Grid>
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          style={{ width: window.innerWidth * 0.75 + 32 }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              margin: "auto",
-              color: "#FFFFFF",
-              width: "40%",
-              paddingX: "0px",
-            }}
-            onClick={logoutBtnHandler}
+          <MainProfileComopnent />
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
           >
-            로그아웃
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              margin: "auto",
-              color: "#FFFFFF",
-              width: "40%",
-              paddingX: "0px",
-            }}
-            onClick={logBtnHandler}
+            <SectionTitleComponent
+              sectionTitle="내 대표 뱃지"
+              to="/badge"
+              sectionDetail="뱃지 관리"
+            />
+            {userRefBadges && (
+              <RewardComponent type="badge" isRef={true} />
+              // userRefBadges [badgeInfo, onDisplay, acheievedAt]
+            )}
+            <SectionTitleComponent
+              sectionTitle="내 대표 업적"
+              to="/achievement"
+              sectionDetail="업적 관리"
+            />
+            {userRefAchievements && (
+              <RewardComponent type="achievement" isRef={true} />
+            )}
+          </Grid>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{ width: window.innerWidth * 0.75 + 32 }}
           >
-            로그 보러 가기
-          </Button>
+            <div style={{ display: "flex", direction: "column" }}>
+              <BtnComponent
+                onClick={logBtnHandler}
+                color="secondary"
+                arrow="right"
+              >
+                사용자 기록 확인
+              </BtnComponent>
+              <BtnComponent onClick={logoutBtnHandler} color="secondary">
+                로그 아웃
+              </BtnComponent>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 };
 
