@@ -50,7 +50,7 @@ const RootLayOut = () => {
       )
         dispatch(navigationActions.setPastHistory(location.pathname));
     }
-  }, [navigate, location, dispatch]);
+  }, [navigate, location, dispatch, title]);
 
   useEffect(() => {
     if (width >= 480 || width <= 350) {
