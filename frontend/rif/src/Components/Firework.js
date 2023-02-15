@@ -12,7 +12,7 @@ const colors = {
   4: ["#E4A07A", "#97674B", "#E8D8CF"],
 };
 
-const Firework = () => {
+const Firework = (props) => {
   let shells = [];
   let pass = [];
   let badgeTier = useSelector((state) => state.lotto.badgeTier);
@@ -140,6 +140,7 @@ const Firework = () => {
 
   if (canvas && badgeTier) {
     run(badgeTier);
+    canvas.style.setProperty("z-index", 2001);
   }
   return (
     <div>
@@ -150,6 +151,10 @@ const Firework = () => {
           top: "0px",
           bottom: "0px",
           zIndex: "-1",
+        }}
+        onClick={() => {
+          props.closer();
+          canvas.style.setProperty("z-index", -1);
         }}
       ></canvas>
     </div>

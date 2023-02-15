@@ -4,8 +4,10 @@ async function changePasswordAPI(
   currentPassword,
   newPassword,
   newPasswordConfirm,
-  token
+  token,
+  id
 ) {
+  const params = { memberId: id };
   const data = {
     currentPassword,
     newPassword,
@@ -18,7 +20,8 @@ async function changePasswordAPI(
     "patch",
     "/api/v/member/password",
     data,
-    headers
+    headers,
+    params
   );
   if (response.status === 200) {
     return response;

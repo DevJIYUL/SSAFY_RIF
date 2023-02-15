@@ -1,10 +1,23 @@
 import { useSelector } from "react-redux";
 import { Grid, Paper } from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
+import { useEffect, useState } from "react";
+import calLevel from "../API/calLevel";
 
-const MainProfileComopnent = () => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+const MainProfileComopnent = (props) => {
+  const reduxUserInfo = useSelector((state) => state.user.userInfo);
+  const [userInfo, setUserInfo] = useState("");
+  const [level, exp] = calLevel(userInfo.exp);
+
   console.log(userInfo);
+  console.log(props.userInfo);
+  useEffect(() => {
+    if (props.another) {
+      setUserInfo(props.userInfo);
+    } else {
+      setUserInfo(reduxUserInfo);
+    }
+  }, [props.userInfo, props.another, reduxUserInfo]);
   return (
     <Paper
       elevation={3}
@@ -23,12 +36,14 @@ const MainProfileComopnent = () => {
         position: "relative",
       }}
     >
-      <PageChangerComponent
-        sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
-        to={"/change-profile"}
-      >
-        프로필 변경
-      </PageChangerComponent>
+      {!props.another && (
+        <PageChangerComponent
+          sx={{ marin: "0px", position: "absolute", right: "5px", top: "5px" }}
+          to={"/change-profile"}
+        >
+          프로필 변경
+        </PageChangerComponent>
+      )}
       <Grid container>
         <Grid
           sx={{
@@ -81,7 +96,39 @@ const MainProfileComopnent = () => {
             </div>
             <div style={{ marginTop: "3px" }}>{userInfo.id}</div>
             <div style={{ marginTop: "11px" }}>포인트 : {userInfo.point}</div>
-            {/* <div>레벨 : {userInfo.point}</div> */}
+          </Grid>
+          <Grid>
+            <div
+              style={{
+                width: "45px",
+                height: "45px",
+                margin: "0px",
+                position: "relative",
+                backgroundRepeat: "no-repeat",
+                backgroundImage: `url("/profile/sprout.png")`,
+                backgroundSize: "cover",
+              }}
+              alt=""
+            >
+              <img
+                style={{
+                  width: "35px",
+                  height: "35px",
+                  position: "absolute",
+                  right: "-10px",
+                  bottom: "-10px",
+                  color: "white",
+                  fontSize: "13px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  lineHeight: "25px",
+                }}
+                src={`/profile/level${level}.png`}
+                alt=""
+              />
+            </div>
+            <div>{exp}</div>
           </Grid>
         </Grid>
       </Grid>

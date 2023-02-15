@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Paper } from "@mui/material";
 import calLevel from "../API/calLevel";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const rankItemStyle = {
   display: "flex",
@@ -15,12 +16,13 @@ const RankingItemComponent = (props) => {
   const rank = props.rankingInfo.rank;
   const member = props.rankingInfo.member;
   const name = member.name;
-  // const uid = member.uid;
+  const id = member.id;
   const profileImgPath = member.profileImgPath;
   const exp = member.exp;
   const [level, caledExp] = calLevel(exp);
 
   const [rankImgTag, setRankImgTag] = useState("");
+  const reduxId = useSelector((state) => state.auth.authentication.id);
 
   useEffect(() => {
     if (rank === 1 || rank === 2 || rank === 3) {
@@ -57,7 +59,13 @@ const RankingItemComponent = (props) => {
           justifyContent: "space-between",
         }}
         onClick={() => {
-          navigate("");
+          console.log(reduxId, id);
+          console.log(typeof reduxId, typeof id);
+          if (reduxId && reduxId === id) {
+            navigate("/main");
+          } else {
+            navigate(`/member/${id}`);
+          }
         }}
       >
         {rankImgTag ? (

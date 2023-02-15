@@ -7,6 +7,8 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import calLevel from "../API/calLevel";
 
 const userSearchItemTheme = createTheme({
@@ -36,7 +38,11 @@ function CircularProgressWithLabel(props) {
         <Typography
           variant="caption"
           component="div"
-          style={{ color: "#5D5E58", fontSize: "16px" }}
+          style={{
+            color: "#5D5E58",
+            fontSize: "16px",
+            fontFamily: "NanumSquareB",
+          }}
         >
           {`${Math.round(props.value)}%`}
         </Typography>
@@ -47,9 +53,12 @@ function CircularProgressWithLabel(props) {
 
 const UserSearchResultItemComponent = (props) => {
   // id,name,exp,profileImgPath
+  const navigate = useNavigate();
   const id = props.recentSearchResult.id;
   const name = props.recentSearchResult.name;
   const exp = props.recentSearchResult.exp;
+  const reduxId = useSelector((state) => state.auth.authentication.id);
+
   let [level, caledExp] = calLevel(exp);
   if (level === 6) {
     level = 10;
@@ -59,6 +68,13 @@ const UserSearchResultItemComponent = (props) => {
     <ThemeProvider theme={userSearchItemTheme}>
       <Grid container>
         <Paper
+          onClick={() => {
+            if (reduxId && reduxId === id) {
+              navigate("/main");
+            } else {
+              navigate(`/member/${id}`);
+            }
+          }}
           className="grid-container"
           // variant="contained"
           sx={{
