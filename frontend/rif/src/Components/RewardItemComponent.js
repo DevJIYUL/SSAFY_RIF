@@ -4,6 +4,7 @@ import RewardInfoComponent from "./RewardInfoComponent";
 // show rounded reward Icon
 // props : type, reward
 const RewardItemComponent = (props) => {
+  console.log(props, "props");
   const { rewardInfo, hasReward } = props.reward;
   let onDisplay = props.reward.onDisplay;
   const [tempOnDisplay, setTempOnDisplay] = useState(onDisplay);

@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         // Description Page Two (How to Use)
-        path: "/usage/:pageId",
+        path: "/usage/",
         element: <UsagePageComponent />,
       },
       {
