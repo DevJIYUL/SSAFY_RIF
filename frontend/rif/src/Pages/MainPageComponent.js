@@ -8,7 +8,6 @@ import SectionTitleComponent from "../UI/SectionTitleComponent";
 import { Grid, createTheme, ThemeProvider } from "@mui/material";
 import MainProfileComopnent from "../Components/MainProfileComponent";
 import RewardComponent from "../Components/RewardComponent";
-import { authActions } from "../store/auth";
 import BtnComponent from "../UI/BtnComponent";
 
 const profileTheme = createTheme({
@@ -23,7 +22,7 @@ const MainPageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [logoutFlag, setLogoutFlag] = useState("");
+  const [logoutFlag] = useState("");
   const token = useSelector((state) => state.auth.authentication.token);
   const id = useSelector((state) => state.auth.authentication.id);
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -48,10 +47,6 @@ const MainPageComponent = () => {
   const [exp, caledExp] = calLevel(userInfo.exp);
   console.log(exp, caledExp);
 
-  const logoutBtnHandler = () => {
-    dispatch(authActions.logout());
-    setLogoutFlag("logout");
-  };
   const logBtnHandler = () => {
     navigate("/log");
   };
@@ -104,9 +99,6 @@ const MainPageComponent = () => {
                 arrow="right"
               >
                 사용자 기록 확인
-              </BtnComponent>
-              <BtnComponent onClick={logoutBtnHandler} color="secondary">
-                로그 아웃
               </BtnComponent>
             </div>
           </Grid>

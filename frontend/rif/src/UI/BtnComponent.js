@@ -25,7 +25,7 @@ const BtnComponent = (props) => {
           (props.arrow === "right") | "Right" ? (
             <KeyboardArrowRightIcon sx={{ color: iconColor }} />
           ) : (
-            ""
+            props.endIcon
           )
         }
         sx={props.sx || { m: "1rem" }}
