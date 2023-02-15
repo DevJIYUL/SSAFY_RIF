@@ -1,15 +1,17 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import NavigationComponent from "./NavigationComponent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { navigationActions } from "../store/navigationSlice";
 import useWindowDimensions from "../Components/useWindowDimensions";
+import BigWindowComponent from "../Components/BigWindowComponent";
 
 const RootLayOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const { width } = useWindowDimensions();
+  const [navigationHidden, setNavigationHidden] = useState(false);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -26,16 +28,27 @@ const RootLayOut = () => {
     }
   }, [navigate, location, dispatch]);
 
-  return (
-    <>
-    {width < 480 ?
-      (<main style={{ marginBottom: "70px" }}>
-        <Outlet />
-      </main>
-      <NavigationComponent />) :(
-      <p> 너무 커용</p>)
+  useEffect(() => {
+    if (width >= 480 || width <= 350) {
+      setNavigationHidden(true);
+    } else {
+      setNavigationHidden(false);
     }
-    </>
+  }, [width, setNavigationHidden]);
+
+  return (
+    <div>
+      {navigationHidden ? (
+        <p>
+          <BigWindowComponent width={width} />
+        </p>
+      ) : (
+        <main style={{ marginBottom: "70px" }}>
+          <Outlet />
+        </main>
+      )}
+      <NavigationComponent hidden={navigationHidden} />
+    </div>
   );
 };
 

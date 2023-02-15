@@ -23,7 +23,7 @@ const outerTheme = createTheme({
   },
 });
 
-const NavigationComponent = () => {
+const NavigationComponent = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -68,6 +68,8 @@ const NavigationComponent = () => {
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
+        id="navigationbar-paper"
+        hidden={props.hidden}
       >
         <BottomNavigation
           showLabels
