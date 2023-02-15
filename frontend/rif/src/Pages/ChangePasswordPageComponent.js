@@ -27,7 +27,7 @@ const ChangePasswordPageComponent = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
-  const [errorForm, setErrorForm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,6 +56,10 @@ const ChangePasswordPageComponent = () => {
 
   const changePasswordSubmitHandler = (event) => {
     event.preventDefault();
+    if (newPassword !== newPasswordConfirm) {
+      setErrorMessage("새로운 비밀번호가 일치하지 않습니다.");
+      return;
+    }
     async function changePasswordRequest(
       currentPassword,
       newPassword,
@@ -70,21 +74,23 @@ const ChangePasswordPageComponent = () => {
           token,
           id
         );
+        console.log(response);
         if (response.data.newToken) {
           dispatch(authActions.updateToken(response.data.newToken));
         }
-        dispatch(
-          authActions.changeAuth({
-            token: response.data.accessToken,
-            id: authentication.id,
-          })
-        );
-        if (response.status !== 200) {
-          throw new Error("비밀번호 변경 오류");
+
+        if (response.status === 403) {
+          console.log(response);
+          setErrorMessage("비밀번호가 올바르지 않습니다.");
+        } else if (response.status === 307) {
+          console.log(response);
+          dispatch(authActions.logout());
+          navigate("/login");
+        } else {
+          navigate("/main");
         }
-        navigate("/main");
       } catch (error) {
-        setErrorForm(true);
+        navigate("/error");
       }
     }
     changePasswordRequest(
@@ -119,37 +125,81 @@ const ChangePasswordPageComponent = () => {
             autoComplete="off"
             onSubmit={changePasswordSubmitHandler}
           >
-            <TextField
-              fullWidth
-              id="currentPassword"
-              label="현재 비밀번호"
-              type="password"
-              sx={{ mb: 2 }}
-              defaultValue={currentPassword}
-              onChange={inputCurrentPasswordHandler}
-            />
-            <TextField
-              fullWidth
-              id="newPassword"
-              label="새 비밀번호"
-              type="password"
-              sx={{ mb: 2 }}
-              defaultValue={newPassword}
-              onChange={inputNewPasswordHandler}
-            />
-            <TextField
-              fullWidth
-              id="newPasswordConfirm"
-              label="새 비밀번호 확인"
-              type="password"
-              sx={{ mb: 2 }}
-              defaultValue={newPasswordConfirm}
-              onChange={inputNewPasswordConfirmHandler}
-            />
-            {errorForm && (
+            {(!errorMessage ||
+              errorMessage === "새로운 비밀번호가 일치하지 않습니다.") && (
+              <TextField
+                fullWidth
+                id="currentPassword"
+                label="현재 비밀번호"
+                type="password"
+                sx={{ mb: 2 }}
+                defaultValue={currentPassword}
+                onChange={inputCurrentPasswordHandler}
+              />
+            )}
+            {errorMessage === "비밀번호가 올바르지 않습니다." && (
+              <TextField
+                fullWidth
+                error
+                id="currentPassword"
+                label="현재 비밀번호"
+                type="password"
+                sx={{ mb: 2 }}
+                defaultValue={currentPassword}
+                onChange={inputCurrentPasswordHandler}
+              />
+            )}
+            {(!errorMessage ||
+              errorMessage === "비밀번호가 올바르지 않습니다.") && (
+              <>
+                <TextField
+                  fullWidth
+                  id="newPassword"
+                  label="새 비밀번호"
+                  type="password"
+                  sx={{ mb: 2 }}
+                  defaultValue={newPassword}
+                  onChange={inputNewPasswordHandler}
+                />
+                <TextField
+                  fullWidth
+                  id="newPasswordConfirm"
+                  label="새 비밀번호 확인"
+                  type="password"
+                  sx={{ mb: 2 }}
+                  defaultValue={newPasswordConfirm}
+                  onChange={inputNewPasswordConfirmHandler}
+                />
+              </>
+            )}
+            {errorMessage === "새로운 비밀번호가 일치하지 않습니다." && (
+              <>
+                <TextField
+                  fullWidth
+                  error
+                  id="newPassword"
+                  label="새 비밀번호"
+                  type="password"
+                  sx={{ mb: 2 }}
+                  defaultValue={newPassword}
+                  onChange={inputNewPasswordHandler}
+                />
+                <TextField
+                  fullWidth
+                  error
+                  id="newPasswordConfirm"
+                  label="새 비밀번호 확인"
+                  type="password"
+                  sx={{ mb: 2 }}
+                  defaultValue={newPasswordConfirm}
+                  onChange={inputNewPasswordConfirmHandler}
+                />
+              </>
+            )}
+            {errorMessage && (
               <FormHelperText>
                 <ErrorIcon />
-                아이디 또는 비밀번호가 올바르지 않습니다.
+                비밀번호가 올바르지 않습니다.
               </FormHelperText>
             )}
             <Button
