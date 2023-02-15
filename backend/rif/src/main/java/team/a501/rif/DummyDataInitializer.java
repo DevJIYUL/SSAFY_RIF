@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import team.a501.rif.dto.achievement.AchievementSaveRequest;
 import team.a501.rif.dto.badge.BadgeSaveRequest;
 import team.a501.rif.dto.member.MemberRegisterRequest;
-import team.a501.rif.dto.riflog.RifLogSaveRequest;
 import team.a501.rif.service.achievement.AchievementService;
 import team.a501.rif.service.badge.BadgeService;
 import team.a501.rif.service.member.MemberService;
@@ -31,7 +30,7 @@ import java.util.List;
         matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
-@Profile("dev")
+@Profile("prod")
 public class DummyDataInitializer implements CommandLineRunner {
 
     private final MemberService memberService;
@@ -77,23 +76,5 @@ public class DummyDataInitializer implements CommandLineRunner {
                 objectMapper.readValue(achievementsJson, new TypeReference<>() {
                 });
         achievementService.saveAll(achievementSaveRequests);
-
-        // RifLog 추가
-        List<RifLogSaveRequest> rifLogSaveRequests =
-                objectMapper.readValue(rifLogsJson, new TypeReference<>() {});
-        for (var r :
-                rifLogSaveRequests) {
-            memberService.addRifLog(r);
-        }
-
-        // 멤버별 5번씩 갓차
-        for (var m :
-                memberRegisterRequestList) {
-            memberService.drawRandomBadge(m.getId());
-            memberService.drawRandomBadge(m.getId());
-            memberService.drawRandomBadge(m.getId());
-            memberService.drawRandomBadge(m.getId());
-            memberService.drawRandomBadge(m.getId());
-        }
     }
 }
