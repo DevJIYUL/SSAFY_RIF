@@ -1,13 +1,10 @@
 import { Grid, Container } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 import { Link } from "react-router-dom";
-import PageChangerComponent from "../UI/PageChangerComponent";
 
 const DescriptionPageComponent = () => {
   return (
     <div>
-      <PageChangerComponent to="/home"> 메인화면 </PageChangerComponent>
-
       <Grid
         container
         className="grid-container"
@@ -46,7 +43,7 @@ const DescriptionPageComponent = () => {
           </Container>
         </Grid>
         <Grid item className="grid-buttons">
-          <Link to="/usage/1" style={{ textDecoration: "none" }}>
+          <Link to="/usage" style={{ textDecoration: "none" }}>
             <BtnComponent color="secondary">다음 : 기기 사용법</BtnComponent>
           </Link>
           <br />

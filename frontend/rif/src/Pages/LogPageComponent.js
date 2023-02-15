@@ -2,7 +2,6 @@ import LogItemComponent from "../Components/LogItemComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useCallback, useState, useEffect } from "react";
 import useLogGetAPI from "../API/getLogAPI";
-import PageChangerComponent from "../UI/PageChangerComponent";
 import { useNavigate } from "react-router-dom";
 
 const LogPageComponent = () => {
@@ -44,7 +43,6 @@ const LogPageComponent = () => {
 
   return (
     <div>
-      <PageChangerComponent to="/main"> 마이 페이지 </PageChangerComponent>
       {logs &&
         logs.map((log, logIndex) => {
           if (logs.length === logIndex + 1) {

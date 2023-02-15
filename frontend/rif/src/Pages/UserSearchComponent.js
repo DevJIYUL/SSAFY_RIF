@@ -11,7 +11,6 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import UserSearchResultBoxComponent from "../Components/UserSearchResultBoxComponent";
-import PageChangerComponent from "../UI/PageChangerComponent";
 import { Search } from "@mui/icons-material";
 
 const theme = createTheme({
@@ -24,13 +23,13 @@ const theme = createTheme({
 
 const UserSearchComponent = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
   const recentSearchWord = useSelector(
     (state) => state.search.recentSearchWord
   );
   const recentSearchResults = useSelector(
     (state) => state.search.recentSearchResults
   );
+  const [name, setName] = useState(recentSearchWord);
   const inputChangeHandler = (event) => {
     setName(event.target.value);
   };
@@ -45,7 +44,6 @@ const UserSearchComponent = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <PageChangerComponent to="/main">메인 화면</PageChangerComponent>
       <Grid
         container
         style={{
