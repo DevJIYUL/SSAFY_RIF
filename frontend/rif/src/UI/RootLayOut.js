@@ -27,7 +27,35 @@ const RootLayOut = () => {
   return (
     <>
       <main style={{ marginBottom: "70px" }}>
+        <img
+          src="/leaf.png"
+          alt="leaf"
+          style={{
+            width: "75%",
+            position: "fixed",
+            top: "-1rem",
+            right: "-5rem",
+            zIndex: "-2",
+            transform: "rotate(135deg)",
+            overflow: "visible",
+            opacity: "0.5",
+          }}
+        ></img>
         <Outlet />
+        <img
+          src="/leaf.png"
+          alt="leaf"
+          style={{
+            width: "75%",
+            position: "fixed",
+            bottom: "0px",
+            left: "-5rem",
+            zIndex: "-2",
+            transform: "rotateY(180deg) rotate(225deg)",
+            overflow: "visible",
+            opacity: "0.5",
+          }}
+        ></img>
       </main>
       <NavigationComponent />
     </>
