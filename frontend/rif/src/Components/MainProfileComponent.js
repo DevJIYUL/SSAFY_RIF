@@ -1,13 +1,56 @@
 import { useSelector } from "react-redux";
-import { Grid, Paper, CircularProgress } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  CircularProgress,
+  Box,
+  Popover,
+  Typography,
+  Button,
+} from "@mui/material";
 import PageChangerComponent from "../UI/PageChangerComponent";
 import { useEffect, useState } from "react";
 import calLevel from "../API/calLevel";
 
+function CircularProgressWithLabel(props) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  );
+}
+
 const MainProfileComopnent = (props) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   const reduxUserInfo = useSelector((state) => state.user.userInfo);
   const [userInfo, setUserInfo] = useState("");
-  const [level, exp] = calLevel(userInfo.exp);
+  const [level, caledExp] = calLevel(userInfo.exp);
 
   console.log(userInfo);
   console.log(props.userInfo);
@@ -30,7 +73,7 @@ const MainProfileComopnent = (props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "5% auto",
+        margin: `${window.innerWidth * 0.05 - 8}px auto 5% auto`,
         borderRadius: "15px",
         color: "#5D5E58",
         position: "relative",
@@ -102,42 +145,73 @@ const MainProfileComopnent = (props) => {
                   {userInfo.name}
                 </div>
                 <div style={{ marginTop: "3px" }}>{userInfo.id}</div>
-                <div style={{ marginTop: "11px" }}>
+                <div style={{ marginTop: "11px", fontSize: "16px" }}>
                   포인트 : {userInfo.point}
                 </div>
               </Grid>
               <Grid>
-                <div
-                  style={{
-                    width: "45px",
-                    height: "45px",
-                    margin: "0px",
-                    position: "relative",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: `url("/profile/sprout.png")`,
-                    backgroundSize: "cover",
-                  }}
-                  alt=""
-                >
-                  <img
+                <Button aria-describedby={id} onClick={handleClick}>
+                  <CircularProgressWithLabel
+                    variant="determinate"
+                    color="success"
+                    value={caledExp <= 100 ? caledExp : 100}
                     style={{
-                      width: "35px",
-                      height: "35px",
-                      position: "absolute",
-                      right: "-10px",
-                      bottom: "-10px",
-                      color: "white",
-                      fontSize: "13px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      lineHeight: "25px",
+                      width: "70px",
+                      height: "70px",
+                      margin: "10px 0px",
                     }}
-                    src={`/profile/level${level}.png`}
-                    alt=""
-                  />
-                </div>
-                <div>{exp}</div>
+                  >
+                    <div
+                      style={{
+                        top: "-4px",
+                        right: "4px",
+                        width: "45px",
+                        height: "45px",
+                        margin: "0px",
+                        position: "relative",
+                        backgroundRepeat: "no-repeat",
+                        backgroundImage: `url("/profile/sprout.png")`,
+                        backgroundSize: "cover",
+                      }}
+                      alt=""
+                    >
+                      <img
+                        style={{
+                          width: "33px",
+                          height: "33px",
+                          position: "absolute",
+                          right: "-10px",
+                          bottom: "-8px",
+                          color: "white",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          lineHeight: "25px",
+                        }}
+                        src={`/profile/level${level}.png`}
+                        alt=""
+                      />
+                    </div>
+                  </CircularProgressWithLabel>
+
+                  {/* <div>{exp}</div> */}
+                </Button>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: 0,
+                    horizontal: 20,
+                  }}
+                >
+                  <Typography sx={{ p: 2 }}>{caledExp}</Typography>
+                </Popover>
               </Grid>
             </Grid>
           </Grid>
