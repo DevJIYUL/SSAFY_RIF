@@ -1,4 +1,3 @@
-import PageChangerComponent from "../UI/PageChangerComponent";
 import BtnComponent from "../UI/BtnComponent";
 import {
   Grid,
@@ -103,7 +102,6 @@ const LotComponent = () => {
 
   return (
     <div>
-      <PageChangerComponent to="/"> 뱃지 </PageChangerComponent>
       <Grid
         container
         className="grid-container"

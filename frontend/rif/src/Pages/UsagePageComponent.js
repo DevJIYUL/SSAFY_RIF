@@ -1,7 +1,6 @@
 import { Grid, Container } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 import { Link, useParams } from "react-router-dom";
-import PageChangerComponent from "../UI/PageChangerComponent";
 import howToUse from "../howToUse.json";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -20,7 +19,6 @@ const UsagePageComponent = () => {
 
   return (
     <div>
-      <PageChangerComponent to="/home"> 메인화면 </PageChangerComponent>
       <Grid
         container
         className="grid-container"
