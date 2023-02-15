@@ -26,7 +26,7 @@ const RootLayOut = () => {
 
   return (
     <>
-      <main style={{ marginBottom: "70px" }}>
+      <main style={{ margin: "10px 0px 70px 0px" }}>
         <Outlet />
       </main>
       <NavigationComponent />
