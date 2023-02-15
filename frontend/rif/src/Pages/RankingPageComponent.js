@@ -62,7 +62,14 @@ const RankingPageComponent = () => {
       >
         재활용 잘하는 순위
       </div>
-      <Grid container style={{ fontFamily: "NanumSquareEB", fontSize: "25px" }}>
+      <Grid
+        container
+        style={{
+          fontFamily: "NanumSquareEB",
+          fontSize: "25px",
+          justifyContent: "center",
+        }}
+      >
         {rankingInfos ? (
           rankingInfos.map((rankingInfo) => (
             <RankingItemComponent
@@ -71,7 +78,7 @@ const RankingPageComponent = () => {
             />
           ))
         ) : (
-          <CircularProgress color="success" />
+          <CircularProgress color="success" style={{ margin: "45%" }} />
         )}
         <hr />
         {myRankingInfo && (
