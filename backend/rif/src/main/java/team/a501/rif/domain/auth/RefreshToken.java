@@ -22,7 +22,7 @@ public class RefreshToken {
     private String id;
     private String refreshToken;
 
-    @TimeToLive(unit = TimeUnit.MINUTES)
+    @TimeToLive(unit = TimeUnit.DAYS)
     private Integer expiration;
 
     public void setExpiration(Integer expiration) {
