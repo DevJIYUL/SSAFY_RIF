@@ -31,6 +31,9 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "env": {
+      "NODE_ENV": "development"
+    },
     "extends": [
       "react-app",
       "react-app/jest"
@@ -47,5 +50,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-preset-react-app": "^10.0.1"
   }
 }
