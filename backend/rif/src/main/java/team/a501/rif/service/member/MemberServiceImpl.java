@@ -456,7 +456,6 @@ public class MemberServiceImpl implements MemberService {
         List<MemberResponse> top10 = memberRepository
                 .findFirst10ByOrderByExpDesc()
                 .stream()
-                .filter(member -> member.getExp() > 0)
                 .sorted((m1, m2) -> m1.getExp().equals(m2.getExp()) ? m1.getId().compareTo(m2.getId()) : 1)
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
