@@ -5,7 +5,6 @@ import changeProfileInfoAPI from "../API/changeProfileInfoAPI";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Box } from "@mui/material";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
-import PageChangerComponent from "../UI/PageChangerComponent";
 import { authActions } from "../store/auth";
 
 const ChangeProfilePageComponent = () => {
@@ -19,10 +18,8 @@ const ChangeProfilePageComponent = () => {
   );
 
   useEffect(() => {
-    if (!profileImgPath) {
-      dispatch(mainPageRequestHandler());
-    }
-  }, [profileImgPath, dispatch]);
+    dispatch(mainPageRequestHandler(id, token));
+  }, [profileImgPath, dispatch, id, token]);
 
   const [selectedProfileImg, setselectedProfileImg] = useState(profileImgPath);
 
@@ -63,7 +60,6 @@ const ChangeProfilePageComponent = () => {
 
   return (
     <>
-      <PageChangerComponent to="/main">메인 화면</PageChangerComponent>
       <Grid container justifyContent="center" stlye={{ width: "90%" }}>
         <SectionTitleComponent sectionTitle="프로필 사진 수정"></SectionTitleComponent>
         <Grid
