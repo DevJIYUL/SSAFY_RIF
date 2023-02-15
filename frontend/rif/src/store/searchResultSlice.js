@@ -4,7 +4,7 @@ import userSearchAPI from "../API/userSearchAPI";
 
 const searchResultSlice = createSlice({
   name: "searchResult",
-  initialState: { recentSearchWord: "", recentSearchResults: null },
+  initialState: { recentSearchWord: "", recentSearchResults: "" },
   reducers: {
     setRecentSearchWord(state, action) {
       state.recentSearchWord = action.payload;

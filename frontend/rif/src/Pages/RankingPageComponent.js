@@ -4,7 +4,6 @@ import getRankingInfoWithMeAPI from "../API/getRankingInfoWithMeAPI";
 import getRankingInfoWithoutMeAPI from "../API/getRankingInfoWithoutMeAPI";
 import RankingItemComponent from "../Components/RankingItemComponent";
 import { CircularProgress, Grid } from "@mui/material";
-import PageChangerComponent from "../UI/PageChangerComponent";
 import { authActions } from "../store/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -51,13 +50,12 @@ const RankingPageComponent = () => {
 
   return (
     <div>
-      <PageChangerComponent to="/main">메인 페이지</PageChangerComponent>
       <div
         style={{
           fontFamily: "NanumSquareEB",
           fontSize: "25px",
           textAlign: "center",
-          margin: "10px 10px 20px 10px",
+          margin: "20px 10px 20px 10px",
         }}
       >
         재활용 잘하는 순위

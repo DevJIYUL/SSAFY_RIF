@@ -1,4 +1,3 @@
-import PageChangerComponent from "../UI/PageChangerComponent";
 import SectionTitleComponent from "../UI/SectionTitleComponent";
 import RewardComponent from "../Components/RewardComponent";
 import { Grid } from "@mui/material";
@@ -6,8 +5,6 @@ import { Grid } from "@mui/material";
 const AchievementPageComponent = () => {
   return (
     <div>
-      <PageChangerComponent to="/main"> 마이 페이지 </PageChangerComponent>
-
       <Grid
         container
         direction="column"
