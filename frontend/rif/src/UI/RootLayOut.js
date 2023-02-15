@@ -13,8 +13,15 @@ const RootLayOut = () => {
   const { width } = useWindowDimensions();
   const [navigationHidden, setNavigationHidden] = useState(false);
 
-  const routeAddress = location.pathname.split("/")[1];
+  const locationPath = location.pathname;
+  let routeAddress;
+  if (locationPath) {
+    routeAddress = location.pathname.split("/")[1];
+  } else {
+    routeAddress = "";
+  }
   const titleObj = {
+    "": "",
     login: "로그인",
     home: "",
     main: "프로필",
