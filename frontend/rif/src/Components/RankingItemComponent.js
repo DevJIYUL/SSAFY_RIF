@@ -144,7 +144,8 @@ const RankingItemComponent = (props) => {
             textAlign: "center",
           }}
         >
-          {caledExp + "%"}
+          {level !== 10 && caledExp + "%"}
+          {level === 10 && caledExp}
         </div>
       </Paper>
     </Grid>

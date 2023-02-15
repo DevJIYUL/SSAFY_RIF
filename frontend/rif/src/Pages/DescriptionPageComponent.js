@@ -1,13 +1,10 @@
 import { Grid, Container } from "@mui/material";
 import BtnComponent from "../UI/BtnComponent";
 import { Link } from "react-router-dom";
-import PageChangerComponent from "../UI/PageChangerComponent";
 
 const DescriptionPageComponent = () => {
   return (
     <div>
-      <PageChangerComponent to="/home"> 메인화면 </PageChangerComponent>
-
       <Grid
         container
         className="grid-container"
