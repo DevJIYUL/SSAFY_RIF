@@ -90,9 +90,9 @@ spring:
 
         jdbc:
           lob:
-            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
+            non_contextual_creation: true
 
-        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
+        use-new-id-generator-mapping: false
 
 security:
   jwt:
@@ -138,20 +138,20 @@ spring:
 
         jdbc:
           lob:
-            non_contextual_creation: true # todo 해당 설정에 대한 설명 적기
+            non_contextual_creation: true
 
-        use-new-id-generator-mapping: false # todo 해당 설정에 대한 설명 적기
+        use-new-id-generator-mapping: false
 
 security:
   jwt:
     token:
       secret: Ssafy2023Year8th12floora501iotrier23423fefasdqwdqe32r2rrqwsadasdasd # jwt 생성시 사용되는 시크릿 키
-      expire: 180000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
+      expire: 86400000 # 1h : 1000(ms) * 60(s) * 60(m) # accesstoken 만료 기간
 
 logging:
   level:
     org.hibernate:
       SQL: debug
-      type.descriptor.sql: trace
+      type.descriptor.sql: info
 ...
 
