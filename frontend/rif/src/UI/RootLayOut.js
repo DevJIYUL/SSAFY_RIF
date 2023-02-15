@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { navigationActions } from "../store/navigationSlice";
 import useWindowDimensions from "../Components/useWindowDimensions";
 import BigWindowComponent from "../Components/BigWindowComponent";
+import TopBarComponent from "../Components/TopBarComponent";
 
 const RootLayOut = () => {
   const navigate = useNavigate();
@@ -13,8 +14,15 @@ const RootLayOut = () => {
   const { width } = useWindowDimensions();
   const [navigationHidden, setNavigationHidden] = useState(false);
 
-  const routeAddress = location.pathname.split("/")[1];
+  const locationPath = location.pathname;
+  let routeAddress;
+  if (locationPath) {
+    routeAddress = location.pathname.split("/")[1];
+  } else {
+    routeAddress = "";
+  }
   const titleObj = {
+    "": "",
     login: "로그인",
     home: "",
     main: "프로필",
@@ -30,9 +38,11 @@ const RootLayOut = () => {
     achievement: "업적",
     member: "다른 멤버",
   };
+
   const title = Object.entries(titleObj).find(
     (list) => list[0] === routeAddress
   );
+
   console.log(title);
   useEffect(() => {
     const htmlTitle = document.querySelector("title");
@@ -50,7 +60,7 @@ const RootLayOut = () => {
       )
         dispatch(navigationActions.setPastHistory(location.pathname));
     }
-  }, [navigate, location, dispatch]);
+  }, [navigate, location, dispatch, title]);
 
   useEffect(() => {
     if (width >= 480 || width <= 350) {
@@ -62,12 +72,13 @@ const RootLayOut = () => {
 
   return (
     <div>
+      <TopBarComponent />
       {navigationHidden ? (
         <p>
           <BigWindowComponent width={width} />
         </p>
       ) : (
-        <main style={{ margin: "10px 0px 70px 0px" }}>
+        <main style={{ margin: "0px 0px 70px 0px" }}>
           <Outlet />
         </main>
       )}
