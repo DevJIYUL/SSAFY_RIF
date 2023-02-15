@@ -20,10 +20,6 @@ public class RifGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         ErrorCode code = e.getErrorCode();
 
-        if(e.getErrorCode().equals(ErrorCode.DIV_BY_ZERO)){
-
-        }
-
         return ResponseEntity.status(code.getHttpStatus()).body(ExceptionResponse.from(code));
     }
 
