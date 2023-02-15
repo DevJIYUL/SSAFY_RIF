@@ -30,7 +30,7 @@ import java.util.List;
         matchIfMissing = true)
 @RequiredArgsConstructor
 @Component
-@Profile("prod")
+@Profile("dev")
 public class DummyDataInitializer implements CommandLineRunner {
 
     private final MemberService memberService;
