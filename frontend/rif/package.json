@@ -34,18 +34,7 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "parserOptions": {
-      "babelOptions": {
-        "presets": [
-          [
-            "babel-preset-react-app",
-            false
-          ],
-          "babel-preset-react-app/prod"
-        ]
-      }
-    }
+    ]
   },
   "browserslist": {
     "production": [
@@ -59,8 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-preset-react-app": "^10.0.1"
-  }
+  "devDependencies": {}
 }
