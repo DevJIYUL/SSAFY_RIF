@@ -152,6 +152,6 @@ logging:
   level:
     org.hibernate:
       SQL: debug
-      type.descriptor.sql: info
+      type.descriptor.sql: debug
 ...
 
