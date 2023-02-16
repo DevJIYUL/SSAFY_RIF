@@ -64,16 +64,35 @@
   - 미정
 
 ## 개발 환경
-**BE**
-
-**EMB**
+### EMB
+**툴**
 - MobaXterm (Personal Edition v22.3)
 - VNC Viewer (6.22.826)
 - PyCharm (2022.3.1)
-- Python (3.9.2)
-- Arduino IDE (1.8.13)
+- Vim (8.2)
 
-**FE**
+**언어 및 라이브러리**
+
+Python (3.9.2)
+C (gnu17)
+gcc (10.2.1)
+Arduino IDE (1.8.13)
+PyPi (5.15.2.1)
+mfrc522 (0.0.7)
+RPi.GPIO (0.7.0)
+gpiozero (1.6.2)
+picamera2 (0.3.8)
+PyTorch (1.13.1)
+requests (2.25.1)
+pySerial (3.5b0)
+
+### BE
+
+### FE
+**툴**
+- Node.js (18.12.1)
+
+**언어 및 라이브러리**
 - yarn (1.22.19)
 - react (18.2.0)
 - react-redux (8.0.5)
@@ -82,3 +101,9 @@
 - reduxjs/toolkit (1.9.2)
 - react-swipeable-views (0.14.0)
 - mui (5.11.0)
+
+**CI/CD**
+- Jenkins
+- AWS EC2
+- NGINX
+- SSL
