@@ -18,6 +18,10 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+console.log = function () {};
+console.error = function () {};
+console.warn = function () {};
+
 const persistConfig = {
   key: "root",
   storage,
