@@ -25,7 +25,11 @@ const DescriptionPageComponent = () => {
             <h1>왜 RIF 인가?</h1>
           </div>
         </Grid>
-        <Grid item className="grid-description" style={{ width: "80%" }}>
+        <Grid
+          item
+          className="grid-description"
+          style={{ width: "80%", lineHeight: "1.6" }}
+        >
           <Container className="description" sx={{ mx: "auto" }}>
             <p>사실 우리는 분리수거를 제대로 하고 있지 않고 있습니다.</p>
             <p>

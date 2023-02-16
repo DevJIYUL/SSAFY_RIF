@@ -87,11 +87,10 @@ public class MemberServiceImpl implements MemberService {
                     .password(passwordEncoder.encode(e.getPassword()))
                     .uid(e.getUid())
                     .name(e.getName())
-                    .point(1000)
-                    .exp(0)
+                    .point(e.getPoint())
+                    .exp(e.getExp())
                     .profileImgPath(Member.DEFAULT_PROFILE_IMG)
                     .build());
-            memberRepository.flush();
         }
     }
 
