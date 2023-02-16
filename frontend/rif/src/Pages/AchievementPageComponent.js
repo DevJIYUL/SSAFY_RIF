@@ -11,10 +11,7 @@ const AchievementPageComponent = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <SectionTitleComponent
-          sectionTitle="업적"
-          sectionDetail="정렬"
-        ></SectionTitleComponent>
+        <SectionTitleComponent sectionTitle="업적"></SectionTitleComponent>
 
         <RewardComponent type="achievement" isRef={false}></RewardComponent>
       </Grid>
