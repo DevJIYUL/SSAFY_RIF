@@ -11,10 +11,7 @@ const BadgePageComponent = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <SectionTitleComponent
-          sectionTitle="뱃지"
-          sectionDetail="정렬"
-        ></SectionTitleComponent>
+        <SectionTitleComponent sectionTitle="뱃지"></SectionTitleComponent>
 
         <RewardComponent type="badge" isRef={false}></RewardComponent>
       </Grid>
