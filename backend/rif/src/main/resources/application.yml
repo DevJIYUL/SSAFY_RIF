@@ -107,6 +107,11 @@ logging:
       type.descriptor.sql: trace
 
 --- # prod
+spring-doc:
+  swagger-ui:
+    enabled: true
+  version: "v1"
+
 spring:
   config:
     activate:
