@@ -66,7 +66,7 @@ function UsagePageComponent() {
         >
           {howToUse.map((section, sectionId) => {
             return (
-              <Grid item sx={{ width: "100%" }}>
+              <Grid item sx={{ width: "100%" }} style={{ lineHeight: "1.6" }}>
                 <Container id={`img - ${section.sectionId}`}>
                   {section.imagePath && (
                     <img
