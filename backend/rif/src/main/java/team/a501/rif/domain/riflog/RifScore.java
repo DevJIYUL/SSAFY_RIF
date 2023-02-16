@@ -13,8 +13,8 @@ public class RifScore {
         Integer numerator = plasticOk + recycleOk;
         Integer denominator = plasticTotal + recycleTotal;
 
-        if (denominator.equals(0))
-            throw new RifCustomException(ErrorCode.DIV_BY_ZERO);
+        if (denominator <= 0)
+            return -1;
 
         Double successRatio = numerator.doubleValue() / denominator;
 

@@ -15,6 +15,10 @@ export default async function axiosInterface(
   headers = {},
   params = {}
 ) {
+  console.log = function () {};
+  console.error = function () {};
+  console.warn = function () {};
+
   if (headers.Authorization) {
     const myInterceptor = axios.interceptors.response.use(
       function (res) {

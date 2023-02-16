@@ -283,6 +283,20 @@ public class MemberServiceImpl implements MemberService {
         log.info("Member info ={}", member);
         Integer score = RifScore.getScoreOf(request.getPlasticTotal(), request.getPlasticOk(),
                 request.getRecycleTotal(), request.getRecycleOk());
+
+        if(score.equals(-1)){
+            return RifLogSaveResponse.builder()
+                    .name(member.getName())
+                    .point(0)
+                    .exp(0)
+                    .createdAt(null)
+                    .plasticTotal(0)
+                    .plasticOk(0)
+                    .recycleTotal(0)
+                    .recycleOk(0)
+                    .build();
+        }
+
         log.info("score info ={}", score);
         Integer gainedExp = score;
         Integer gainedPoint = 10 * ((score + 5) / 10);
@@ -442,7 +456,6 @@ public class MemberServiceImpl implements MemberService {
         List<MemberResponse> top10 = memberRepository
                 .findFirst10ByOrderByExpDesc()
                 .stream()
-                .filter(member -> member.getExp() > 0)
                 .sorted((m1, m2) -> m1.getExp().equals(m2.getExp()) ? m1.getId().compareTo(m2.getId()) : 1)
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
