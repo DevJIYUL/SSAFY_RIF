@@ -68,7 +68,7 @@ const ChangeProfilePageComponent = () => {
           }}
         >
           <Grid>
-            {[1, 4, 7].map((firstValue) => (
+            {[1, 4, 7, 10, 13, 16, 19, 22, 25, 28].map((firstValue) => (
               <Grid
                 container
                 justifyContent="space-evenly"
