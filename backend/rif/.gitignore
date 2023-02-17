@@ -26,8 +26,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### ignore applictaion.yml
-#src/main/resources/application.yml
+# ignore applictaion.yml
+src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/
