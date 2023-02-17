@@ -258,6 +258,18 @@ class MyApp(QWidget, Ui_Form):
         # yellow led on
         com.write('6'.encode())
 
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
+        com.write('6'.encode())
         # logout
         if val == 0:
             print("empty logout")
@@ -486,6 +498,9 @@ class MyThread(QThread):
                 print(hex(self.id))
                 self.mySignal.emit(str(hex(self.id)))
                 sensor_num = 3
+
+            else:
+                time.sleep(1)
 
     def stop(self):
         self.working = False
