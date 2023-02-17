@@ -178,7 +178,34 @@ cd S08P12A501/backend/rif
 #### 임베디드
 
 ```
-
+├─background_img
+├─final
+│  ├─classify
+│  ├─data
+│  │  ├─hyps
+│  │  ├─images
+│  │  └─scripts
+│  ├─models
+│  │  ├─hub
+│  │  ├─segment
+│  │  └─__pycache__
+│  ├─pts
+│  ├─segment
+│  ├─utils
+│  │  ├─aws
+│  │  ├─docker
+│  │  ├─flask_rest_api
+│  │  ├─google_app_engine
+│  │  ├─loggers
+│  │  │  ├─clearml
+│  │  │  ├─comet
+│  │  │  └─wandb
+│  │  ├─segment
+│  │  │  └─__pycache__
+│  │  └─__pycache__
+│  └─__pycache__
+├─pi_img
+└─yoloresult
 ```
 
 ---
