@@ -257,19 +257,6 @@ class MyApp(QWidget, Ui_Form):
         #GPIO.output(self.led_yellow, False)
         # yellow led on
         com.write('6'.encode())
-
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
-        com.write('6'.encode())
         # logout
         if val == 0:
             print("empty logout")
