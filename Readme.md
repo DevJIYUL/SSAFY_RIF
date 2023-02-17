@@ -318,5 +318,5 @@ cd S08P12A501/backend/rif
 ## 문서
 
 API 명세서
-[임베디드 회로도](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/docs/임베디드회로도.png)
-[YOLO 모델 상세](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/docs/yolo.md)
+[임베디드 회로도](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/-/blob/master/docs/임베디드회로도.png)
+[YOLO 모델 상세](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/-/blob/master/docs/yolo.md)
