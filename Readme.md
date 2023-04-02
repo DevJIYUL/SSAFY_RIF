@@ -1,164 +1,255 @@
 <img src="https://capsule-render.vercel.app/api?type=wave&color=c2e59c&height=300&section=header&text=RIF&fontSize=90&animation=fadeIn" />
 
 # Recycling Is Fun
+
 ## 📜 프로젝트 설명
+
 ### 개요
+
 - 일회용품 사용을 줄일 수 있게 합니다
 - 일회용품을 사용한다면 제대로 분리수거하여 재사용할 수 있게 합니다
 
 ### 타겟
+
 - 분리수거가 익숙하지 않은 사람
 - 올바른 분리수거 방법이 헷갈리는 사람
----
+
 ### 배경
+
 일상에서 주로 사용하는 플라스틱컵이 제대로 분리수거 되고 있지 않음
+
 ### 목적
+
 직접 분리수거 해보면서 즉각 피드백을 통해 잘못된 분리수거 의식을 바로 잡기 위해 프로젝트를 기획
+
 ### 구성
+
 - 분리수거 기기를 통해 플리스틱컵을 직접 분리수거 해보고 즉각 피드백 통해 분리수거 의식을 향상시킵니다.
 - 웹 모바일에서 분리수거 이력에 대한 보상으로 게이미피케이션 요소를 추가하여 지속적으로 분리수거 기기 사용을 유도합니다.
+
 ## 🎬영상
 
 ## 🖼화면
 
-| |  |
-| ------ | ------ |
-|![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg)<p align="center"> **메인** </p>  | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **홈** </p>|
-|![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg)<p align="center"> **로그인** </p>  | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **마이페이지** </p>|
-|![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg)  <p align="center"> **메인** </p>  | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **홈** </p>|
-
-
+| 에이                                                                                    | 비                                                                                                        |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg)<p align="center"> **메인** </p>   | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **홈** </p>         |
+| ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg)<p align="center"> **로그인** </p> | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **마이페이지** </p> |
+| ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg) <p align="center"> **메인** </p>  | ![하얀 강아지](https://i.esdrop.com/d/ZklKfna5T3.jpg "하얀 강아지")<p align="center"> **홈** </p>         |
 
 ## 🙆효과
 
+|    날짜    | 프로젝트 도입 이전 | 프로젝트 도입 이후 |
+| :--------: | :----------------: | :----------------: |
+| 2023.01.19 |     1개 / 15개     |                    |
+| 2023.01.20 |     3개 / 19개     |                    |
+| 2023.01.25 |     0개 / 10개     |                    |
+| 2023.01.26 |     2개 / 16개     |                    |
+| 2023.01.27 |     6개 / 15개     |                    |
+| 2023.02.01 |     2개 / 17개     |                    |
 
-|날짜|프로젝트 도입 이전|프로젝트 도입 이후|
-|:--------:|:--------:|:----:|
-|2023.01.19|1개 / 15개|      |
-|2023.01.20|3개 / 19개|      |
-|2023.01.25|0개 / 10개|      |
-|2023.01.26|2개 / 16개|      |
-|2023.01.27|6개 / 15개|      |
-|2023.02.01|2개 / 17개|      |
+---
 
 ## 🛠사용법
 
-
 ### 설치
 
-> #### 프론트 빌드
->- `git pull test_master` 
+#### 프론트 빌드
 
-> #### 서버 빌드
->- `ㅁㄴㅇ`
+```
+git clone -b only_pull_branch --single-branch https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501.git
 
-## 🛢기술스택
+cd S08P12A501/frontend/rif
 
-|임베디드|프론트 엔드|백 엔드|머신 러닝|인프라|툴
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|<img src="https://img.shields.io/badge/Raspberry Pi-A22846?style=for-the-badge&logo=Raspberry Pi&logoColor=white"> <img src="https://img.shields.io/badge/Arduino-3776AB?style=for-the-badge&logo=Arduino&logoColor=white"><img src="https://img.shields.io/badge/Python-00979D?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=C&logoColor=white"> <img src="https://img.shields.io/badge/Vim-019733?style=for-the-badge&logo=Vim&logoColor=white"> <img src="https://img.shields.io/badge/PyCharm-000000?style=for-the-badge&logo=PyCharm&logoColor=white"> <img src="https://img.shields.io/badge/PyQt-41CD52?style=for-the-badge&logo=qt&logoColor=white">|<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"> <img src="https://img.shields.io/badge/Create React App-09D3AC?style=for-the-badge&logo=Create React App&logoColor=white"> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"> <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white">|<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"><img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF0000?style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">| <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white"> <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white">| <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white">|<img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=for-the-badge&logo=Visual Studio Code&logoColor=white"> <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white"> <img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=GitLab&logoColor=white">  <img src="https://img.shields.io/badge/Mattermost-0058CC?style=for-the-badge&logo=Mattermost&logoColor=white">|
+// yarn 확인
+yarn -v
 
+// yarn이 없다면
+npm install yarn
 
+yarn install
 
-## 주요 기능
+// 설치 완료 후
+yarn start
+```
 
-### 1. 🖼 욜로 모델을 활용한 이미지 분석
+#### 서버 빌드
 
-#### 사용 데이터셋
+```
+git clone -b only_pull_branch --single-branch https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501.git
 
-프로젝트의 목적성에 비추어 보았을 때, "**실제 SSAFY 강의장에서 발생하는 쓰레기**"를 대상으로 데이터셋을 만드는 것이 적합하다고 판단하였고, 데이터셋을 직접 제작하였습니다.
+cd S08P12A501/backend/rif
 
-- **사용 이미지** : SSAFY 쓰레기통에서 발생한 커피 쓰레기 사진 **253**장
+"해줘"
+```
 
-|예시 이미지 1| 예시 이미지 2|
-|:-:|:-:|
-|<img src="assets/image_example_1.jpg" width="400">|<img src="assets/image_example_2.jpg" width="400">|
+### 호환 브라우저
 
-- **클래스** 
+| ![chrome](https://user-images.githubusercontent.com/97886013/219284514-91a36357-4480-4876-9ae9-e0aec6de5841.png) | ![Samsung Internet](https://user-images.githubusercontent.com/97886013/219283822-d1113a38-ceba-4315-81f2-b988daa2635b.png) | ![Safari](https://user-images.githubusercontent.com/97886013/219284504-2c2e60d3-2dbc-4a6f-ba8d-3b5b6fccad3e.png) | ![Naver Whale](https://user-images.githubusercontent.com/97886013/219284513-cfec140f-4b4a-4529-b9ee-aad7458096c7.png) |
+| ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Lastest✔                                                                                                         | Lastest✔                                                                                                                   | Lastest✔                                                                                                         | Lastest✔                                                                                                              |
 
-색이 있는 플라스틱은 재활용이 어렵다는 점에 착안하여 <u>색의 유무</u>에 따라 우선적으로 클래스를 분류하였으며, 빨대와 컵홀더와 같은 기타 부산물 역시 분류하고자 하는 클래스에 추가하였습니다.
+---
 
-|id| 클래스명 |설명|
-|:-:|:-:|:-:|
-|0|clear plastic cup| 별도의 프린팅이 되어있지 않은 투명한 플라스틱 커피컵 (ex. **매머드커피**) |
-|1|clear plastic cup lid| 별도의 프린팅이 되어있지 않은 투명한 플라스틱 커피컵의 뚜껑 |
-|2|colored plastic cup lid| 색이 입혀진 투명한 플라스틱 커피컵의 뚜껑 (ex. **바나프레소**)|
-|3|white plastic cup lid| 흰색의 불투명한 플라스틱 커피컵의 뚜껑|
-|4|plastic bottle| 라벨이 제거된 투명한 상테의 페트병 |
-|5|plastic bottle labeled|라벨이 제거되지 않은 상태의 페트병|
-|6|plastic bottle cap| 페트병의 뚜껑 |
-|7|paper cup| 인쇄여부를 구분하지 않는 종이컵 |
-|8|straw| 재질을 구분하지 않은 빨대 |
-|9|inked plastic cup| 별도의 프린팅이 입혀진 투명한 플라스틱 커피컵 (ex. **바나프레소**, **스타벅스**)|
-|10|label|페트병 라벨|
-|11|litter|기타 일반 쓰레기 (커피컵 스티커) |
-|12|paper cup holder| 종이 컵홀더 |
-|13|plastic cup with cup holder| 인쇄 및 색의 여부를 고려하지 않는, 컵홀더가 씌워진 플라스틱 컵|
-|14|paper cup with cup holder|컵홀더가 씌워진 종이 컵|
+## 폴더 구조
 
-- **데이터 증강**
-1. RandomHorizontapFlip
-2. RandomCrop (0% ~ 20%)
-3. Rotation (-15 deg ~ +15 deg)
+#### 프론트엔드
 
-<img src="assets/class_distribution.png">
+```
+├─public
+│  ├─achievement
+│  ├─badge
+│  ├─howToUse
+│  ├─navigationbar
+│  ├─profile
+│  └─ranking
+└─src
+    ├─API
+    ├─Components
+    ├─fonts
+    ├─Pages
+    ├─store
+    └─UI
+```
 
-#### 사용 모델
+#### 백엔드
 
-모델은 [yolov5](https://github.com/ultralytics/yolov5)을 사용하였으며, 데이터 증강으로 얻은 약 800장의 사진을 85(train) : 10(valid) : 5(test)  비율로 나눠 학습하였습니다.
+```
+├─gradle
+│  └─wrapper
+└─src
+    ├─main
+    │  ├─java
+    │  │  └─team
+    │  │      └─a501
+    │  │          └─rif
+    │  │              ├─config
+    │  │              │  ├─Jwt
+    │  │              │  └─Swagger
+    │  │              ├─controller
+    │  │              │  ├─achievement
+    │  │              │  ├─auth
+    │  │              │  ├─badge
+    │  │              │  └─member
+    │  │              ├─domain
+    │  │              │  ├─achievement
+    │  │              │  ├─auth
+    │  │              │  ├─badge
+    │  │              │  ├─member
+    │  │              │  ├─riflog
+    │  │              │  └─role
+    │  │              ├─dto
+    │  │              │  ├─achievement
+    │  │              │  ├─auth
+    │  │              │  ├─badge
+    │  │              │  ├─jwt
+    │  │              │  ├─member
+    │  │              │  └─riflog
+    │  │              ├─exception
+    │  │              ├─repository
+    │  │              │  ├─achievement
+    │  │              │  ├─auth
+    │  │              │  ├─badge
+    │  │              │  ├─member
+    │  │              │  └─riflog
+    │  │              └─service
+    │  │                  ├─achievement
+    │  │                  ├─auth
+    │  │                  ├─badge
+    │  │                  ├─member
+    │  │                  └─riflog
+    │  └─resources
+    └─test
+        └─java
+            └─team
+                └─a501
+                    └─rif
+                        ├─domain
+                        │  └─riflog
+                        ├─repository
+                        │  ├─achievement
+                        │  ├─badge
+                        │  └─member
+                        └─service
+                            ├─member
+                            └─riflog
+```
 
-5개의 Pretrained Model 에 대하여 각각 BackBone Layer를 고정시켜 100 epochs씩 학습하였으며, 과적합을 방지하기 위해 15 epoch 이상 성능의 개선이 없으면 학습을 종료하는 Early Stopping 기법을 사용하였습니다.
+#### 임베디드
 
-|model|mAP$_{0.5}$ (last / best)|mAP$_{0.5:0.95}$ (last / best)|
-|:-:|:-:|:-:|
-|yolov5s6| **0.92241** / 0.94122|0.60246 / 0.65301|
-|yolov5m6|0.91761 / 0.93395 |0.5427 / 0.67914|
-|yolov5s|0.9152 / 0.92468|0.53308 / 0.60605|
-|yolov5m|0.9156 / 0.93853| 0.63864 / 0.66291|
-|yolov5x|0.91881 / **0.94299** |**0.72446** / **0.74659**|
+```
+├─background_img
+├─final
+│  ├─classify
+│  ├─data
+│  │  ├─hyps
+│  │  ├─images
+│  │  └─scripts
+│  ├─models
+│  │  ├─hub
+│  │  ├─segment
+│  │  └─__pycache__
+│  ├─pts
+│  ├─segment
+│  ├─utils
+│  │  ├─aws
+│  │  ├─docker
+│  │  ├─flask_rest_api
+│  │  ├─google_app_engine
+│  │  ├─loggers
+│  │  │  ├─clearml
+│  │  │  ├─comet
+│  │  │  └─wandb
+│  │  ├─segment
+│  │  │  └─__pycache__
+│  │  └─__pycache__
+│  └─__pycache__
+├─pi_img
+└─yoloresult
+```
 
-이후 모델의 성능과 사진을 인식하고 결과를 출력할 때까지의 시간을 모두 고려해보았을 때, yolov5s6가 프로젝트에 가장 적합하다고 판단하여 해당 모델을 본 프로젝트에 적용하였습니다.
-
-#### 학습 결과
-
-|예시 이미지 1| 예시 이미지 2|
-|:-:|:-:|
-|<img src="assets/pred_example_1.jpg" width="400">|<img src="assets/pred_example_2.jpg" width="400">|
+---
 
 ## 시스템 구성도
 
-## 팀원 역할
+![image](https://user-images.githubusercontent.com/97886013/219298816-617b36e4-8894-4739-afaf-de8b20f9158d.png)
+
+---
+
+## 🛢기술스택
+
+|                                                                                                                                                                                                                                                                                                                                                                 임베디드                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                                                                                                                                             프론트 엔드                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                     백 엔드                                                                                                                                                                                                                                                                                                                                                                                                                     |                                                                                                  머신 러닝                                                                                                  |                                                                                                                                                                                                           인프라                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                      툴                                                                                                                                                                                                                                                                                      |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://img.shields.io/badge/Raspberry Pi-A22846?style=for-the-badge&logo=Raspberry Pi&logoColor=white"> <img src="https://img.shields.io/badge/Arduino-3776AB?style=for-the-badge&logo=Arduino&logoColor=white"><img src="https://img.shields.io/badge/Python-00979D?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=C&logoColor=white"> <img src="https://img.shields.io/badge/Vim-019733?style=for-the-badge&logo=Vim&logoColor=white"> <img src="https://img.shields.io/badge/PyCharm-000000?style=for-the-badge&logo=PyCharm&logoColor=white"> <img src="https://img.shields.io/badge/PyQt-41CD52?style=for-the-badge&logo=qt&logoColor=white"> | <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"> <img src="https://img.shields.io/badge/Create React App-09D3AC?style=for-the-badge&logo=Create React App&logoColor=white"> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"> <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white"> | <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"><img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF0000?style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="http://jwt.io/img/logo-asset.svg" style="width:70px"> | <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white"> <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white"> | <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> | <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=for-the-badge&logo=Visual Studio Code&logoColor=white"> <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white"> <img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=GitLab&logoColor=white"> <img src="https://img.shields.io/badge/Mattermost-0058CC?style=for-the-badge&logo=Mattermost&logoColor=white"> |
 
 ## 개발 환경
-### EMB
-**툴**
-- MobaXterm (Personal Edition v22.3)
-- VNC Viewer (6.22.826)
-- PyCharm (2022.3.1)
-- Vim (8.2)
-
-**언어 및 라이브러리**
-
-Python (3.9.2)
-C (gnu17)
-gcc (10.2.1)
-Arduino IDE (1.8.13)
-PyPi (5.15.2.1)
-mfrc522 (0.0.7)
-RPi.GPIO (0.7.0)
-gpiozero (1.6.2)
-picamera2 (0.3.8)
-PyTorch (1.13.1)
-requests (2.25.1)
-pySerial (3.5b0)
 
 ### BE
 
-### FE
 **툴**
-- Node.js (18.12.1)
+
+- IntelliJ IDE
 
 **언어 및 라이브러리**
+
+- Springboot 2.7.7
+- Spring Web
+- Spring Data JPA
+- Spring Security
+- Spring Validation
+- Redis
+- MariaDB
+- Swagger 3.0.0
+
+### FE
+
+**툴**
+
+- visual studio code
+
+**언어 및 라이브러리**
+
+- Node.js (18.12.1)
 - yarn (1.22.19)
 - react (18.2.0)
 - react-redux (8.0.5)
@@ -166,10 +257,68 @@ pySerial (3.5b0)
 - redux-persist (6.0.0)
 - reduxjs/toolkit (1.9.2)
 - react-swipeable-views (0.14.0)
+- axios (1.2.4)
 - mui (5.11.0)
 
-**CI/CD**
+### EMB
+
+**툴**
+
+- MobaXterm (Personal Edition v22.3)
+- VNC Viewer (6.22.826)
+- PyCharm (2022.3.1)
+- Vim (8.2)
+
+**언어 및 라이브러리**
+
+- Python (3.9.2)
+- C (gnu17)
+- gcc (10.2.1)
+- Arduino IDE (1.8.13)
+- PyPi (5.15.2.1)
+- mfrc522 (0.0.7)
+- RPi.GPIO (0.7.0)
+- gpiozero (1.6.2)
+- picamera2 (0.3.8)
+- PyTorch (1.13.1)
+- requests (2.25.1)
+- pySerial (3.5b0)
+
+**라즈베리파이 및 디스플레이**
+
+- Raspberry Pi - Pi 4 Model B (1)
+- Monitor - 7inch HDMI LCD Monitor (1024X600) (1)
+- Arduino - Arduino Uno Rev3 (1)
+
+**센서 모듈명**
+
+- 카메라 모듈 - Pi camera V2.1 (1)
+- 초음파 거리센서 모듈 - HC-SR04P (1)
+- RFID 모듈 - RFID-RC522 (1)
+- 메탈기어 디지털 서보모터 - MG996R (2)
+- 스피커 모듈 - ELB060302 (1)
+- 아케이드 버튼 - 30mm Arcade Game Machine Switch (SZH-ZR001, SZH-ZR004) (2)
+- LED - RED, GREEN, YELLOW (3)
+- 전선 (연장용)
+- 점퍼 케이블
+
+**기기 패키징**
+
+- 하드보드지
+
+### CI/CD
+
 - Jenkins
 - AWS EC2
 - NGINX
 - SSL
+
+---
+
+## 문서
+
+API 명세서
+
+[임베디드 회로도](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/-/blob/master/docs/임베디드회로도.png)
+
+[YOLO 모델 상세](https://lab.ssafy.com/s08-webmobile3-sub2/S08P12A501/-/blob/master/docs/yolo.md)
