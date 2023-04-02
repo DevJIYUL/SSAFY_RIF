@@ -30,7 +30,10 @@ const HomePageComponent = () => {
         </div>
       </Grid>
       <Grid item className="grid-description">
-        <Container className="description" sx={{ mx: "auto", width: "80%" }}>
+        <Container
+          className="description"
+          sx={{ mx: "auto", width: "80%", lineHeight: "1.6" }}
+        >
           <p>
             분리수거는 재미없고 귀찮은 일이라는 인식을 바꿔주기 위해, 게임을
             도입하고 재미있는 분리수거를 지향하는 프로젝트입니다.
