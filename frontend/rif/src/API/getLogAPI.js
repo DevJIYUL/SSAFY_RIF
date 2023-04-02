@@ -19,16 +19,17 @@ async function getLogAPI(accessToken, memberId, page, size) {
     if (response.newToken) {
       response.data.newToken = response.newToken;
     }
-    console.log(`Log API 성공 page: ${page}`);
-    console.log(response.data, "response.data");
     return response.data;
   } else {
-    console.log("Log API 실패");
   }
   return response;
 }
 
 export default function useLogGetAPI(accessToken, memberId, page, size) {
+  console.log = function () {};
+  console.error = function () {};
+  console.warn = function () {};
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [logs, setLogs] = useState([]);
