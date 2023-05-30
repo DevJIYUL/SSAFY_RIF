@@ -213,8 +213,7 @@ cd S08P12A501/backend/rif
 
 ## 시스템 구성도
 
-![image](https://user-images.githubusercontent.com/97886013/219298816-617b36e4-8894-4739-afaf-de8b20f9158d.png)
-
+![image](gif/RIF%20System%20Architecture.png)
 ---
 
 ## 🛢기술스택
