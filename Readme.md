@@ -52,7 +52,8 @@
 
 ---
 
-## [API명세서](https://github.com/DevJIYUL/SSAFY_RIF/wiki)
+## API명세서
+[WIKI](https://github.com/DevJIYUL/SSAFY_RIF/wiki)
 
 ## 🛠사용법
 
